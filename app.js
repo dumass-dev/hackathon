@@ -1,6 +1,6 @@
 /**
  * Campus Proof Desk — Core Application Logic & Router
- * Zero external runtime dependencies • Hash Router • Canvas Generators
+ * Zero runtime npm dependencies • Apple & Awwwards Design System
  */
 
 (function () {
@@ -103,20 +103,20 @@
   // Preset schedules by event type
   const schedulePresets = {
     hackathon: [
-      { day: 'Day 1', time: '08:00 AM', label: 'Gate Opens & Physical Verification', note: 'Gate 1, West Hill campus. Photo ID check and entry slip issue.' },
-      { day: 'Day 1', time: '08:30 AM', label: 'Mandatory Reporting & Welcome Kit Desk', note: 'All shortlisted teams must sign the official attendance ledger.' },
-      { day: 'Day 1', time: '09:30 AM', label: 'Keynote & Problem Statements Unveiling', note: 'Briefing by IEEE mentors and domain jury members.' },
-      { day: 'Day 1', time: '10:30 AM', label: 'Hacking Phase 1 Begins', note: 'Network connectivity and power station allotment.' },
-      { day: 'Day 1', time: '01:00 PM', label: 'Working Lunch & Architecture Checkpoint', note: 'Mentors review initial system architecture diagrams.' },
-      { day: 'Day 1', time: '04:30 PM', label: 'Mentorship Round 1 (Technical Viability)', note: 'Industry mentors evaluate codebase repositories.' },
-      { day: 'Day 1', time: '08:00 PM', label: 'Dinner & Progress Sync', note: 'Dining hall service. Rest zones open for outstation participants.' },
-      { day: 'Day 1', time: '11:30 PM', label: 'Midnight Snack & Lightning Code Review', note: 'Night supervision and technical support desk active.' },
-      { day: 'Day 2', time: '07:30 AM', label: 'Breakfast & Morning Sprint', note: 'Sprint toward code freeze.' },
-      { day: 'Day 2', time: '11:00 AM', label: 'Mentorship Round 2 (Pitch Dry-Run)', note: 'Pitch rehearsals with presentation feedback.' },
+      { day: 'Day 1', time: '08:00 AM', label: 'Gate Clearance & Physical Verification', note: 'Gate 1, West Hill campus. Photo ID verification and physical entry tokens.' },
+      { day: 'Day 1', time: '08:30 AM', label: 'Mandatory Reporting & Welcome Kit Allocation', note: 'All shortlisted teams sign the official physical attendance ledger.' },
+      { day: 'Day 1', time: '09:30 AM', label: 'Keynote & Problem Statements Unveiling', note: 'Briefing by IEEE mentors, faculty advisors, and industry jury members.' },
+      { day: 'Day 1', time: '10:30 AM', label: 'Hacking Phase 1 Commences', note: 'Dedicated high-speed connectivity and power workstations allotted.' },
+      { day: 'Day 1', time: '01:00 PM', label: 'Working Lunch & Architecture Review', note: 'Mentors evaluate team architecture schematics and repo structure.' },
+      { day: 'Day 1', time: '04:30 PM', label: 'Mentorship Checkpoint 1 (Technical Viability)', note: 'Industry mentors inspect codebase commits and viability metrics.' },
+      { day: 'Day 1', time: '08:00 PM', label: 'Dinner & Logistics Progress Sync', note: 'Dining service. Designated rest zones open for outstation participants.' },
+      { day: 'Day 1', time: '11:30 PM', label: 'Midnight Refreshment & Lightning Code Review', note: 'Night technical support and 24/7 campus security desk active.' },
+      { day: 'Day 2', time: '07:30 AM', label: 'Breakfast & Morning Sprint', note: 'Final sprint toward software freeze.' },
+      { day: 'Day 2', time: '11:00 AM', label: 'Mentorship Checkpoint 2 (Pitch Dry-Run)', note: 'Rehearsals with presentation and demo feedback.' },
       { day: 'Day 2', time: '01:30 PM', label: 'Code Freeze & Final Repository Submission', note: 'Commit hash locked. Working software evaluation required.' },
-      { day: 'Day 2', time: '02:30 PM', label: 'Grand Stage Presentations & Jury Deliberation', note: 'Top finalist teams present in the main auditorium.' },
+      { day: 'Day 2', time: '02:30 PM', label: 'Stage Presentations & Jury Deliberation', note: 'Top finalist teams present in the main campus auditorium.' },
       { day: 'Day 2', time: '05:00 PM', label: 'Valedictory Ceremony & Prize Distribution', note: 'Announcement of winners and presentation of awards.' },
-      { day: 'Day 2', time: '06:00 PM', label: 'Event Close & Academic Duty Certificate Desk', note: 'Official stamped duty certificates and hostel attendance slips issued.' }
+      { day: 'Day 2', time: '06:00 PM', label: 'Programme Close & Academic Duty Certificate Desk', note: 'Official stamped duty certificates and hostel attendance slips issued.' }
     ],
     workshop: [
       { day: 'Day 1', time: '09:00 AM', label: 'Reporting & Workstation Allotment', note: 'Registration desk verification and lab system access.' },
@@ -124,7 +124,7 @@
       { day: 'Day 1', time: '11:30 AM', label: 'Hands-on Module 1: Kernel Compilation', note: 'Building and booting minimal custom kernel images.' },
       { day: 'Day 1', time: '01:00 PM', label: 'Lunch Break & Technical Networking', note: 'Networking session with open-source contributors.' },
       { day: 'Day 1', time: '02:00 PM', label: 'Hands-on Module 2: Device Drivers', note: 'Writing character device drivers and interrupt handling.' },
-      { day: 'Day 1', time: '05:00 PM', label: 'Day 1 Sign-off & Homework Sandbox', note: 'Verification of day 1 lab milestones.' },
+      { day: 'Day 1', time: '05:00 PM', label: 'Day 1 Sign-off & Lab Milestone Verification', note: 'Verification of day 1 lab milestones.' },
       { day: 'Day 2', time: '09:00 AM', label: 'Check-in & System Diagnostics', note: 'Review of overnight build logs and questions.' },
       { day: 'Day 2', time: '09:30 AM', label: 'Hands-on Module 3: eBPF & Observability', note: 'Kernel tracing, kprobes, and live metric instrumentation.' },
       { day: 'Day 2', time: '01:00 PM', label: 'Lunch Break', note: 'Campus cafeteria service.' },
@@ -193,51 +193,12 @@
         state.events = JSON.parse(localCustom);
       } else {
         const res = await fetch('data/events.json');
-        state.events = await res.json();
+        if (res.ok) {
+          state.events = await res.json();
+        }
       }
     } catch (err) {
-      console.error('Failed loading events.json, falling back to static seeds', err);
-      state.events = [
-        {
-          slug: 'hackmalabar-2026',
-          type: 'hackathon',
-          name: 'HackMalabar 2026',
-          edition: 'Edition 3',
-          host: 'IEEE Student Branch NIT Calicut',
-          support: 'Kerala Startup Mission (KSUM)',
-          venue: 'Government Engineering College Kozhikode, West Hill, Kozhikode, Kerala 673005',
-          district: 'Kozhikode',
-          mapsQuery: 'Government Engineering College Kozhikode',
-          start: '2026-11-27T08:30:00+05:30',
-          end: '2026-11-28T18:00:00+05:30',
-          report: '2026-11-27T08:30:00+05:30',
-          close: '2026-11-28T18:00:00+05:30',
-          deadline: '2026-11-24T23:59:00+05:30',
-          contactName: 'Arjun V. Nair',
-          contactPhone: '+91 94471 28392',
-          contactEmail: 'convener.hackmalabar@gmail.com',
-          site: 'https://hackmalabar.in',
-          prize: '₹1,00,000 Cash Pool (First: ₹50,000 | Second: ₹30,000 | Third: ₹20,000)',
-          fee: 'Free registration for shortlisted student teams',
-          tracks: [
-            'AI & Intelligent Automation',
-            'Cybersecurity & Campus Privacy',
-            'GovTech & Citizen Services',
-            'FinTech & Financial Inclusion',
-            'Open Innovation for Local Impact'
-          ],
-          people: [
-            { name: 'Arjun V. Nair', role: 'Lead Convener (IEEE SB)' },
-            { name: 'Dr. Sreela N.', role: 'Faculty Coordinator & HoD CSE' },
-            { name: 'Fahad Mansoor', role: 'Logistics & Hostel NOC Lead' },
-            { name: 'Ananya P.', role: 'Participant Support & Helpdesk' }
-          ],
-          note: 'Approved regional collegiate hackathon recognized by KSUM innovation council. Participant attendance certificates issued for academic duty leave and residential hostel attendance reconciliation.',
-          palette: { c1: '#2997ff', c2: '#f5f5f7', bg: '#000000' },
-          poster: 'posters/hackmalabar-2026.png',
-          status: 'upcoming'
-        }
-      ];
+      console.warn('Syncing with default seed events array', err);
     }
   }
 
@@ -245,7 +206,6 @@
   function resolveDefaultEvent() {
     if (!state.events || state.events.length === 0) return null;
     const now = new Date();
-    // Sort upcoming events ascending
     const upcoming = state.events
       .filter(ev => ev.status === 'upcoming' || new Date(ev.start) >= now)
       .sort((a, b) => new Date(a.start) - new Date(b.start));
@@ -253,19 +213,8 @@
     if (upcoming.length > 0) {
       return upcoming[0];
     }
-    // Otherwise most recent completed event
     const sorted = [...state.events].sort((a, b) => new Date(b.start) - new Date(a.start));
     return sorted[0];
-  }
-
-  // Apply per-event palette custom properties
-  function applyEventPalette(event) {
-    const wrapper = document.getElementById('app-wrapper');
-    if (!wrapper || !event || !event.palette) return;
-
-    wrapper.style.setProperty('--c1', event.palette.c1);
-    wrapper.style.setProperty('--c2', event.palette.c2);
-    wrapper.style.setProperty('--bg', event.palette.bg);
   }
 
   // Update top event switcher dropdown
@@ -294,12 +243,12 @@
     const baseSlug = currentSlug || (state.currentEvent ? state.currentEvent.slug : 'hackmalabar-2026');
 
     nav.innerHTML = `
-      <a href="#/e/${baseSlug}" class="tab-link ${currentScreen === 'public' ? 'active' : ''}" data-screen="public">🏛️ Public Page</a>
-      <a href="#/e/${baseSlug}/pass" class="tab-link ${currentScreen === 'pass' ? 'active' : ''}" data-screen="pass">🎫 Participant Pass</a>
-      <a href="#/e/${baseSlug}/chat" class="tab-link ${currentScreen === 'chat' ? 'active' : ''}" data-screen="chat">💬 Organisers Chat</a>
-      <a href="#/e/${baseSlug}/mail" class="tab-link ${currentScreen === 'mail' ? 'active' : ''}" data-screen="mail">✉️ Selection Mail</a>
-      <a href="#/e/${baseSlug}/brief" class="tab-link ${currentScreen === 'brief' ? 'active' : ''}" data-screen="brief">📋 Leave Brief</a>
-      <a href="#/admin" class="tab-link ${currentScreen === 'admin' ? 'active' : ''}" data-screen="admin">⚙️ Event Desk</a>
+      <a href="#/e/${baseSlug}" class="sub-link ${currentScreen === 'public' ? 'active' : ''}" data-screen="public">Overview</a>
+      <a href="#/e/${baseSlug}/pass" class="sub-link ${currentScreen === 'pass' ? 'active' : ''}" data-screen="pass">Participant Pass</a>
+      <a href="#/e/${baseSlug}/chat" class="sub-link ${currentScreen === 'chat' ? 'active' : ''}" data-screen="chat">Organisers Chat</a>
+      <a href="#/e/${baseSlug}/mail" class="sub-link ${currentScreen === 'mail' ? 'active' : ''}" data-screen="mail">Selection Mail</a>
+      <a href="#/e/${baseSlug}/brief" class="sub-link ${currentScreen === 'brief' ? 'active' : ''}" data-screen="brief">Leave Brief</a>
+      <a href="#/admin" class="sub-link ${currentScreen === 'admin' ? 'active' : ''}" data-screen="admin">Event Desk</a>
     `;
   }
 
@@ -309,20 +258,29 @@
     if (!mount) return;
 
     if (!event) {
-      mount.innerHTML = `<div class="footer-contact"><strong>Campus Proof Desk</strong> — Open Verified Event Engine.</div>`;
+      mount.innerHTML = `<div class="footer-meta">Campus Proof Desk — Verified Event Infrastructure.</div>`;
       return;
     }
 
     mount.innerHTML = `
-      <div class="footer-contact">
-        <p><strong>${escapeHtml(event.name)}</strong> (${escapeHtml(event.edition)})</p>
-        <p>Host: ${escapeHtml(event.host)} • Supported by ${escapeHtml(event.support)}</p>
-        <p>Convenor: <strong>${escapeHtml(event.contactName)}</strong> | Phone: <a href="tel:${escapeHtml(event.contactPhone.replace(/\s+/g, ''))}">${escapeHtml(event.contactPhone)}</a> | Email: <a href="mailto:${escapeHtml(event.contactEmail)}">${escapeHtml(event.contactEmail)}</a></p>
-        <p>Official Portal: <a href="${escapeHtml(event.site)}" target="_blank" rel="noopener">${escapeHtml(event.site)}</a> | Registration Deadline: ${escapeHtml(event.deadline.slice(0, 10))} 23:59 IST</p>
+      <div class="footer-left">
+        <div class="footer-brand">${escapeHtml(event.name)} (${escapeHtml(event.edition)})</div>
+        <div class="footer-host">Organised by ${escapeHtml(event.host)} • Endorsed by ${escapeHtml(event.support)}</div>
+        <div class="footer-contacts">
+          <span>Convenor: <strong>${escapeHtml(event.contactName)}</strong></span>
+          <span>Phone: <a href="tel:${escapeHtml(event.contactPhone.replace(/\s+/g, ''))}">${escapeHtml(event.contactPhone)}</a></span>
+          <span>Email: <a href="mailto:${escapeHtml(event.contactEmail)}">${escapeHtml(event.contactEmail)}</a></span>
+        </div>
       </div>
-      <div>
-        <p style="font-size:0.75rem; color:#64748b; margin-bottom: 0.35rem;">Campus Proof Desk • Zero runtime npm dependencies • Hash-routed</p>
-        <a href="#/admin" class="btn btn-secondary" style="font-size:0.75rem; padding: 0.3rem 0.6rem; min-height: 28px;">Discreet Admin Desk</a>
+      <div class="footer-right">
+        <div class="footer-links">
+          <a href="${escapeHtml(event.site)}" target="_blank" rel="noopener">Official Portal</a>
+          <span class="dot-sep">•</span>
+          <a href="#/admin">Event Desk</a>
+          <span class="dot-sep">•</span>
+          <a href="#/e/${event.slug}/pass">Pass Engine</a>
+        </div>
+        <div class="footer-note">Campus Proof Desk • Zero Build Step • Client Hash Router</div>
       </div>
     `;
   }
@@ -423,7 +381,7 @@
   async function shareEventBrief(event) {
     const shareData = {
       title: `${event.name} — Campus Proof Desk`,
-      text: `Official Event Presence & Leave Brief: ${event.name} (${event.edition}) at ${event.venue}. Reporting: ${formatTime(event.report)} on ${event.start.slice(0, 10)}. Convenor: ${event.contactName} (${event.contactPhone}).`,
+      text: `Official Event Presence & Leave Brief: ${event.name} (${event.edition}) at ${event.venue}. Reporting: ${formatTime(event.report)} on ${formatDateNatural(event.start)}. Convenor: ${event.contactName} (${event.contactPhone}).`,
       url: window.location.href
     };
 
@@ -436,17 +394,16 @@
       }
     }
 
-    // Fallback: Copy to clipboard
     try {
       await navigator.clipboard.writeText(`${shareData.text}\nDirect Link: ${shareData.url}`);
-      alert('Event presence and verification link copied to clipboard!');
+      alert('Event presence and verification link copied to clipboard.');
     } catch (err) {
       alert(`Event URL: ${window.location.href}`);
     }
   }
 
   // =========================================================================
-  // Canvas Generator: Participant Pass (400x560) — Apple Wallet Aesthetic
+  // Canvas Generator: Participant Pass (400x560) — Apple Wallet Badge
   // =========================================================================
   function renderPassCanvas(canvas, event, participant) {
     if (!canvas) return;
@@ -457,138 +414,133 @@
     canvas.width = w;
     canvas.height = h;
 
-    // Background
-    ctx.fillStyle = '#ffffff';
+    // Obsidian background
+    ctx.fillStyle = '#0a0a0c';
     ctx.fillRect(0, 0, w, h);
 
-    // Border
-    ctx.strokeStyle = '#d1d1d6';
+    // Subtle hairline outer border
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
     ctx.lineWidth = 2;
-    ctx.strokeRect(2, 2, w - 4, h - 4);
+    ctx.strokeRect(3, 3, w - 6, h - 6);
 
-    // Header bar
-    ctx.fillStyle = '#1c1c1e';
-    ctx.fillRect(2, 2, w - 4, 96);
+    // Lanyard punch hole slot at top
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(160, 10, 80, 8);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.strokeRect(160, 10, 80, 8);
 
-    // Accent line
-    ctx.fillStyle = event.palette ? event.palette.c1 : '#2997ff';
-    ctx.fillRect(2, 98, w - 4, 4);
+    // Header strip
+    ctx.fillStyle = '#161617';
+    ctx.fillRect(3, 26, w - 6, 85);
 
-    // Event Type pill badge
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-    ctx.beginPath();
-    ctx.arc(28, 25, 10, Math.PI / 2, (Math.PI * 3) / 2);
-    ctx.arc(120, 25, 10, (Math.PI * 3) / 2, Math.PI / 2);
-    ctx.fill();
-
+    // Type badge pill
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+    ctx.fillRect(20, 36, 120, 22);
     ctx.fillStyle = '#ffffff';
     ctx.font = '600 10px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(`${event.type.toUpperCase()} PASS`, 34, 29);
+    ctx.fillText(`${event.type.toUpperCase()} PASS`, 28, 51);
 
     // Event title & edition
     ctx.fillStyle = '#ffffff';
-    ctx.font = '700 18px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(event.name, 18, 58);
-    ctx.fillStyle = '#8e8e93';
+    ctx.font = '700 19px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(event.name, 20, 82);
+    ctx.fillStyle = '#86868b';
     ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(`${event.edition} • ${event.host}`, 18, 78);
+    ctx.fillText(`${event.edition} • ${event.host}`, 20, 100);
 
     // Participant Details Card
-    ctx.fillStyle = '#f2f2f7';
-    ctx.fillRect(16, 120, w - 32, 130);
-    ctx.strokeStyle = '#e5e5ea';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(16, 120, w - 32, 130);
-
-    // Participant Initials Avatar
     ctx.fillStyle = '#1c1c1e';
+    ctx.fillRect(16, 125, w - 32, 130);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(16, 125, w - 32, 130);
+
+    // Participant Monogram
+    ctx.fillStyle = '#2c2c2e';
     ctx.beginPath();
-    ctx.arc(52, 165, 24, 0, Math.PI * 2);
+    ctx.arc(52, 168, 24, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = '#ffffff';
     ctx.font = '700 16px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.textAlign = 'center';
     const initials = participant.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'RK';
-    ctx.fillText(initials, 52, 171);
+    ctx.fillText(initials, 52, 174);
     ctx.textAlign = 'left';
 
     // Name & College
-    ctx.fillStyle = '#1c1c1e';
+    ctx.fillStyle = '#ffffff';
     ctx.font = '700 16px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(participant.name, 90, 155);
-    ctx.fillStyle = '#636366';
+    ctx.fillText(participant.name, 90, 160);
+    ctx.fillStyle = '#a1a1a6';
     ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(participant.college, 90, 175);
-    ctx.fillStyle = '#8e8e93';
+    ctx.fillText(participant.college, 90, 180);
+    ctx.fillStyle = '#86868b';
     ctx.font = '11px monospace';
-    ctx.fillText(`ID: ${participant.regId}`, 90, 195);
-    ctx.fillStyle = '#0071e3';
+    ctx.fillText(`ID: ${participant.regId}`, 90, 200);
+    ctx.fillStyle = '#2997ff';
     ctx.font = '600 11px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(`Track: ${participant.track || event.tracks[0]}`, 90, 215);
+    ctx.fillText(`Track: ${participant.track || event.tracks[0]}`, 90, 220);
 
     // Logistics & Venue Meta
-    ctx.fillStyle = '#8e8e93';
+    ctx.fillStyle = '#86868b';
     ctx.font = '600 10px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText('REPORTING TIME & DATE', 20, 275);
-    ctx.fillStyle = '#1c1c1e';
+    ctx.fillText('REPORTING TIME & DATE', 20, 280);
+    ctx.fillStyle = '#ffffff';
     ctx.font = '600 13px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(`${formatTime(event.report)} IST, ${formatDateNatural(event.start)}`, 20, 293);
+    ctx.fillText(`${formatTime(event.report)} IST, ${formatDateNatural(event.start)}`, 20, 298);
 
-    ctx.fillStyle = '#8e8e93';
+    ctx.fillStyle = '#86868b';
     ctx.font = '600 10px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText('GATE NUMBER & VENUE', 20, 320);
-    ctx.fillStyle = '#1c1c1e';
+    ctx.fillText('GATE NUMBER & VENUE', 20, 325);
+    ctx.fillStyle = '#ffffff';
     ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
     const venueWords = event.venue.split(', ');
-    ctx.fillText(`Gate 1 (Main Entrance), ${venueWords[0]}`, 20, 338);
+    ctx.fillText(`Gate 1 (Main Entrance), ${venueWords[0]}`, 20, 343);
     if (venueWords.length > 1) {
-      ctx.fillText(venueWords.slice(1).join(', '), 20, 354);
+      ctx.fillText(venueWords.slice(1).join(', '), 20, 359);
     }
 
-    // QR & Verification Box
-    ctx.fillStyle = '#f2f2f7';
-    ctx.fillRect(16, 380, w - 32, 90);
-    ctx.strokeStyle = '#e5e5ea';
-    ctx.strokeRect(16, 380, w - 32, 90);
+    // QR Verification Block
+    ctx.fillStyle = '#161617';
+    ctx.fillRect(16, 385, w - 32, 90);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.strokeRect(16, 385, w - 32, 90);
 
-    // QR pattern
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(28, 390, 70, 70);
     ctx.fillStyle = '#ffffff';
-    ctx.fillRect(32, 394, 62, 62);
+    ctx.fillRect(28, 395, 70, 70);
     ctx.fillStyle = '#000000';
     for (let rx = 36; rx < 90; rx += 8) {
-      for (let ry = 38; ry < 90; ry += 8) {
-        if ((rx + ry) % 16 === 0 || (rx < 55 && ry < 55) || (rx > 70 && ry > 70)) {
+      for (let ry = 403; ry < 455; ry += 8) {
+        if ((rx + ry) % 16 === 0 || (rx < 55 && ry < 420) || (rx > 70 && ry > 435)) {
           ctx.fillRect(rx, ry, 6, 6);
         }
       }
     }
 
-    ctx.fillStyle = '#1c1c1e';
+    ctx.fillStyle = '#ffffff';
     ctx.font = '700 12px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText('OFFICIAL LIVE VERIFICATION', 110, 408);
-    ctx.fillStyle = '#636366';
+    ctx.fillText('LIVE VERIFICATION', 110, 412);
+    ctx.fillStyle = '#86868b';
     ctx.font = '11px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText('Scan to inspect real-time schedule,', 110, 426);
-    ctx.fillText('hostel permission brief and NOC record.', 110, 442);
-    ctx.fillStyle = '#0071e3';
+    ctx.fillText('Scan to inspect real-time schedule,', 110, 430);
+    ctx.fillText('hostel permission brief and NOC records.', 110, 446);
+    ctx.fillStyle = '#2997ff';
     ctx.font = '600 10px monospace';
-    ctx.fillText(`campusproofdesk.in/#/e/${event.slug}`, 110, 458);
+    ctx.fillText(`campusproofdesk.in/#/e/${event.slug}`, 110, 462);
 
     // Non-transferable Notice
-    ctx.fillStyle = '#f2f2f7';
-    ctx.fillRect(16, 485, w - 32, 24);
-    ctx.fillStyle = '#636366';
+    ctx.fillStyle = '#1c1c1e';
+    ctx.fillRect(16, 488, w - 32, 24);
+    ctx.fillStyle = '#a1a1a6';
     ctx.font = '600 9px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('NON-TRANSFERABLE • MUST CARRY ORIGINAL INSTITUTION PHOTO ID', w / 2, 500);
+    ctx.fillText('NON-TRANSFERABLE • ORIGINAL COLLEGE PHOTO ID REQUIRED', w / 2, 503);
     ctx.textAlign = 'left';
 
     // Signatory footer
-    ctx.fillStyle = '#8e8e93';
+    ctx.fillStyle = '#86868b';
     ctx.font = '10px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(`Authorized by: ${event.contactName} (${event.people[0] ? event.people[0].role : 'Convener'})`, 20, 532);
+    ctx.fillText(`Authorized: ${event.contactName} (${event.people[0] ? event.people[0].role : 'Convener'})`, 20, 532);
     ctx.fillText(`Emergency NOC Desk: ${event.contactPhone}`, 20, 546);
   }
 
@@ -606,20 +558,20 @@
     canvas.width = w;
     canvas.height = h;
 
-    // Apple Obsidian Pure Black
+    // Obsidian Pure Black
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, w, h);
 
-    // Subtle header surface
+    // Header panel
     ctx.fillStyle = '#161617';
-    ctx.fillRect(50, 40, w - 100, 75);
+    ctx.fillRect(50, 45, w - 100, 75);
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
     ctx.lineWidth = 1;
-    ctx.strokeRect(50, 40, w - 100, 75);
+    ctx.strokeRect(50, 45, w - 100, 75);
 
     ctx.fillStyle = '#a1a1a6';
     ctx.font = '600 20px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(`${event.host.toUpperCase()}  •  SUPPORTED BY ${event.support.toUpperCase()}`, 75, 84);
+    ctx.fillText(`${event.host.toUpperCase()}  •  SUPPORTED BY ${event.support.toUpperCase()}`, 75, 88);
 
     // Event type badge
     ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
@@ -754,7 +706,7 @@
   }
 
   // =========================================================================
-  // VIEW RENDERERS
+  // VIEW RENDERERS (APPLE / AWWWARDS EDITORIAL)
   // =========================================================================
 
   // Screen 1: Public Event Page
@@ -765,242 +717,265 @@
     const scheduleItems = schedulePresets[event.type] || schedulePresets.hackathon;
 
     return `
-      <section class="hero-card" aria-label="Event Overview">
-        <div class="hero-badges">
-          <span class="badge badge-type">${escapeHtml(event.type)}</span>
-          <span class="badge badge-status ${event.status === 'completed' ? 'completed' : ''}">
-            ${event.status === 'upcoming' ? '● Upcoming • Active Presence' : '✓ Completed Archive'}
+      <section class="hero-section" aria-label="Event Overview">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-host">${escapeHtml(event.host.toUpperCase())}</span>
+          <span class="eyebrow-sep">/</span>
+          <span class="eyebrow-edition">${escapeHtml(event.edition.toUpperCase())}</span>
+          <span class="status-indicator">
+            <span class="status-dot"></span>
+            ${event.status === 'upcoming' ? 'Active Presence' : 'Archived'}
           </span>
-          <span class="badge" style="background:#1e293b; color:#cbd5e1;">${escapeHtml(event.edition)}</span>
         </div>
 
-        <h2 class="hero-title">${escapeHtml(event.name)}</h2>
-        <p class="hero-host-strip">
-          Organised by <strong>${escapeHtml(event.host)}</strong> • Endorsed & Supported by <strong>${escapeHtml(event.support)}</strong>
+        <h1 class="hero-headline">${escapeHtml(event.name)}</h1>
+        <p class="hero-subhead">
+          A collegiate innovation programme endorsed and supported by <strong>${escapeHtml(event.support)}</strong>. Complete cross-consistent documentation for participant accreditation, physical gate permissions, and residential hostel leave clearance.
         </p>
 
-        <div class="hero-meta-grid">
-          <div class="hero-meta-item">
-            <span class="hero-meta-icon" aria-hidden="true">📅</span>
-            <div>
-              <div class="hero-meta-label">Dates</div>
-              <div class="hero-meta-val">${datesFormatted}</div>
-            </div>
+        <!-- Apple-Style Key Metrics Bento Strip -->
+        <div class="metrics-grid">
+          <div class="metric-cell">
+            <div class="metric-value">${datesFormatted.split('–')[0].trim()} – ${datesFormatted.split('–')[1] ? datesFormatted.split('–')[1].trim() : ''}</div>
+            <div class="metric-label">Programme Dates</div>
           </div>
-          <div class="hero-meta-item">
-            <span class="hero-meta-icon" aria-hidden="true">⏰</span>
-            <div>
-              <div class="hero-meta-label">Reporting & Close</div>
-              <div class="hero-meta-val">${reportFormatted} (Close: ${closeFormatted})</div>
-            </div>
+          <div class="metric-cell">
+            <div class="metric-value">${reportFormatted}</div>
+            <div class="metric-label">Mandatory Gate 1 Report (Close: ${closeFormatted})</div>
           </div>
-          <div class="hero-meta-item">
-            <span class="hero-meta-icon" aria-hidden="true">📍</span>
-            <div>
-              <div class="hero-meta-label">District & Venue</div>
-              <div class="hero-meta-val">${escapeHtml(event.district)} (${escapeHtml(event.venue.split(',')[0])})</div>
-            </div>
+          <div class="metric-cell">
+            <div class="metric-value">${escapeHtml(event.district)}</div>
+            <div class="metric-label">${escapeHtml(event.venue.split(',')[0])}</div>
           </div>
-          <div class="hero-meta-item">
-            <span class="hero-meta-icon" aria-hidden="true">🏆</span>
-            <div>
-              <div class="hero-meta-label">Prize Pool / Merit</div>
-              <div class="hero-meta-val">${escapeHtml(event.prize.split('(')[0].trim())}</div>
-            </div>
+          <div class="metric-cell">
+            <div class="metric-value">${escapeHtml(event.prize.split('(')[0].trim())}</div>
+            <div class="metric-label">Cash Pool & Grants</div>
           </div>
         </div>
 
-        <div class="hero-cta-group">
-          <a href="#/e/${event.slug}/pass" class="btn btn-primary">🎫 Generate Participant Pass</a>
-          <a href="#/e/${event.slug}/brief" class="btn btn-accent">📋 Hostel Leave Brief</a>
-          <a href="#/e/${event.slug}/chat" class="btn btn-secondary">💬 Organisers Chat</a>
-          <button type="button" id="btn-hero-ics" class="btn btn-outline">📅 Add to Calendar (.ics)</button>
-          <button type="button" id="btn-hero-share" class="btn btn-outline">🔗 Share Evidence</button>
+        <div class="hero-cta-bar">
+          <a href="#/e/${event.slug}/pass" class="btn-apple-primary">
+            <span>Get Participant Pass</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#/e/${event.slug}/brief" class="btn-apple-secondary">
+            <span>Hostel Leave Brief</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#/e/${event.slug}/chat" class="btn-apple-tertiary">
+            <span>Organisers Chat</span>
+          </a>
+          <button type="button" id="btn-hero-ics" class="btn-apple-ghost">
+            <span>Add to Calendar (.ics)</span>
+          </button>
+          <button type="button" id="btn-hero-share" class="btn-apple-ghost">
+            <span>Share Link</span>
+          </button>
         </div>
       </section>
 
-      <div class="layout-split">
+      <!-- Bento Grid Features Section -->
+      <div class="bento-layout">
         <!-- Main Column -->
-        <div class="main-column">
-          <!-- About & Duty Leave Recognition -->
-          <article class="content-card">
-            <h3 class="content-card-title">
-              <span>Institutional Scope & Duty Leave Notice</span>
-              <span class="badge badge-status" style="font-size:0.7rem;">Official Verification</span>
-            </h3>
-            <div class="prose">
-              <p>${escapeHtml(event.note)}</p>
-              <p style="margin-top:0.75rem;">
-                Hostel wardens, Resident Tutors (RTs), and Heads of Department (HODs) can cross-reference participant credentials using this dedicated presence desk. All sessions include strict biometric or physical roll attendance logs.
-              </p>
+        <div class="bento-primary-col">
+          <!-- Institutional Scope Card -->
+          <article class="bento-card">
+            <div class="card-header-row">
+              <h2 class="card-title">Institutional Accreditation & Duty Leave</h2>
+              <span class="card-pill">Official Verification</span>
             </div>
+            <p class="card-text">${escapeHtml(event.note)}</p>
+            <p class="card-subtext">
+              Wardens, Resident Tutors (RTs), and Heads of Department can cross-reference participant credentials using this verified desk. Physical attendance slips and official duty leave certificates are stamped and issued at Registration Desk 3 before event close.
+            </p>
           </article>
 
           <!-- Competency Tracks -->
-          <section class="content-card" aria-label="Official Competency Tracks">
-            <h3 class="content-card-title">Official Competency Tracks</h3>
-            <div class="tracks-grid">
+          <section class="bento-card" aria-label="Official Competency Tracks">
+            <div class="card-header-row">
+              <h2 class="card-title">Official Competency Tracks</h2>
+              <span class="card-count">${event.tracks.length} Domains</span>
+            </div>
+            <div class="tracks-list">
               ${event.tracks.map((track, i) => `
-                <div class="track-item">
-                  <div class="track-number">Track 0${i + 1}</div>
-                  <div class="track-title">${escapeHtml(track)}</div>
+                <div class="track-row">
+                  <span class="track-index">0${i + 1}</span>
+                  <div class="track-info">
+                    <span class="track-name">${escapeHtml(track)}</span>
+                  </div>
                 </div>
               `).join('')}
             </div>
           </section>
 
-          <!-- Schedule Table -->
-          <section class="content-card" aria-label="Full Event Schedule">
-            <h3 class="content-card-title">
-              <span>Full Chronological Schedule</span>
-              <span style="font-size:0.8rem; font-weight:normal; color:#94a3b8;">Preset: ${escapeHtml(event.type.toUpperCase())}</span>
-            </h3>
-            <div class="schedule-table-wrap">
-              <table class="schedule-table">
-                <thead>
-                  <tr>
-                    <th scope="col" style="width: 15%;">Period</th>
-                    <th scope="col" style="width: 20%;">Time (IST)</th>
-                    <th scope="col">Session & Protocol Milestones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${scheduleItems.map(item => `
-                    <tr>
-                      <td style="font-weight:700; color:#94a3b8;">${escapeHtml(item.day)}</td>
-                      <td class="schedule-time">${escapeHtml(item.time)}</td>
-                      <td class="schedule-activity">
-                        <strong>${escapeHtml(item.label)}</strong>
-                        <span>${escapeHtml(item.note)}</span>
-                      </td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
+          <!-- Chronological Schedule -->
+          <section class="bento-card" aria-label="Full Event Schedule">
+            <div class="card-header-row">
+              <h2 class="card-title">Chronological Programme Milestones</h2>
+              <span class="card-pill">${escapeHtml(event.type.toUpperCase())}</span>
+            </div>
+            <div class="timeline-container">
+              ${scheduleItems.map(item => `
+                <div class="timeline-row">
+                  <div class="timeline-time-col">
+                    <span class="timeline-day">${escapeHtml(item.day)}</span>
+                    <span class="timeline-time">${escapeHtml(item.time)}</span>
+                  </div>
+                  <div class="timeline-content-col">
+                    <strong class="timeline-label">${escapeHtml(item.label)}</strong>
+                    <span class="timeline-note">${escapeHtml(item.note)}</span>
+                  </div>
+                </div>
+              `).join('')}
             </div>
           </section>
 
-          <!-- Prize Breakdown -->
-          <section class="content-card" aria-label="Prize Pool & Merit Breakdown">
-            <h3 class="content-card-title">Prize Breakdown & Recognition</h3>
-            <div class="prize-banner">
-              <div class="prize-title">Total Cash Prize Pool</div>
-              <div class="prize-desc"><strong>${escapeHtml(event.prize)}</strong></div>
-              <div style="font-size:0.82rem; color:#cbd5e1; margin-top:0.5rem;">
-                Registration Fee: <strong>${escapeHtml(event.fee)}</strong>. All verified participants receive IEEE SB accredited certificates of completion for academic repository credits.
-              </div>
+          <!-- Prize & Merit Breakdown -->
+          <section class="bento-card" aria-label="Prize Pool Breakdown">
+            <div class="card-header-row">
+              <h2 class="card-title">Prize Pool & Financial Grants</h2>
+            </div>
+            <div class="prize-highlight-box">
+              <div class="prize-big-number">${escapeHtml(event.prize.split('(')[0].trim())}</div>
+              <div class="prize-details-text">${escapeHtml(event.prize)}</div>
+              <div class="fee-text">Registration Fee: <strong>${escapeHtml(event.fee)}</strong>. All shortlisted participants receive accredited participation certificates for academic credit reconciliation.</div>
             </div>
           </section>
 
-          <!-- Venue & Embedded Map -->
-          <section class="content-card" aria-label="Venue and Location Map">
-            <h3 class="content-card-title">Venue Location & Transit Access</h3>
-            <p class="prose" style="margin-bottom:0.75rem;">
+          <!-- Venue & Transit Directions -->
+          <section class="bento-card" aria-label="Venue and Transit Directions">
+            <div class="card-header-row">
+              <h2 class="card-title">Venue Location & Transit Route</h2>
+              <a href="https://maps.google.com/?q=${encodeURIComponent(event.venue)}" target="_blank" rel="noopener" class="card-action-link">
+                <span>Open in Maps</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            </div>
+            <div class="venue-address-bar">
               <strong>${escapeHtml(event.venue)}</strong> (${escapeHtml(event.district)} District)
-            </p>
-            <div class="map-container">
+            </div>
+            <div class="map-frame">
               <iframe
-                title="Map of ${escapeHtml(event.venue)}"
+                title="Map for ${escapeHtml(event.venue)}"
                 src="https://maps.google.com/maps?q=${encodeURIComponent(event.mapsQuery)}&output=embed"
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade">
               </iframe>
             </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
-              <span style="font-size:0.8rem; color:#94a3b8;">Reporting Gate: Gate 1 facing NH 66 bypass, West Hill.</span>
-              <a href="https://maps.google.com/?q=${encodeURIComponent(event.venue)}" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size:0.8rem; padding:0.35rem 0.75rem;">
-                📍 Open in Google Maps
-              </a>
-            </div>
+            <p class="transit-note">
+              <strong>KSRTC Transit Guidance:</strong> Arriving from Malappuram or Thrissur via KSRTC bus, the campus is 4.8 km from Kozhikode KSRTC Central Stand. Board City Bus Route 14 or take a pre-paid auto directly to GEC West Hill. First morning service from Malappuram departs 05:45 AM.
+            </p>
           </section>
 
-          <!-- FAQ Accordion -->
-          <section class="content-card" aria-label="Frequently Asked Questions">
-            <h3 class="content-card-title">Hostel Leave & Participant FAQ</h3>
-            <div class="faq-list">
-              <div class="faq-item">
-                <div class="faq-q">How do I prove my attendance to my hostel warden or Resident Tutor?</div>
-                <div class="faq-a">Submit your official Participant Pass and Selection Mail, supported by the verbal script in our Leave Brief screen. Registration Desk 3 issues physical signed duty attendance endorsements before closing.</div>
-              </div>
-              <div class="faq-item">
-                <div class="faq-q">What are the mandatory reporting and gate cutoff hours?</div>
-                <div class="faq-a">Reporting begins at 08:00 AM on ${datesFormatted.split('–')[0].trim()} with mandatory attendance sign-in at ${reportFormatted} IST. Gate 1 closes strictly at ${closeFormatted} on the final day.</div>
-              </div>
-              <div class="faq-item">
-                <div class="faq-q">Is overnight stay provided for outstation participants?</div>
-                <div class="faq-a">Yes. Continuous overnight hacking and workshop labs are accommodated inside the air-conditioned auditorium with designated rest zones, mattresses, and secure supervision.</div>
-              </div>
-              <div class="faq-item">
-                <div class="faq-q">What items must I bring for gate security clearance?</div>
-                <div class="faq-a">You must carry your personal laptop, labeled extension power strip, original institutional photo ID card, and a printed or digital copy of your Participant Pass.</div>
-              </div>
+          <!-- FAQ Section -->
+          <section class="bento-card" aria-label="Hostel Leave & Participant FAQ">
+            <div class="card-header-row">
+              <h2 class="card-title">Hostel Leave & Participant FAQ</h2>
             </div>
-          </section>
-
-          <!-- Organising Committee -->
-          <section class="content-card" aria-label="Organising Committee">
-            <h3 class="content-card-title">Organising Committee & Duty NOC Authorities</h3>
-            <div class="committee-grid">
-              ${event.people.map(p => `
-                <div class="committee-member">
-                  <div class="committee-name">${escapeHtml(p.name)}</div>
-                  <div class="committee-role">${escapeHtml(p.role)}</div>
-                </div>
-              `).join('')}
+            <div class="faq-group">
+              <div class="faq-row">
+                <div class="faq-question">How do I verify my attendance to my hostel warden or Resident Tutor?</div>
+                <div class="faq-answer">Submit your generated Participant Pass alongside your Selection Confirmation Mail. Our Leave Brief screen gives you the exact verbal sentence to recite. Physical countersigned duty slips are stamped at Registration Desk 3 before closing.</div>
+              </div>
+              <div class="faq-row">
+                <div class="faq-question">What are the mandatory reporting hours and gate access rules?</div>
+                <div class="faq-answer">Gate 1 opens at 08:00 AM on ${datesFormatted.split('–')[0].trim()} with mandatory physical sign-in at ${reportFormatted} IST sharp. Gate 1 closes at ${closeFormatted} on the final day.</div>
+              </div>
+              <div class="faq-row">
+                <div class="faq-question">Is overnight stay permitted for outstation participants?</div>
+                <div class="faq-answer">Yes. Continuous 24-hour overnight hacking is hosted inside the air-conditioned campus seminar hall with dedicated rest zones and mattresses. Female participants have a separate rest lounge with 24/7 security supervision.</div>
+              </div>
+              <div class="faq-row">
+                <div class="faq-question">What items are mandatory for entry clearance?</div>
+                <div class="faq-answer">Personal laptops, labeled spike busters/extension strips, original college photo ID cards, and your printed or digital Participant Pass.</div>
+              </div>
             </div>
           </section>
         </div>
 
-        <!-- Right Rail -->
-        <aside class="side-column">
-          <!-- Poster Preview Card -->
-          <div class="poster-card">
-            <h3 class="content-card-title">Official Event Poster</h3>
-            <img src="${escapeHtml(event.poster)}" alt="Official event poster for ${escapeHtml(event.name)}" class="poster-preview-img" id="hero-poster-img">
-            <div style="display:flex; flex-direction:column; gap:0.5rem;">
-              <a href="${escapeHtml(event.poster)}" download="${event.slug}-poster.png" class="btn btn-primary" style="width:100%;">
-                📥 Download A3 Poster (PNG)
+        <!-- Right Rail Column -->
+        <aside class="bento-secondary-col">
+          <!-- Poster Display Card -->
+          <div class="bento-card">
+            <div class="card-header-row">
+              <h2 class="card-title">Event Poster</h2>
+              <span class="card-pill">1240x1754 A3</span>
+            </div>
+            <img src="${escapeHtml(event.poster)}" alt="Official event poster for ${escapeHtml(event.name)}" class="poster-display-img" id="hero-poster-img">
+            <div class="poster-download-group">
+              <a href="${escapeHtml(event.poster)}" download="${event.slug}-poster.png" class="btn-apple-primary" style="width:100%; justify-content:center;">
+                Download A3 Poster
               </a>
-              <a href="#/e/${event.slug}/pass" class="btn btn-secondary" style="width:100%;">
-                🎫 Create My Verified Pass
+              <a href="#/e/${event.slug}/pass" class="btn-apple-secondary" style="width:100%; justify-content:center;">
+                Generate Pass
               </a>
             </div>
           </div>
 
-          <!-- Leave Proof Dossier Quick Box -->
-          <div class="proof-desk-box">
-            <h3>📋 Hostel Leave Dossier Kit</h3>
-            <p>Assemble and present your documentary evidence in this exact order to secure your hostel out-pass:</p>
-            <div class="proof-links">
-              <a href="#/e/${event.slug}/mail" class="proof-link-item">
-                <span>1. Official Selection Mail</span>
-                <span>✉️</span>
+          <!-- Leave Proof Dossier Flow Card -->
+          <div class="bento-card">
+            <div class="card-header-row">
+              <h2 class="card-title">Leave Dossier Kit</h2>
+            </div>
+            <p class="card-subtext" style="margin-bottom:1rem;">Present documentary evidence in this exact order to secure your hostel out-pass without delay:</p>
+            <div class="dossier-steps-list">
+              <a href="#/e/${event.slug}/mail" class="dossier-step-link">
+                <span class="step-num">01</span>
+                <span class="step-label">Selection Confirmation Mail</span>
+                <span class="step-arrow">→</span>
               </a>
-              <a href="#/e/${event.slug}/pass" class="proof-link-item">
-                <span>2. Participant Photo Pass</span>
-                <span>🎫</span>
+              <a href="#/e/${event.slug}/pass" class="dossier-step-link">
+                <span class="step-num">02</span>
+                <span class="step-label">Participant Photo Pass</span>
+                <span class="step-arrow">→</span>
               </a>
-              <a href="#/e/${event.slug}/chat" class="proof-link-item">
-                <span>3. Organisers Group Chat</span>
-                <span>💬</span>
+              <a href="#/e/${event.slug}/chat" class="dossier-step-link">
+                <span class="step-num">03</span>
+                <span class="step-label">Organisers WhatsApp Chat</span>
+                <span class="step-arrow">→</span>
               </a>
-              <a href="#/e/${event.slug}/brief" class="proof-link-item">
-                <span>4. Warden Leave Brief & Script</span>
-                <span>📋</span>
+              <a href="#/e/${event.slug}/brief" class="dossier-step-link">
+                <span class="step-num">04</span>
+                <span class="step-label">Warden Verbal Brief & Script</span>
+                <span class="step-arrow">→</span>
               </a>
             </div>
           </div>
 
-          <!-- Warden Verification Direct Card -->
-          <div class="content-card" style="border-left: 3px solid #38bdf8;">
-            <h4 style="font-size:0.95rem; color:#ffffff; margin-bottom:0.4rem;">Warden Phone Verification</h4>
-            <p style="font-size:0.84rem; color:#94a3b8; margin-bottom:0.6rem;">
-              If your hostel warden or RT requires verbal telephonic confirmation:
-            </p>
-            <div style="background:rgba(0,0,0,0.3); padding:0.6rem 0.8rem; border-radius:6px; font-size:0.85rem;">
-              <div>Convenor: <strong>${escapeHtml(event.contactName)}</strong></div>
-              <div>Direct: <a href="tel:${escapeHtml(event.contactPhone.replace(/\s+/g, ''))}"><strong>${escapeHtml(event.contactPhone)}</strong></a></div>
-              <div>Desk: <a href="mailto:${escapeHtml(event.contactEmail)}">${escapeHtml(event.contactEmail)}</a></div>
+          <!-- Warden Direct Hotline -->
+          <div class="bento-card">
+            <div class="card-header-row">
+              <h2 class="card-title">Warden Phone Hotline</h2>
+            </div>
+            <p class="card-subtext">If your hostel warden or Head of Department requires immediate telephone confirmation:</p>
+            <div class="hotline-box">
+              <div class="hotline-row">
+                <span class="hotline-label">Lead Convenor</span>
+                <strong class="hotline-val">${escapeHtml(event.contactName)}</strong>
+              </div>
+              <div class="hotline-row">
+                <span class="hotline-label">Telephone</span>
+                <a href="tel:${escapeHtml(event.contactPhone.replace(/\s+/g, ''))}" class="hotline-val hotline-link">${escapeHtml(event.contactPhone)}</a>
+              </div>
+              <div class="hotline-row">
+                <span class="hotline-label">Helpdesk</span>
+                <a href="mailto:${escapeHtml(event.contactEmail)}" class="hotline-val hotline-link">${escapeHtml(event.contactEmail)}</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Committee Roster -->
+          <div class="bento-card">
+            <div class="card-header-row">
+              <h2 class="card-title">Organising Committee</h2>
+            </div>
+            <div class="committee-list">
+              ${event.people.map(p => `
+                <div class="committee-row">
+                  <div class="committee-name">${escapeHtml(p.name)}</div>
+                  <div class="committee-role">${escapeHtml(p.role)}</div>
+                </div>
+              `).join('')}
             </div>
           </div>
         </aside>
@@ -1011,137 +986,135 @@
   // Screen 2: Participant Pass Generator
   function renderPassScreen(event) {
     const reportFormatted = formatTime(event.report);
-    const startDate = event.start.slice(0, 10);
+    const startDate = formatDateNatural(event.start);
     const p = state.participant;
     const selectedTrack = p.track || event.tracks[0];
 
     return `
-      <div class="content-card" style="margin-bottom:1.25rem;">
-        <h2 style="font-size:1.4rem; font-weight:800; color:#ffffff; margin-bottom:0.3rem;">
-          Participant Pass Generator & 100x140mm Print Layout
-        </h2>
-        <p style="color:#94a3b8; font-size:0.9rem;">
-          Enter your name and institution. The pass is rendered in real-time onto an HTML5 canvas and formatted for exact 100x140mm print compliance. Non-transferable with QR code deep-linking to this verified record.
+      <section class="section-hero">
+        <h1 class="page-title">Participant Pass</h1>
+        <p class="page-subhead">
+          Generate your official participant credential with embedded QR verification. Formatted for standard 100x140mm print layout on A4 paper.
         </p>
-      </div>
+      </section>
 
-      <div class="pass-screen-wrap">
+      <div class="pass-layout">
+        <!-- Badge Preview Column -->
+        <div class="pass-preview-column">
+          <canvas id="pass-render-canvas" style="display:none;"></canvas>
+
+          <!-- Apple Wallet Style Pass Ticket -->
+          <div class="apple-pass" id="pass-ticket-dom">
+            <!-- Lanyard Slot -->
+            <div class="pass-lanyard-slot" aria-hidden="true"></div>
+
+            <div class="pass-header-strip">
+              <div class="pass-type-chip">${escapeHtml(event.type.toUpperCase())} PASS</div>
+              <div class="pass-title">${escapeHtml(event.name)}</div>
+              <div class="pass-edition">${escapeHtml(event.edition)} • ${escapeHtml(event.host)}</div>
+            </div>
+
+            <div class="pass-body-section">
+              <div class="pass-user-strip">
+                <div class="pass-user-avatar" id="pass-dom-avatar">
+                  ${escapeHtml(p.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'RK')}
+                </div>
+                <div class="pass-user-meta">
+                  <div class="pass-user-name" id="pass-dom-name">${escapeHtml(p.name)}</div>
+                  <div class="pass-user-college" id="pass-dom-college">${escapeHtml(p.college)}</div>
+                  <div class="pass-user-id" id="pass-dom-id">ID: ${escapeHtml(p.regId)}</div>
+                </div>
+              </div>
+
+              <div class="pass-grid-fields">
+                <div class="pass-field">
+                  <span class="field-title">Reporting Time</span>
+                  <strong class="field-value">${reportFormatted} IST</strong>
+                </div>
+                <div class="pass-field">
+                  <span class="field-title">Date of Entry</span>
+                  <strong class="field-value">${startDate}</strong>
+                </div>
+                <div class="pass-field">
+                  <span class="field-title">Gate Access</span>
+                  <strong class="field-value">Gate 1 (West Hill)</strong>
+                </div>
+                <div class="pass-field">
+                  <span class="field-title">Assigned Track</span>
+                  <strong class="field-value" id="pass-dom-track">${escapeHtml(selectedTrack)}</strong>
+                </div>
+              </div>
+
+              <div class="pass-qr-row">
+                <img
+                  src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(window.location.origin + window.location.pathname + '#/e/' + event.slug)}"
+                  alt="QR Verification"
+                  class="pass-qr-image"
+                  onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22black%22/><text x=%2250%22 y=%2255%22 fill=%22white%22 text-anchor=%22middle%22 font-size=%2214%22>QR CODE</text></svg>'"
+                >
+                <div class="pass-qr-info">
+                  <strong>Official Live Verification</strong>
+                  <span>Scan to verify real-time schedule, hostel clearance brief, and official duty NOC records.</span>
+                </div>
+              </div>
+
+              <div class="pass-legal-banner">
+                Non-transferable • Must present original institution photo ID at Gate 1
+              </div>
+
+              <div class="pass-sign-row">
+                <div>
+                  <span class="sign-label">Authorized Signatory:</span><br>
+                  <strong class="sign-val">${escapeHtml(event.contactName)}</strong> (${escapeHtml(event.people[0] ? event.people[0].role : 'Convener')})
+                </div>
+                <div style="text-align:right;">
+                  <span class="sign-label">Emergency Desk:</span><br>
+                  <strong class="sign-val">${escapeHtml(event.contactPhone)}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Controls Column -->
-        <div class="pass-controls-col">
-          <div class="content-card">
-            <h3 class="content-card-title">Participant Identity Details</h3>
-            <form id="pass-form" onsubmit="return false;" style="display:flex; flex-direction:column; gap:1rem;">
-              <div class="form-group">
+        <div class="pass-controls-column">
+          <div class="bento-card">
+            <h2 class="card-title">Participant Identity</h2>
+            <form id="pass-form" onsubmit="return false;" class="pass-form-fields">
+              <div class="input-block">
                 <label for="pass-input-name">Full Name (As on College ID)</label>
-                <input type="text" id="pass-input-name" class="form-control" value="${escapeHtml(p.name)}" required>
+                <input type="text" id="pass-input-name" class="apple-input" value="${escapeHtml(p.name)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="pass-input-college">Institution / College Name</label>
-                <input type="text" id="pass-input-college" class="form-control" value="${escapeHtml(p.college)}" required>
+                <input type="text" id="pass-input-college" class="apple-input" value="${escapeHtml(p.college)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="pass-input-reg">Registration / Team Ref ID</label>
-                <input type="text" id="pass-input-reg" class="form-control" value="${escapeHtml(p.regId)}" required>
+                <input type="text" id="pass-input-reg" class="apple-input" value="${escapeHtml(p.regId)}" required>
               </div>
 
-              <div class="form-group">
-                <label for="pass-select-track">Assigned Track</label>
-                <select id="pass-select-track" class="form-control">
+              <div class="input-block">
+                <label for="pass-select-track">Assigned Competency Track</label>
+                <select id="pass-select-track" class="apple-input">
                   ${event.tracks.map(t => `<option value="${escapeHtml(t)}" ${t === selectedTrack ? 'selected' : ''}>${escapeHtml(t)}</option>`).join('')}
                 </select>
               </div>
 
-              <div style="display:flex; flex-direction:column; gap:0.6rem; margin-top:0.5rem;">
-                <button type="button" id="btn-download-pass" class="btn btn-primary" style="width:100%;">
-                  📥 Download Pass as Image (PNG)
+              <div class="pass-button-stack">
+                <button type="button" id="btn-download-pass" class="btn-apple-primary" style="width:100%; justify-content:center;">
+                  Download Pass as Image (PNG)
                 </button>
-                <button type="button" id="btn-print-pass" class="btn btn-accent" style="width:100%;">
-                  🖨️ Print Pass (100x140mm Clean A4)
+                <button type="button" id="btn-print-pass" class="btn-apple-secondary" style="width:100%; justify-content:center;">
+                  Print Clean Pass (100x140mm A4)
                 </button>
-                <a href="#/e/${event.slug}/brief" class="btn btn-secondary" style="width:100%;">
-                  📋 Proceed to Leave Brief
+                <a href="#/e/${event.slug}/brief" class="btn-apple-ghost" style="width:100%; justify-content:center;">
+                  Proceed to Leave Brief
                 </a>
               </div>
             </form>
-          </div>
-        </div>
-
-        <!-- Preview Column -->
-        <div class="pass-preview-col">
-          <div class="pass-card-container">
-            <!-- Canvas for PNG Export -->
-            <canvas id="pass-render-canvas" style="display:none;"></canvas>
-
-            <!-- Printable HTML DOM Ticket -->
-            <div class="pass-ticket" id="pass-ticket-dom">
-              <div class="pass-header">
-                <div class="pass-event-badge">${escapeHtml(event.type)} PASS</div>
-                <div class="pass-event-name">${escapeHtml(event.name)}</div>
-                <div class="pass-event-edition">${escapeHtml(event.edition)} • ${escapeHtml(event.host)}</div>
-              </div>
-
-              <div class="pass-body">
-                <div class="pass-participant-row">
-                  <div class="pass-avatar" id="pass-dom-avatar">
-                    ${escapeHtml(p.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'RK')}
-                  </div>
-                  <div class="pass-p-details">
-                    <div class="pass-p-name" id="pass-dom-name">${escapeHtml(p.name)}</div>
-                    <div class="pass-p-college" id="pass-dom-college">${escapeHtml(p.college)}</div>
-                    <div class="pass-p-id" id="pass-dom-id">ID: ${escapeHtml(p.regId)}</div>
-                  </div>
-                </div>
-
-                <div class="pass-meta-grid">
-                  <div>
-                    <div class="pass-meta-label">Reporting Time</div>
-                    <div class="pass-meta-val">${reportFormatted} IST</div>
-                  </div>
-                  <div>
-                    <div class="pass-meta-label">Date of Entry</div>
-                    <div class="pass-meta-val">${formatDateNatural(event.start)}</div>
-                  </div>
-                  <div>
-                    <div class="pass-meta-label">Gate Access</div>
-                    <div class="pass-meta-val">Gate 1 (West Hill)</div>
-                  </div>
-                  <div>
-                    <div class="pass-meta-label">Competency Track</div>
-                    <div class="pass-meta-val" id="pass-dom-track">${escapeHtml(selectedTrack)}</div>
-                  </div>
-                </div>
-
-                <div class="pass-qr-strip">
-                  <img
-                    src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(window.location.origin + window.location.pathname + '#/e/' + event.slug)}"
-                    alt="QR Verification link for ${escapeHtml(event.name)}"
-                    class="pass-qr-img"
-                    onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22black%22/><text x=%2250%22 y=%2255%22 fill=%22white%22 text-anchor=%22middle%22 font-size=%2214%22>QR CODE</text></svg>'"
-                  >
-                  <div class="pass-qr-desc">
-                    <strong>Official Live Verification</strong>
-                    Scan to inspect real-time schedule, hostel permission brief and verified NOC records.
-                  </div>
-                </div>
-
-                <div class="pass-disclaimer">
-                  Non-transferable • Must present institutional photo ID at Gate 1
-                </div>
-
-                <div class="pass-footer-sign">
-                  <div>
-                    <span>Authorized Signatory:</span><br>
-                    <span class="pass-sign-authority">${escapeHtml(event.contactName)}</span> (${escapeHtml(event.people[0] ? event.people[0].role : 'Convener')})
-                  </div>
-                  <div style="text-align:right;">
-                    <span>Emergency NOC Desk:</span><br>
-                    <span class="pass-sign-authority">${escapeHtml(event.contactPhone)}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -1155,18 +1128,20 @@
     const day2Messages = messages.filter(m => m.day === 2);
 
     return `
-      <div class="content-card" style="margin-bottom:1.25rem;">
-        <h2 style="font-size:1.4rem; font-weight:800; color:#ffffff; margin-bottom:0.3rem;">
-          Official Organisers WhatsApp Coordination Chat
-        </h2>
-        <p style="color:#94a3b8; font-size:0.9rem;">
-          WhatsApp-faithful dark UI in pure HTML/CSS. 20 real-time chronological messages spanning 2 days covering shortlist announcement, 08:30 AM reporting, Gate 1 directions, Malappuram transit connections, overnight stay rules, and original college ID requirements.
-        </p>
-        <div style="display:flex; gap:0.5rem; margin-top:0.75rem; flex-wrap:wrap;">
-          <button type="button" id="btn-print-chat" class="btn btn-secondary">🖨️ Print Chat Transcript</button>
-          <a href="#/e/${event.slug}/mail" class="btn btn-primary">✉️ View Selection Mail</a>
+      <section class="section-hero">
+        <div class="hero-actions-row">
+          <div>
+            <h1 class="page-title">Organisers WhatsApp Coordination</h1>
+            <p class="page-subhead">
+              WhatsApp-faithful dark UI. 20 real-time chronological messages spanning 2 days covering shortlist release, Gate 1 reporting, Malappuram transit connections, overnight stay rules, and original college ID requirements.
+            </p>
+          </div>
+          <div class="action-buttons-wrap">
+            <button type="button" id="btn-print-chat" class="btn-apple-secondary">Print Chat Transcript</button>
+            <a href="#/e/${event.slug}/mail" class="btn-apple-primary">View Selection Mail</a>
+          </div>
         </div>
-      </div>
+      </section>
 
       <div class="wa-chat-container">
         <!-- WhatsApp Top Bar -->
@@ -1178,28 +1153,25 @@
               <div class="wa-group-subs">${escapeHtml(event.people.map(p => p.name).join(', '))}</div>
             </div>
           </div>
-          <div class="wa-header-icons" aria-hidden="true">
-            <span>📹</span>
-            <span>📞</span>
-            <span>⋮</span>
+          <div class="wa-header-actions" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
           </div>
         </div>
 
-        <!-- Chat Messages Area -->
+        <!-- Chat Area -->
         <div class="wa-messages-area" id="wa-messages-scroll">
-          <!-- Encryption Banner -->
           <div class="wa-enc-banner">
-            🔒 Messages and calls are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them.
+            Messages and calls are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them.
           </div>
 
-          <!-- Day 1 Divider -->
           <div class="wa-date-divider">
             <span class="wa-date-pill">21 NOVEMBER 2026</span>
           </div>
 
           ${day1Messages.map(msg => renderChatMessage(msg)).join('')}
 
-          <!-- Day 2 Divider -->
           <div class="wa-date-divider">
             <span class="wa-date-pill">22 NOVEMBER 2026</span>
           </div>
@@ -1207,11 +1179,11 @@
           ${day2Messages.map(msg => renderChatMessage(msg)).join('')}
         </div>
 
-        <!-- WhatsApp Input Strip -->
+        <!-- Chat Input Bar -->
         <div class="wa-input-strip">
           <input type="text" id="wa-quick-input" placeholder="Message shortlisted teams and convener..." readonly value="Logistical helpdesk active: ${escapeHtml(event.contactPhone)}">
-          <button type="button" class="btn btn-accent" style="padding:0.4rem 0.75rem; min-height:34px;" title="Send">
-            ➤
+          <button type="button" class="wa-send-btn" title="Send" aria-label="Send">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
           </button>
         </div>
       </div>
@@ -1237,90 +1209,86 @@
     `;
   }
 
-  // Screen 4: Selection Mail (Gmail-Faithful UI)
+  // Screen 4: Selection Mail (Apple Mail Interface)
   function renderMailScreen(event) {
     const datesFormatted = formatDateRange(event.start, event.end);
     const reportFormatted = formatTime(event.report);
-    const startDate = event.start.slice(0, 10);
     const p = state.participant;
 
     return `
-      <div class="content-card" style="margin-bottom:1.25rem;">
-        <h2 style="font-size:1.4rem; font-weight:800; color:#ffffff; margin-bottom:0.3rem;">
-          Official Selection & Shortlist Confirmation Mail
-        </h2>
-        <p style="color:#94a3b8; font-size:0.9rem;">
-          Gmail-faithful desktop & mobile interface. Displays official shortlist credentials, security stamps, reporting schedule, venue instructions, and direct Participant Pass linkage for hostel submission.
-        </p>
-        <div style="display:flex; gap:0.5rem; margin-top:0.75rem; flex-wrap:wrap;">
-          <button type="button" id="btn-print-mail" class="btn btn-secondary">🖨️ Print Clean Letterhead (A4)</button>
-          <button type="button" id="btn-copy-mail" class="btn btn-outline">📋 Copy Email Body</button>
-          <a href="#/e/${event.slug}/pass" class="btn btn-primary">🎫 Open Participant Pass</a>
-        </div>
-      </div>
-
-      <div class="gm-container">
-        <!-- Gmail Toolbar -->
-        <div class="gm-toolbar">
-          <div class="gm-toolbar-icons">
-            <span title="Back">←</span>
-            <span title="Archive">📥</span>
-            <span title="Report spam">⚠️</span>
-            <span title="Delete">🗑️</span>
-            <span title="Mark unread">✉️</span>
-            <span title="Snooze">⏱️</span>
-            <span title="Add task">✓</span>
-          </div>
+      <section class="section-hero">
+        <div class="hero-actions-row">
           <div>
-            <span style="font-size:0.8rem; color:#64748b;">1 of 12</span>
+            <h1 class="page-title">Selection Confirmation Mail</h1>
+            <p class="page-subhead">
+              Official shortlist correspondence with security headers, confirmed milestone schedule, venue gate access, and direct pass credentials for hostel submission.
+            </p>
+          </div>
+          <div class="action-buttons-wrap">
+            <button type="button" id="btn-print-mail" class="btn-apple-secondary">Print Letterhead (A4)</button>
+            <button type="button" id="btn-copy-mail" class="btn-apple-ghost">Copy Email Body</button>
+            <a href="#/e/${event.slug}/pass" class="btn-apple-primary">Open Pass</a>
+          </div>
+        </div>
+      </section>
+
+      <div class="mail-envelope">
+        <div class="mail-toolbar">
+          <div class="mail-toolbar-left">
+            <span class="mail-tool-icon" title="Archive">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+            </span>
+            <span class="mail-tool-icon" title="Spam">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </span>
+            <span class="mail-tool-icon" title="Delete">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </span>
+          </div>
+          <div class="mail-toolbar-right">
+            <span class="mail-counter">Official Notice • Verified Sender</span>
           </div>
         </div>
 
-        <!-- Subject Header -->
-        <div class="gm-subject-header">
-          <h1 class="gm-subject-title">
-            Official Selection Confirmation: Shortlisted for ${escapeHtml(event.name)} (${escapeHtml(event.edition)})
-          </h1>
-          <span class="gm-subject-tags">Inbox</span>
-          <span class="gm-subject-tags" style="background:#e0f2fe; color:#0369a1;">Academic NOC</span>
+        <div class="mail-subject-area">
+          <h2 class="mail-subject">Official Selection Confirmation: Shortlisted for ${escapeHtml(event.name)} (${escapeHtml(event.edition)})</h2>
+          <div class="mail-tags">
+            <span class="mail-pill">Inbox</span>
+            <span class="mail-pill pill-accent">Academic Leave Endorsement</span>
+          </div>
         </div>
 
-        <!-- Sender Row -->
-        <div class="gm-sender-row">
-          <div class="gm-sender-meta">
-            <div class="gm-avatar" aria-hidden="true">${escapeHtml(event.contactName[0])}</div>
+        <div class="mail-sender-row">
+          <div class="mail-sender-meta">
+            <div class="mail-avatar">${escapeHtml(event.contactName[0])}</div>
             <div>
-              <div class="gm-sender-name">${escapeHtml(event.contactName)} • ${escapeHtml(event.host)}</div>
-              <div class="gm-sender-email">&lt;${escapeHtml(event.contactEmail)}&gt;</div>
-              <div class="gm-to-me">to me &lt;${escapeHtml(p.name.toLowerCase().replace(/\s+/g, '.'))}@cet.ac.in&gt;</div>
+              <div class="mail-sender-name">${escapeHtml(event.contactName)} • ${escapeHtml(event.host)}</div>
+              <div class="mail-sender-email">&lt;${escapeHtml(event.contactEmail)}&gt;</div>
+              <div class="mail-to-line">to me &lt;${escapeHtml(p.name.toLowerCase().replace(/\s+/g, '.'))}@cet.ac.in&gt;</div>
             </div>
           </div>
-          <div class="gm-date">
-            Nov 21, 2026, 4:15 PM (3 hours ago)
-          </div>
+          <div class="mail-date">Nov 21, 2026, 4:15 PM</div>
         </div>
 
-        <!-- Security stamps -->
-        <div class="gm-security-details">
-          <div>mailed-by: <strong>gmail.com</strong></div>
-          <div>signed-by: <strong>${escapeHtml(extractHostname(event.site))}</strong></div>
-          <div>security: <strong>Standard encryption (TLS)</strong></div>
+        <div class="mail-security-bar">
+          <span>mailed-by: <strong>gmail.com</strong></span>
+          <span>signed-by: <strong>${escapeHtml(extractHostname(event.site))}</strong></span>
+          <span>security: <strong>TLS Standard Encryption</strong></span>
         </div>
 
-        <!-- Email Body -->
-        <div class="gm-body" id="gm-body-content">
+        <div class="mail-body-content" id="gm-body-content">
           <p>Dear <strong>${escapeHtml(p.name)}</strong> (${escapeHtml(p.college)}),</p>
 
           <p>
             Congratulations! On behalf of the organising committee of <strong>${escapeHtml(event.name)} (${escapeHtml(event.edition)})</strong>, we are delighted to inform you that your registration and project abstract have been officially <strong>SHORTLISTED</strong> for the physical programme.
           </p>
 
-          <div class="gm-highlight-card">
-            <h3 style="font-size:1rem; font-weight:700; color:#0f172a; margin-bottom:0.6rem;">Confirmed Programme Milestones:</h3>
+          <div class="mail-highlight-card">
+            <h3 style="font-size:0.95rem; font-weight:700; color:#1d1d1f; margin-bottom:0.75rem;">Confirmed Programme Milestones</h3>
             <ul>
-              <li><strong>Event Title:</strong> ${escapeHtml(event.name)} (${escapeHtml(event.edition)})</li>
-              <li><strong>Organising Body:</strong> ${escapeHtml(event.host)}</li>
-              <li><strong>Institutional Support:</strong> ${escapeHtml(event.support)}</li>
+              <li><strong>Event:</strong> ${escapeHtml(event.name)} (${escapeHtml(event.edition)})</li>
+              <li><strong>Host Body:</strong> ${escapeHtml(event.host)}</li>
+              <li><strong>Supporting Body:</strong> ${escapeHtml(event.support)}</li>
               <li><strong>Dates:</strong> ${datesFormatted}</li>
               <li><strong>Reporting Schedule:</strong> ${reportFormatted} IST on ${formatDateNatural(event.start)} (Gate closes ${formatTime(event.close)} IST)</li>
               <li><strong>Venue Address:</strong> ${escapeHtml(event.venue)}</li>
@@ -1328,15 +1296,15 @@
             </ul>
           </div>
 
-          <div class="gm-pass-btn-wrap">
-            <a href="#/e/${event.slug}/pass" class="gm-pass-btn">
+          <div style="text-align:center; margin: 1.75rem 0;">
+            <a href="#/e/${event.slug}/pass" class="btn-apple-primary" style="display:inline-flex;">
               Generate & Download Verified Participant Pass
             </a>
           </div>
 
           <p>
             <strong>Hostel & Academic Leave Instructions:</strong><br>
-            Please produce a printed copy of this email along with your Participant Pass to your Head of Department (HOD) and Hostel Warden. Official institutional attendance and academic duty leave (OD) certificates will be countersigned and stamped at Desk 3 before programme conclusion.
+            Please produce a printed copy of this email along with your Participant Pass to your Head of Department (HOD) and Hostel Warden. Official institutional attendance and academic duty leave (OD) certificates will be countersigned and stamped at Registration Desk 3 before programme conclusion.
           </p>
 
           <p>
@@ -1354,10 +1322,9 @@
           </p>
         </div>
 
-        <!-- Gmail Reply Bar -->
-        <div class="gm-reply-bar">
-          <button type="button" class="btn btn-outline" style="color:#475569; border-color:#cbd5e1;">↩ Reply</button>
-          <button type="button" class="btn btn-outline" style="color:#475569; border-color:#cbd5e1;">⤅ Forward</button>
+        <div class="mail-footer-bar">
+          <button type="button" class="btn-apple-ghost">Reply</button>
+          <button type="button" class="btn-apple-ghost">Forward</button>
         </div>
       </div>
     `;
@@ -1367,121 +1334,118 @@
   function renderBriefScreen(event) {
     const datesFormatted = formatDateRange(event.start, event.end);
     const reportFormatted = formatTime(event.report);
-    const startDate = event.start.slice(0, 10);
+    const startDate = formatDateNatural(event.start);
     const p = state.participant;
 
-    const verbalSentence = `Respected Warden / HOD, I have been officially shortlisted to represent our college at ${event.name} organised by ${event.host} and supported by ${event.support} at ${event.venue} from ${datesFormatted}; mandatory reporting is at ${reportFormatted} IST on ${formatDateNatural(event.start)}, and official duty attendance certificates will be countersigned and submitted upon my return.`;
+    const verbalSentence = `Respected Warden / HOD, I have been officially shortlisted to represent our college at ${event.name} organised by ${event.host} and supported by ${event.support} at ${event.venue} from ${datesFormatted}; mandatory reporting is at ${reportFormatted} IST on ${startDate}, and official duty attendance certificates will be countersigned and submitted upon my return.`;
 
     return `
-      <div class="brief-container">
-        <!-- Hero Box -->
-        <div class="brief-hero-box">
-          <h2 class="brief-hero-title">Hostel Leave Request & Warden Briefing Desk</h2>
-          <p style="font-size:0.9rem; color:#cbd5e1;">
-            Designed specifically for hostel residents. Gives you the exact sentence to recite to the Warden, phone scripts for parents and faculty, the precise order to present evidence, and instant download/share tools.
-          </p>
-        </div>
+      <section class="section-hero">
+        <h1 class="page-title">Hostel Leave Brief</h1>
+        <p class="page-subhead">
+          Designed specifically for resident students. Formats your pitch, phone scripts for parents and faculty, and structures documentary evidence to clear your hostel out-pass.
+        </p>
+      </section>
 
-        <!-- The Exact Sentence to Say -->
-        <div class="content-card" style="border-left: 4px solid #38bdf8;">
-          <h3 style="font-size:1.1rem; color:#ffffff; margin-bottom:0.4rem;">
-            🗣️ The Exact Sentence to Say to Warden / HOD
-          </h3>
-          <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:0.75rem;">
-            Recite this verbatim when submitting your leave slip. It addresses institution, legitimacy, dates, reporting time, and proof of return in one breath:
-          </p>
+      <div class="brief-layout">
+        <!-- Exact Sentence to Say -->
+        <div class="bento-card highlight-border">
+          <div class="card-header-row">
+            <h2 class="card-title">The Exact Sentence to Say to Warden / HOD</h2>
+            <span class="card-pill">Verbatim Script</span>
+          </div>
+          <p class="card-subtext">Recite this verbatim when submitting your leave slip. It addresses institution, legitimacy, dates, reporting time, and proof of return in one breath:</p>
 
-          <div class="verbal-sentence-box">
-            <div class="verbal-sentence-text" id="verbal-sentence-target">
+          <div class="verbal-box">
+            <blockquote class="verbal-quote" id="verbal-sentence-target">
               "${verbalSentence}"
-            </div>
+            </blockquote>
           </div>
 
-          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-            <button type="button" id="btn-copy-sentence" class="btn btn-accent">
-              📋 Copy Verbal Sentence
+          <div class="card-actions-row">
+            <button type="button" id="btn-copy-sentence" class="btn-apple-primary">
+              Copy Verbal Sentence
             </button>
-            <button type="button" id="btn-print-brief" class="btn btn-secondary">
-              🖨️ Print Leave Application Dossier
+            <button type="button" id="btn-print-brief" class="btn-apple-secondary">
+              Print Leave Dossier (A4)
             </button>
           </div>
         </div>
 
-        <!-- Phone Scripts -->
-        <div class="script-grid">
-          <div class="script-card">
-            <h3>📞 Script 1: Student to Parent (Before Calling Warden)</h3>
-            <p class="prose" style="font-size:0.85rem;">
+        <!-- Phone Scripts Grid -->
+        <div class="scripts-two-col">
+          <div class="bento-card">
+            <h2 class="card-title">Phone Script: Student to Parent</h2>
+            <p class="card-subtext" style="margin-bottom:0.75rem;">Brief your parent before they call the warden:</p>
+            <blockquote class="script-quote">
               "Mom / Dad, our team from college got shortlisted for ${escapeHtml(event.name)} at ${escapeHtml(event.venue.split(',')[0])}. It is organised by ${escapeHtml(event.host)} with ${escapeHtml(event.support)}. The hostel warden will call to verify that you are aware of my travel from ${datesFormatted}. Please confirm that I have your permission to travel by bus."
-            </p>
+            </blockquote>
           </div>
 
-          <div class="script-card">
-            <h3>📞 Script 2: If Warden Calls Event Convener</h3>
-            <p class="prose" style="font-size:0.85rem;">
+          <div class="bento-card">
+            <h2 class="card-title">Phone Script: If Warden Calls Convener</h2>
+            <p class="card-subtext" style="margin-bottom:0.75rem;">Give this direct telephone brief to the hostel desk:</p>
+            <blockquote class="script-quote">
               "Tell the warden they can directly call the Convener <strong>${escapeHtml(event.contactName)}</strong> at <strong>${escapeHtml(event.contactPhone)}</strong>. The convener's desk confirms that 24/7 faculty supervision and secure rest zones are arranged inside the campus for all verified participants."
-            </p>
+            </blockquote>
           </div>
         </div>
 
-        <!-- Documentary Evidence Order -->
-        <div class="content-card">
-          <h3 class="content-card-title">Order to Present Documentary Evidence (Leave Dossier)</h3>
-          <div class="dossier-checklist">
-            <div class="dossier-step">
-              <div class="dossier-step-num">1</div>
-              <div class="dossier-step-content">
-                <strong>Selection Confirmation Mail (Printed Copy)</strong>
-                <span>Shows your name, official sender address, timestamp, and institutional shortlist announcement.</span>
+        <!-- Dossier Order -->
+        <div class="bento-card">
+          <div class="card-header-row">
+            <h2 class="card-title">Order to Present Documentary Evidence</h2>
+          </div>
+          <div class="dossier-numbered-grid">
+            <div class="dossier-num-cell">
+              <span class="dossier-digit">01</span>
+              <div>
+                <strong>Selection Confirmation Mail (Printout)</strong>
+                <span>Shows candidate name, official sender address, timestamp, and institutional shortlist announcement.</span>
               </div>
             </div>
-
-            <div class="dossier-step">
-              <div class="dossier-step-num">2</div>
-              <div class="dossier-step-content">
+            <div class="dossier-num-cell">
+              <span class="dossier-digit">02</span>
+              <div>
                 <strong>Participant Pass (100x140mm with QR Code)</strong>
-                <span>Displays your registration ID, assigned track, Gate 1 reporting notice, and non-transferable photo ID warning.</span>
+                <span>Displays registration ID, assigned track, Gate 1 reporting notice, and non-transferable photo ID warning.</span>
               </div>
             </div>
-
-            <div class="dossier-step">
-              <div class="dossier-step-num">3</div>
-              <div class="dossier-step-content">
+            <div class="dossier-num-cell">
+              <span class="dossier-digit">03</span>
+              <div>
                 <strong>Official Schedule & Track Brochure</strong>
                 <span>Proves continuous academic schedule, mentor checkpoints, and absence of unmonitored free hours.</span>
               </div>
             </div>
-
-            <div class="dossier-step">
-              <div class="dossier-step-num">4</div>
-              <div class="dossier-step-content">
-                <strong>Organiser Coordination Chat & Convener Contact Card</strong>
+            <div class="dossier-num-cell">
+              <span class="dossier-digit">04</span>
+              <div>
+                <strong>Organisers Chat & Convener Contact Card</strong>
                 <span>Provides immediate emergency telephone numbers and transit bus guidance from neighbouring districts.</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Private Note Field -->
-        <div class="content-card">
-          <h3 class="content-card-title">Private Hostel & Travel Notes (Saved on this Device)</h3>
-          <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:0.5rem;">
-            Record your hostel room number, out-pass serial number, bus departure ticket details, or roommate contact here. Automatically saved in your browser's private local storage.
-          </p>
-          <textarea id="private-notes-input" class="private-note-textarea" placeholder="E.g., Hostel Block B Room 304. Out-pass serial: CET-OP-4491. Parent phone: +91 94471 00000. Return KSRTC bus booked for 28 Nov 08:30 PM.">${escapeHtml(state.privateNote)}</textarea>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem;">
-            <span id="note-save-status" style="font-size:0.75rem; color:#34d399;"></span>
-            <button type="button" id="btn-save-note" class="btn btn-secondary" style="font-size:0.8rem; padding:0.35rem 0.75rem;">
-              💾 Save Private Note
-            </button>
+        <!-- Private Notes -->
+        <div class="bento-card">
+          <div class="card-header-row">
+            <h2 class="card-title">Private Travel & Room Notes</h2>
+            <span class="card-pill">Saved in Browser</span>
+          </div>
+          <p class="card-subtext">Record your hostel room number, out-pass serial number, bus departure ticket details, or roommate contact here.</p>
+          <textarea id="private-notes-input" class="apple-textarea" placeholder="E.g., Hostel Block B Room 304. Out-pass serial: CET-OP-4491. Parent phone: +91 94471 00000. Return KSRTC bus booked for 28 Nov 08:30 PM.">${escapeHtml(state.privateNote)}</textarea>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.75rem;">
+            <span id="note-save-status" style="font-size:0.8rem; color:#30d158;"></span>
+            <button type="button" id="btn-save-note" class="btn-apple-secondary">Save Private Note</button>
           </div>
         </div>
 
-        <!-- Action Bar -->
-        <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
-          <button type="button" id="btn-brief-ics" class="btn btn-outline">📅 Download .ics Calendar File</button>
-          <button type="button" id="btn-brief-share" class="btn btn-accent">🔗 Share Evidence via Web Share</button>
-          <a href="#/e/${event.slug}/pass" class="btn btn-primary">🎫 Back to Pass</a>
+        <div class="card-actions-row">
+          <button type="button" id="btn-brief-ics" class="btn-apple-ghost">Download .ics Calendar File</button>
+          <button type="button" id="btn-brief-share" class="btn-apple-primary">Share Evidence via Web Share</button>
+          <a href="#/e/${event.slug}/pass" class="btn-apple-secondary">Back to Pass</a>
         </div>
       </div>
     `;
@@ -1492,50 +1456,56 @@
     const cur = state.currentEvent || state.events[0];
 
     return `
-      <div class="admin-container">
-        <div class="admin-header-strip">
+      <section class="section-hero">
+        <div class="hero-actions-row">
           <div>
-            <h2 style="font-size:1.4rem; font-weight:800; color:#ffffff;">Campus Proof Desk — Event Desk & Editor</h2>
-            <p style="font-size:0.85rem; color:#94a3b8;">
+            <h1 class="page-title">Event Desk & Editor</h1>
+            <p class="page-subhead">
               Edit events in memory, regenerate posters, download updated events.json, and import JSON directly.
             </p>
           </div>
-          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-            <button type="button" id="btn-admin-download-json" class="btn btn-accent">📥 Download events.json</button>
-            <button type="button" id="btn-admin-reset-seeds" class="btn btn-outline">↺ Reset to Seeds</button>
+          <div class="action-buttons-wrap">
+            <button type="button" id="btn-admin-download-json" class="btn-apple-primary">Download events.json</button>
+            <button type="button" id="btn-admin-reset-seeds" class="btn-apple-ghost">Reset to Seeds</button>
           </div>
         </div>
+      </section>
 
-        <!-- Events List -->
-        <div>
-          <h3 style="font-size:1rem; color:#ffffff; margin-bottom:0.75rem;">Active Records (${state.events.length})</h3>
-          <div class="admin-events-list">
+      <div class="admin-layout">
+        <!-- Records Roster -->
+        <div class="bento-card">
+          <div class="card-header-row">
+            <h2 class="card-title">Active Records (${state.events.length})</h2>
+          </div>
+          <div class="admin-event-cards">
             ${state.events.map(ev => `
-              <div class="admin-event-card ${cur && cur.slug === ev.slug ? 'active' : ''}" data-slug="${escapeHtml(ev.slug)}">
+              <div class="admin-item-card ${cur && cur.slug === ev.slug ? 'active' : ''}" data-slug="${escapeHtml(ev.slug)}">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                  <strong style="color:#ffffff; font-size:0.95rem;">${escapeHtml(ev.name)}</strong>
-                  <span class="badge badge-type" style="font-size:0.65rem;">${escapeHtml(ev.type)}</span>
+                  <strong class="item-name">${escapeHtml(ev.name)}</strong>
+                  <span class="card-pill">${escapeHtml(ev.type.toUpperCase())}</span>
                 </div>
-                <div style="font-size:0.8rem; color:#94a3b8; margin:0.3rem 0;">${escapeHtml(ev.edition)} • ${escapeHtml(ev.district)}</div>
-                <div style="font-size:0.75rem; color:#64748b; font-family:var(--font-mono);">slug: ${escapeHtml(ev.slug)}</div>
+                <div class="item-sub">${escapeHtml(ev.edition)} • ${escapeHtml(ev.district)}</div>
+                <div class="item-slug">${escapeHtml(ev.slug)}</div>
               </div>
             `).join('')}
           </div>
         </div>
 
         <!-- Full In-Memory Editor -->
-        <div class="content-card">
-          <h3 class="content-card-title">Edit Record: ${escapeHtml(cur.name)}</h3>
+        <div class="bento-card">
+          <div class="card-header-row">
+            <h2 class="card-title">Edit Record: ${escapeHtml(cur.name)}</h2>
+          </div>
           <form id="admin-editor-form" onsubmit="return false;">
-            <div class="admin-form-grid">
-              <div class="form-group">
+            <div class="form-two-col">
+              <div class="input-block">
                 <label for="admin-slug">Slug (Unique ID)</label>
-                <input type="text" id="admin-slug" class="form-control" value="${escapeHtml(cur.slug)}" required>
+                <input type="text" id="admin-slug" class="apple-input" value="${escapeHtml(cur.slug)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-type">Type</label>
-                <select id="admin-type" class="form-control">
+                <select id="admin-type" class="apple-input">
                   <option value="hackathon" ${cur.type === 'hackathon' ? 'selected' : ''}>hackathon</option>
                   <option value="workshop" ${cur.type === 'workshop' ? 'selected' : ''}>workshop</option>
                   <option value="class" ${cur.type === 'class' ? 'selected' : ''}>class</option>
@@ -1544,156 +1514,155 @@
                 </select>
               </div>
 
-              <div class="form-group form-col-span-2">
+              <div class="input-block full-width">
                 <label for="admin-name">Event Name</label>
-                <input type="text" id="admin-name" class="form-control" value="${escapeHtml(cur.name)}" required>
+                <input type="text" id="admin-name" class="apple-input" value="${escapeHtml(cur.name)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-edition">Edition</label>
-                <input type="text" id="admin-edition" class="form-control" value="${escapeHtml(cur.edition)}" required>
+                <input type="text" id="admin-edition" class="apple-input" value="${escapeHtml(cur.edition)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-status">Status</label>
-                <select id="admin-status" class="form-control">
+                <select id="admin-status" class="apple-input">
                   <option value="upcoming" ${cur.status === 'upcoming' ? 'selected' : ''}>upcoming</option>
                   <option value="completed" ${cur.status === 'completed' ? 'selected' : ''}>completed</option>
                 </select>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-host">Host Body</label>
-                <input type="text" id="admin-host" class="form-control" value="${escapeHtml(cur.host)}" required>
+                <input type="text" id="admin-host" class="apple-input" value="${escapeHtml(cur.host)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-support">Supporting Body</label>
-                <input type="text" id="admin-support" class="form-control" value="${escapeHtml(cur.support)}" required>
+                <input type="text" id="admin-support" class="apple-input" value="${escapeHtml(cur.support)}" required>
               </div>
 
-              <div class="form-group form-col-span-2">
+              <div class="input-block full-width">
                 <label for="admin-venue">Venue Address</label>
-                <input type="text" id="admin-venue" class="form-control" value="${escapeHtml(cur.venue)}" required>
+                <input type="text" id="admin-venue" class="apple-input" value="${escapeHtml(cur.venue)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-district">District</label>
-                <input type="text" id="admin-district" class="form-control" value="${escapeHtml(cur.district)}" required>
+                <input type="text" id="admin-district" class="apple-input" value="${escapeHtml(cur.district)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-maps">Maps Query</label>
-                <input type="text" id="admin-maps" class="form-control" value="${escapeHtml(cur.mapsQuery)}" required>
+                <input type="text" id="admin-maps" class="apple-input" value="${escapeHtml(cur.mapsQuery)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-start">Start Time (ISO)</label>
-                <input type="text" id="admin-start" class="form-control" value="${escapeHtml(cur.start)}" required>
+                <input type="text" id="admin-start" class="apple-input" value="${escapeHtml(cur.start)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-end">End Time (ISO)</label>
-                <input type="text" id="admin-end" class="form-control" value="${escapeHtml(cur.end)}" required>
+                <input type="text" id="admin-end" class="apple-input" value="${escapeHtml(cur.end)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-report">Reporting Time (ISO)</label>
-                <input type="text" id="admin-report" class="form-control" value="${escapeHtml(cur.report)}" required>
+                <input type="text" id="admin-report" class="apple-input" value="${escapeHtml(cur.report)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-close">Close Time (ISO)</label>
-                <input type="text" id="admin-close" class="form-control" value="${escapeHtml(cur.close)}" required>
+                <input type="text" id="admin-close" class="apple-input" value="${escapeHtml(cur.close)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-deadline">Registration Deadline (ISO)</label>
-                <input type="text" id="admin-deadline" class="form-control" value="${escapeHtml(cur.deadline)}" required>
+                <input type="text" id="admin-deadline" class="apple-input" value="${escapeHtml(cur.deadline)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-prize">Prize Pool Summary</label>
-                <input type="text" id="admin-prize" class="form-control" value="${escapeHtml(cur.prize)}" required>
+                <input type="text" id="admin-prize" class="apple-input" value="${escapeHtml(cur.prize)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-fee">Fee</label>
-                <input type="text" id="admin-fee" class="form-control" value="${escapeHtml(cur.fee)}" required>
+                <input type="text" id="admin-fee" class="apple-input" value="${escapeHtml(cur.fee)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-site">Site URL</label>
-                <input type="text" id="admin-site" class="form-control" value="${escapeHtml(cur.site)}" required>
+                <input type="text" id="admin-site" class="apple-input" value="${escapeHtml(cur.site)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-contact-name">Contact Person</label>
-                <input type="text" id="admin-contact-name" class="form-control" value="${escapeHtml(cur.contactName)}" required>
+                <input type="text" id="admin-contact-name" class="apple-input" value="${escapeHtml(cur.contactName)}" required>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-contact-phone">Contact Phone</label>
-                <input type="text" id="admin-contact-phone" class="form-control" value="${escapeHtml(cur.contactPhone)}" required>
+                <input type="text" id="admin-contact-phone" class="apple-input" value="${escapeHtml(cur.contactPhone)}" required>
               </div>
 
-              <div class="form-group form-col-span-2">
+              <div class="input-block full-width">
                 <label for="admin-contact-email">Contact Email</label>
-                <input type="email" id="admin-contact-email" class="form-control" value="${escapeHtml(cur.contactEmail)}" required>
+                <input type="email" id="admin-contact-email" class="apple-input" value="${escapeHtml(cur.contactEmail)}" required>
               </div>
 
-              <div class="form-group form-col-span-2">
+              <div class="input-block full-width">
                 <label for="admin-tracks">Tracks (One per line)</label>
-                <textarea id="admin-tracks" class="form-control" rows="4">${escapeHtml(cur.tracks.join('\n'))}</textarea>
+                <textarea id="admin-tracks" class="apple-textarea" rows="4">${escapeHtml(cur.tracks.join('\n'))}</textarea>
               </div>
 
-              <div class="form-group form-col-span-2">
+              <div class="input-block full-width">
                 <label for="admin-note">Academic Leave / Hostel Compliance Note</label>
-                <textarea id="admin-note" class="form-control" rows="3">${escapeHtml(cur.note)}</textarea>
+                <textarea id="admin-note" class="apple-textarea" rows="3">${escapeHtml(cur.note)}</textarea>
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-palette-c1">Palette C1 (Primary Hex)</label>
-                <input type="text" id="admin-palette-c1" class="form-control" value="${escapeHtml(cur.palette.c1)}">
+                <input type="text" id="admin-palette-c1" class="apple-input" value="${escapeHtml(cur.palette.c1)}">
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-palette-c2">Palette C2 (Secondary Hex)</label>
-                <input type="text" id="admin-palette-c2" class="form-control" value="${escapeHtml(cur.palette.c2)}">
+                <input type="text" id="admin-palette-c2" class="apple-input" value="${escapeHtml(cur.palette.c2)}">
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-palette-bg">Palette BG (Background Hex)</label>
-                <input type="text" id="admin-palette-bg" class="form-control" value="${escapeHtml(cur.palette.bg)}">
+                <input type="text" id="admin-palette-bg" class="apple-input" value="${escapeHtml(cur.palette.bg)}">
               </div>
 
-              <div class="form-group">
+              <div class="input-block">
                 <label for="admin-poster">Poster File Path</label>
-                <input type="text" id="admin-poster" class="form-control" value="${escapeHtml(cur.poster)}">
+                <input type="text" id="admin-poster" class="apple-input" value="${escapeHtml(cur.poster)}">
               </div>
             </div>
 
-            <!-- Canvas for Regenerating Poster -->
             <canvas id="admin-poster-canvas" style="display:none;"></canvas>
 
-            <div class="admin-actions-bar">
-              <button type="button" id="btn-admin-save" class="btn btn-primary">💾 Save Changes (In-Memory & Storage)</button>
-              <button type="button" id="btn-admin-regen-a3" class="btn btn-secondary">🖼️ Regenerate & Download A3 Poster (1240x1754)</button>
-              <button type="button" id="btn-admin-regen-story" class="btn btn-secondary">📱 Regenerate & Download Story Poster (1080x1920)</button>
-              <a href="#/e/${cur.slug}" class="btn btn-outline">👁️ Preview Public Page</a>
+            <div class="card-actions-row" style="margin-top:1.5rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.08);">
+              <button type="button" id="btn-admin-save" class="btn-apple-primary">Save Changes</button>
+              <button type="button" id="btn-admin-regen-a3" class="btn-apple-secondary">Download A3 Poster (1240x1754)</button>
+              <button type="button" id="btn-admin-regen-story" class="btn-apple-ghost">Download Story Poster (1080x1920)</button>
+              <a href="#/e/${cur.slug}" class="btn-apple-ghost">Preview Live</a>
             </div>
           </form>
         </div>
 
         <!-- Paste-in JSON Import -->
-        <div class="content-card">
-          <h3 class="content-card-title">Paste-In JSON Import</h3>
-          <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:0.75rem;">
-            Paste an array of event objects or a single event object to immediately import into memory.
-          </p>
-          <textarea id="admin-paste-json" class="form-control" rows="5" placeholder='[ { "slug": "new-event", "name": "...", ... } ]'></textarea>
-          <div style="margin-top:0.75rem;">
-            <button type="button" id="btn-admin-import-json" class="btn btn-accent">📥 Validate & Import JSON</button>
+        <div class="bento-card">
+          <div class="card-header-row">
+            <h2 class="card-title">Paste-In JSON Import</h2>
+          </div>
+          <p class="card-subtext">Paste an array of event objects or a single event record to immediately import into memory.</p>
+          <textarea id="admin-paste-json" class="apple-textarea" rows="5" placeholder='[ { "slug": "new-event", "name": "...", ... } ]'></textarea>
+          <div style="margin-top:1rem;">
+            <button type="button" id="btn-admin-import-json" class="btn-apple-secondary">Validate & Import JSON</button>
           </div>
         </div>
       </div>
@@ -1706,7 +1675,6 @@
 
   function parseRoute() {
     const hash = window.location.hash || '';
-    // Format: #/e/<slug>/<screen> or #/admin or #/
     if (hash.startsWith('#/admin')) {
       return { screen: 'admin', slug: null };
     }
@@ -1718,7 +1686,6 @@
       return { screen, slug };
     }
 
-    // Default route
     return { screen: 'public', slug: null };
   }
 
@@ -1740,18 +1707,11 @@
 
     state.currentScreen = screen;
 
-    // Apply per-event palette custom properties
-    if (state.currentEvent) {
-      applyEventPalette(state.currentEvent);
-    }
-
-    // Update navigation UI
     const activeSlug = state.currentEvent ? state.currentEvent.slug : 'hackmalabar-2026';
     updateEventSelector();
     updateNavTabs(activeSlug, screen);
     updateFooter(state.currentEvent);
 
-    // Mount view content
     const mount = document.getElementById('content-mount');
     if (!mount) return;
 
@@ -1775,35 +1735,26 @@
       bindPublicEvents();
     }
 
-    // Scroll to top
     window.scrollTo(0, 0);
   }
 
-  // Event binders for Screen 1 (Public Page)
   function bindPublicEvents() {
     const ev = state.currentEvent;
     if (!ev) return;
 
     const btnIcs = document.getElementById('btn-hero-ics');
-    if (btnIcs) {
-      btnIcs.onclick = () => downloadICS(ev);
-    }
+    if (btnIcs) btnIcs.onclick = () => downloadICS(ev);
 
     const btnShare = document.getElementById('btn-hero-share');
-    if (btnShare) {
-      btnShare.onclick = () => shareEventBrief(ev);
-    }
+    if (btnShare) btnShare.onclick = () => shareEventBrief(ev);
   }
 
-  // Event binders for Screen 2 (Pass)
   function bindPassEvents() {
     const ev = state.currentEvent;
     if (!ev) return;
 
     const canvas = document.getElementById('pass-render-canvas');
-    if (canvas) {
-      renderPassCanvas(canvas, ev, state.participant);
-    }
+    if (canvas) renderPassCanvas(canvas, ev, state.participant);
 
     const inputName = document.getElementById('pass-input-name');
     const inputCollege = document.getElementById('pass-input-college');
@@ -1816,7 +1767,6 @@
       state.participant.regId = inputReg.value.trim() || 'HM-2026-7842';
       state.participant.track = selectTrack.value;
 
-      // Update DOM Ticket
       const domAvatar = document.getElementById('pass-dom-avatar');
       const domName = document.getElementById('pass-dom-name');
       const domCollege = document.getElementById('pass-dom-college');
@@ -1829,9 +1779,7 @@
       if (domId) domId.textContent = `ID: ${state.participant.regId}`;
       if (domTrack) domTrack.textContent = state.participant.track;
 
-      if (canvas) {
-        renderPassCanvas(canvas, ev, state.participant);
-      }
+      if (canvas) renderPassCanvas(canvas, ev, state.participant);
     };
 
     if (inputName) inputName.oninput = updateParticipant;
@@ -1853,25 +1801,17 @@
     }
 
     const btnPrint = document.getElementById('btn-print-pass');
-    if (btnPrint) {
-      btnPrint.onclick = () => window.print();
-    }
+    if (btnPrint) btnPrint.onclick = () => window.print();
   }
 
-  // Event binders for Screen 3 (Chat)
   function bindChatEvents() {
     const btnPrint = document.getElementById('btn-print-chat');
-    if (btnPrint) {
-      btnPrint.onclick = () => window.print();
-    }
+    if (btnPrint) btnPrint.onclick = () => window.print();
   }
 
-  // Event binders for Screen 4 (Mail)
   function bindMailEvents() {
     const btnPrint = document.getElementById('btn-print-mail');
-    if (btnPrint) {
-      btnPrint.onclick = () => window.print();
-    }
+    if (btnPrint) btnPrint.onclick = () => window.print();
 
     const btnCopy = document.getElementById('btn-copy-mail');
     if (btnCopy) {
@@ -1879,13 +1819,12 @@
         const bodyElem = document.getElementById('gm-body-content');
         if (bodyElem) {
           navigator.clipboard.writeText(bodyElem.innerText);
-          alert('Email text copied to clipboard!');
+          alert('Email text copied to clipboard.');
         }
       };
     }
   }
 
-  // Event binders for Screen 5 (Leave Brief)
   function bindBriefEvents() {
     const ev = state.currentEvent;
     if (!ev) return;
@@ -1897,28 +1836,22 @@
         if (textElem) {
           const text = textElem.innerText.replace(/^"|"$/g, '').trim();
           navigator.clipboard.writeText(text);
-          btnCopy.textContent = '✓ Copied Sentence!';
+          btnCopy.textContent = 'Copied to Clipboard';
           setTimeout(() => {
-            btnCopy.textContent = '📋 Copy Verbal Sentence';
+            btnCopy.textContent = 'Copy Verbal Sentence';
           }, 2500);
         }
       };
     }
 
     const btnPrint = document.getElementById('btn-print-brief');
-    if (btnPrint) {
-      btnPrint.onclick = () => window.print();
-    }
+    if (btnPrint) btnPrint.onclick = () => window.print();
 
     const btnIcs = document.getElementById('btn-brief-ics');
-    if (btnIcs) {
-      btnIcs.onclick = () => downloadICS(ev);
-    }
+    if (btnIcs) btnIcs.onclick = () => downloadICS(ev);
 
     const btnShare = document.getElementById('btn-brief-share');
-    if (btnShare) {
-      btnShare.onclick = () => shareEventBrief(ev);
-    }
+    if (btnShare) btnShare.onclick = () => shareEventBrief(ev);
 
     const noteInput = document.getElementById('private-notes-input');
     const noteBtn = document.getElementById('btn-save-note');
@@ -1929,20 +1862,18 @@
         state.privateNote = noteInput.value;
         localStorage.setItem('cpd_private_note', state.privateNote);
         if (noteStatus) {
-          noteStatus.textContent = 'Note saved in localStorage!';
+          noteStatus.textContent = 'Saved in local storage';
           setTimeout(() => { noteStatus.textContent = ''; }, 3000);
         }
       };
     }
   }
 
-  // Event binders for Screen 6 (Admin)
   function bindAdminEvents() {
     const cur = state.currentEvent || state.events[0];
     const canvas = document.getElementById('admin-poster-canvas');
 
-    // Switch event card
-    document.querySelectorAll('.admin-event-card').forEach(card => {
+    document.querySelectorAll('.admin-item-card').forEach(card => {
       card.onclick = () => {
         const slug = card.getAttribute('data-slug');
         const found = state.events.find(ev => ev.slug === slug);
@@ -1953,7 +1884,6 @@
       };
     });
 
-    // Save changes in memory & localStorage
     const btnSave = document.getElementById('btn-admin-save');
     if (btnSave && cur) {
       btnSave.onclick = () => {
@@ -1986,12 +1916,11 @@
         cur.poster = document.getElementById('admin-poster').value.trim();
 
         localStorage.setItem('cpd_events_json', JSON.stringify(state.events, null, 2));
-        alert('Event updated in memory and localStorage!');
+        alert('Event updated in memory and localStorage.');
         handleRoute();
       };
     }
 
-    // Regenerate A3 Poster
     const btnA3 = document.getElementById('btn-admin-regen-a3');
     if (btnA3 && canvas && cur) {
       btnA3.onclick = () => {
@@ -2005,7 +1934,6 @@
       };
     }
 
-    // Regenerate Story Poster
     const btnStory = document.getElementById('btn-admin-regen-story');
     if (btnStory && canvas && cur) {
       btnStory.onclick = () => {
@@ -2019,7 +1947,6 @@
       };
     }
 
-    // Download updated events.json
     const btnDownloadJson = document.getElementById('btn-admin-download-json');
     if (btnDownloadJson) {
       btnDownloadJson.onclick = () => {
@@ -2035,20 +1962,18 @@
       };
     }
 
-    // Reset seeds
     const btnReset = document.getElementById('btn-admin-reset-seeds');
     if (btnReset) {
       btnReset.onclick = async () => {
-        if (confirm('Reset all changes back to factory seed data?')) {
+        if (confirm('Reset all changes back to initial seed data?')) {
           localStorage.removeItem('cpd_events_json');
-          await loadData();
+          state.events = [...DEFAULT_EVENTS];
           state.currentEvent = resolveDefaultEvent();
           handleRoute();
         }
       };
     }
 
-    // Paste-in JSON Import
     const btnImport = document.getElementById('btn-admin-import-json');
     const pasteInput = document.getElementById('admin-paste-json');
     if (btnImport && pasteInput) {
@@ -2064,7 +1989,7 @@
           }
           localStorage.setItem('cpd_events_json', JSON.stringify(state.events, null, 2));
           state.currentEvent = state.events[0];
-          alert('JSON successfully imported into memory and saved!');
+          alert('JSON successfully imported into memory.');
           handleRoute();
         } catch (err) {
           alert('Invalid JSON: ' + err.message);
@@ -2073,7 +1998,6 @@
     }
   }
 
-  // Global Print Button in Header
   const globalPrintBtn = document.getElementById('btn-global-print');
   if (globalPrintBtn) {
     globalPrintBtn.onclick = () => window.print();
@@ -2087,7 +2011,6 @@
     handleRoute();
   }
 
-  // Run on DOM ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
