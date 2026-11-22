@@ -1,0 +1,106 @@
+[
+  {
+    "slug": "hackmalabar-2026",
+    "type": "hackathon",
+    "name": "HackMalabar 2026",
+    "edition": "Edition 3",
+    "host": "IEEE Student Branch NIT Calicut",
+    "support": "Kerala Startup Mission (KSUM)",
+    "venue": "Government Engineering College Kozhikode, West Hill, Kozhikode, Kerala 673005",
+    "district": "Kozhikode",
+    "mapsQuery": "Government Engineering College Kozhikode",
+    "start": "2026-11-27T08:30:00+05:30",
+    "end": "2026-11-28T18:00:00+05:30",
+    "report": "2026-11-27T08:30:00+05:30",
+    "close": "2026-11-28T18:00:00+05:30",
+    "deadline": "2026-11-24T23:59:00+05:30",
+    "contactName": "Arjun V. Nair",
+    "contactPhone": "+91 94471 28392",
+    "contactEmail": "convener.hackmalabar@gmail.com",
+    "site": "https://hackmalabar.in",
+    "prize": "₹1,00,000 Cash Pool (First: ₹50,000 | Second: ₹30,000 | Third: ₹20,000)",
+    "fee": "Free registration for shortlisted student teams",
+    "tracks": [
+      "AI & Intelligent Automation",
+      "Cybersecurity & Campus Privacy",
+      "GovTech & Citizen Services",
+      "FinTech & Financial Inclusion",
+      "Open Innovation for Local Impact"
+    ],
+    "people": [
+      {
+        "name": "Arjun V. Nair",
+        "role": "Lead Convener (IEEE SB)"
+      },
+      {
+        "name": "Dr. Sreela N.",
+        "role": "Faculty Coordinator & HoD CSE"
+      },
+      {
+        "name": "Fahad Mansoor",
+        "role": "Logistics & Hostel NOC Lead"
+      },
+      {
+        "name": "Ananya P.",
+        "role": "Participant Support & Helpdesk"
+      }
+    ],
+    "note": "Approved regional collegiate hackathon recognized by KSUM innovation council. Participant attendance certificates issued for academic duty leave and residential hostel attendance reconciliation.",
+    "palette": {
+      "c1": "#1d4ed8",
+      "c2": "#059669",
+      "bg": "#0a1128"
+    },
+    "poster": "posters/hackmalabar-2026.png",
+    "status": "upcoming"
+  },
+  {
+    "slug": "build-kernel-kochi",
+    "type": "workshop",
+    "name": "Hands-on Linux Kernel & Systems Workshop",
+    "edition": "Autumn 2026",
+    "host": "FOSS Cell & Department of Computer Applications, CUSAT",
+    "support": "Kerala FOSS Initiative & ICFOSS",
+    "venue": "Seminar Complex, Cochin University of Science and Technology, South Kalamassery, Kochi, Kerala 682022",
+    "district": "Ernakulam",
+    "mapsQuery": "CUSAT Seminar Complex Kalamassery",
+    "start": "2026-10-31T09:00:00+05:30",
+    "end": "2026-11-01T17:00:00+05:30",
+    "report": "2026-10-31T09:00:00+05:30",
+    "close": "2026-11-01T17:00:00+05:30",
+    "deadline": "2026-10-25T20:00:00+05:30",
+    "contactName": "Nivin George",
+    "contactPhone": "+91 98460 31824",
+    "contactEmail": "fosscell.cusat@gmail.com",
+    "site": "https://fosscell.cusat.ac.in/kernel-workshop",
+    "prize": "Certificates of Commendation & Hardware Toolkits",
+    "fee": "₹250 subsidized kit fee",
+    "tracks": [
+      "Kernel Architecture & Device Driver Fundamentals",
+      "eBPF Tracing & Runtime Observability",
+      "Embedded Linux Board Bringup"
+    ],
+    "people": [
+      {
+        "name": "Nivin George",
+        "role": "Staff Advisor (CUSAT FOSS Cell)"
+      },
+      {
+        "name": "Prof. K. R. Suresh",
+        "role": "Director, School of Engineering"
+      },
+      {
+        "name": "Reshma Balan",
+        "role": "Student Coordinator"
+      }
+    ],
+    "note": "Intensive systems engineering workshop. Authorized for institutional academic duty leave and laboratory attendance waiver.",
+    "palette": {
+      "c1": "#d97706",
+      "c2": "#dc2626",
+      "bg": "#18181b"
+    },
+    "poster": "posters/build-kernel-kochi.png",
+    "status": "completed"
+  }
+]
