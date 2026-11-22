@@ -707,9 +707,69 @@
 
   // =========================================================================
   // VIEW RENDERERS (APPLE / AWWWARDS EDITORIAL)
-  // =========================================================================
+  // Helper: Visual track vector graphics
+  function getTrackVisualIcon(trackName) {
+    const t = trackName.toLowerCase();
+    if (t.includes('ai') || t.includes('intelligent') || t.includes('automation')) {
+      return `
+        <svg class="track-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="32" r="8" stroke="#2997ff" stroke-width="2.5" fill="rgba(41, 151, 255, 0.15)"/>
+          <circle cx="14" cy="18" r="5" stroke="#ffffff" stroke-width="2"/>
+          <circle cx="50" cy="18" r="5" stroke="#ffffff" stroke-width="2"/>
+          <circle cx="14" cy="46" r="5" stroke="#ffffff" stroke-width="2"/>
+          <circle cx="50" cy="46" r="5" stroke="#ffffff" stroke-width="2"/>
+          <line x1="18" y1="21" x2="26" y2="28" stroke="rgba(255,255,255,0.4)" stroke-width="1.8" stroke-dasharray="2 2"/>
+          <line x1="46" y1="21" x2="38" y2="28" stroke="rgba(255,255,255,0.4)" stroke-width="1.8" stroke-dasharray="2 2"/>
+          <line x1="18" y1="43" x2="26" y2="36" stroke="rgba(255,255,255,0.4)" stroke-width="1.8" stroke-dasharray="2 2"/>
+          <line x1="46" y1="43" x2="38" y2="36" stroke="rgba(255,255,255,0.4)" stroke-width="1.8" stroke-dasharray="2 2"/>
+        </svg>
+      `;
+    } else if (t.includes('web3') || t.includes('decentralized') || t.includes('blockchain')) {
+      return `
+        <svg class="track-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 6L54 18V46L32 58L10 46V18L32 6Z" stroke="#30d158" stroke-width="2.5" fill="rgba(48, 209, 88, 0.1)"/>
+          <path d="M32 6V32M54 46L32 32M10 46L32 32" stroke="#30d158" stroke-width="2"/>
+          <circle cx="32" cy="32" r="4" fill="#ffffff"/>
+        </svg>
+      `;
+    } else if (t.includes('iot') || t.includes('mobility') || t.includes('hardware') || t.includes('smart')) {
+      return `
+        <svg class="track-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="18" y="18" width="28" height="28" rx="6" stroke="#ff9f0a" stroke-width="2.5" fill="rgba(255, 159, 10, 0.12)"/>
+          <rect x="26" y="26" width="12" height="12" rx="2" fill="#ff9f0a"/>
+          <line x1="24" y1="10" x2="24" y2="18" stroke="#ffffff" stroke-width="2"/>
+          <line x1="32" y1="10" x2="32" y2="18" stroke="#ffffff" stroke-width="2"/>
+          <line x1="40" y1="10" x2="40" y2="18" stroke="#ffffff" stroke-width="2"/>
+          <line x1="24" y1="46" x2="24" y2="54" stroke="#ffffff" stroke-width="2"/>
+          <line x1="32" y1="46" x2="32" y2="54" stroke="#ffffff" stroke-width="2"/>
+          <line x1="40" y1="46" x2="40" y2="54" stroke="#ffffff" stroke-width="2"/>
+          <line x1="10" y1="28" x2="18" y2="28" stroke="#ffffff" stroke-width="2"/>
+          <line x1="10" y1="36" x2="18" y2="36" stroke="#ffffff" stroke-width="2"/>
+          <line x1="46" y1="28" x2="54" y2="28" stroke="#ffffff" stroke-width="2"/>
+          <line x1="46" y1="36" x2="54" y2="36" stroke="#ffffff" stroke-width="2"/>
+        </svg>
+      `;
+    } else if (t.includes('health') || t.includes('bio') || t.includes('diagnostics')) {
+      return `
+        <svg class="track-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="32" r="24" stroke="#ff375f" stroke-width="2" fill="rgba(255, 55, 95, 0.08)"/>
+          <path d="M16 32H25L29 20L35 44L39 28L43 32H48" stroke="#ff375f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `;
+    } else {
+      return `
+        <svg class="track-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="32" r="22" stroke="#64d2ff" stroke-width="2.5" fill="rgba(100, 210, 255, 0.1)"/>
+          <path d="M32 16V48M16 32H48" stroke="#64d2ff" stroke-width="2"/>
+          <circle cx="32" cy="32" r="10" stroke="#ffffff" stroke-width="1.8"/>
+        </svg>
+      `;
+    }
+  }
 
-  // Screen 1: Public Event Page
+  // =========================================================================
+  // Screen 1: Public Event Page (Apple Hero Showcase & Bento System)
+  // =========================================================================
   function renderPublicPage(event) {
     const datesFormatted = formatDateRange(event.start, event.end);
     const reportFormatted = formatTime(event.report);
@@ -717,60 +777,151 @@
     const scheduleItems = schedulePresets[event.type] || schedulePresets.hackathon;
 
     return `
+      <!-- Ambient Apple Lighting Spotlight -->
+      <div class="hero-ambient-spotlight" aria-hidden="true"></div>
+
       <section class="hero-section" aria-label="Event Overview">
-        <div class="hero-eyebrow">
-          <span class="eyebrow-host">${escapeHtml(event.host.toUpperCase())}</span>
-          <span class="eyebrow-sep">/</span>
-          <span class="eyebrow-edition">${escapeHtml(event.edition.toUpperCase())}</span>
-          <span class="status-indicator">
-            <span class="status-dot"></span>
-            ${event.status === 'upcoming' ? 'Active Presence' : 'Archived'}
-          </span>
-        </div>
+        <div class="hero-split-grid">
+          <!-- Left Column: Typography & Key Metrics -->
+          <div class="hero-copy-col">
+            <div class="hero-eyebrow">
+              <span class="eyebrow-host">${escapeHtml(event.host.toUpperCase())}</span>
+              <span class="eyebrow-sep">/</span>
+              <span class="eyebrow-edition">${escapeHtml(event.edition.toUpperCase())}</span>
+              <span class="status-indicator">
+                <span class="status-dot"></span>
+                ${event.status === 'upcoming' ? 'Active Presence' : 'Archived'}
+              </span>
+            </div>
 
-        <h1 class="hero-headline">${escapeHtml(event.name)}</h1>
-        <p class="hero-subhead">
-          A collegiate innovation programme endorsed and supported by <strong>${escapeHtml(event.support)}</strong>. Complete cross-consistent documentation for participant accreditation, physical gate permissions, and residential hostel leave clearance.
-        </p>
+            <h1 class="hero-headline">${escapeHtml(event.name)}</h1>
+            <p class="hero-subhead">
+              A collegiate innovation programme endorsed and supported by <strong>${escapeHtml(event.support)}</strong>. Complete cross-consistent documentation for participant accreditation, physical gate permissions, and residential hostel leave clearance.
+            </p>
 
-        <!-- Apple-Style Key Metrics Bento Strip -->
-        <div class="metrics-grid">
-          <div class="metric-cell">
-            <div class="metric-value">${datesFormatted.split('–')[0].trim()} – ${datesFormatted.split('–')[1] ? datesFormatted.split('–')[1].trim() : ''}</div>
-            <div class="metric-label">Programme Dates</div>
-          </div>
-          <div class="metric-cell">
-            <div class="metric-value">${reportFormatted}</div>
-            <div class="metric-label">Mandatory Gate 1 Report (Close: ${closeFormatted})</div>
-          </div>
-          <div class="metric-cell">
-            <div class="metric-value">${escapeHtml(event.district)}</div>
-            <div class="metric-label">${escapeHtml(event.venue.split(',')[0])}</div>
-          </div>
-          <div class="metric-cell">
-            <div class="metric-value">${escapeHtml(event.prize.split('(')[0].trim())}</div>
-            <div class="metric-label">Cash Pool & Grants</div>
-          </div>
-        </div>
+            <!-- Apple-Style Key Metrics Strip -->
+            <div class="metrics-grid">
+              <div class="metric-cell">
+                <div class="metric-value">${datesFormatted.split('–')[0].trim()} – ${datesFormatted.split('–')[1] ? datesFormatted.split('–')[1].trim() : ''}</div>
+                <div class="metric-label">Programme Dates</div>
+              </div>
+              <div class="metric-cell">
+                <div class="metric-value">${reportFormatted}</div>
+                <div class="metric-label">Mandatory Gate 1 Report (Close: ${closeFormatted})</div>
+              </div>
+              <div class="metric-cell">
+                <div class="metric-value">${escapeHtml(event.district)}</div>
+                <div class="metric-label">${escapeHtml(event.venue.split(',')[0])}</div>
+              </div>
+              <div class="metric-cell">
+                <div class="metric-value">${escapeHtml(event.prize.split('(')[0].trim())}</div>
+                <div class="metric-label">Cash Pool & Grants</div>
+              </div>
+            </div>
 
-        <div class="hero-cta-bar">
-          <a href="#/e/${event.slug}/pass" class="btn-apple-primary">
-            <span>Get Participant Pass</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-          <a href="#/e/${event.slug}/brief" class="btn-apple-secondary">
-            <span>Hostel Leave Brief</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-          <a href="#/e/${event.slug}/chat" class="btn-apple-tertiary">
-            <span>Organisers Chat</span>
-          </a>
-          <button type="button" id="btn-hero-ics" class="btn-apple-ghost">
-            <span>Add to Calendar (.ics)</span>
-          </button>
-          <button type="button" id="btn-hero-share" class="btn-apple-ghost">
-            <span>Share Link</span>
-          </button>
+            <div class="hero-cta-bar">
+              <a href="#/e/${event.slug}/pass" class="btn-apple-primary">
+                <span>Get Participant Pass</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+              <a href="#/e/${event.slug}/brief" class="btn-apple-secondary">
+                <span>Hostel Leave Brief</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+              <a href="#/e/${event.slug}/chat" class="btn-apple-tertiary">
+                <span>Organisers Chat</span>
+              </a>
+              <button type="button" id="btn-hero-ics" class="btn-apple-ghost">
+                <span>Add to Calendar (.ics)</span>
+              </button>
+              <button type="button" id="btn-hero-share" class="btn-apple-ghost">
+                <span>Share Link</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column: Visual Apple Device & 3D Pass Showcase -->
+          <div class="hero-device-col">
+            <div class="device-stage" id="hero-device-stage">
+              <!-- Floating Pill Badges around device -->
+              <div class="floating-chip chip-top-right">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#30d158" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Biometric Gate NOC Active</span>
+              </div>
+              <div class="floating-chip chip-bottom-left">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2997ff" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span>24h Continuous Hacking</span>
+              </div>
+
+              <!-- iPhone 16 Pro Showcase Frame -->
+              <div class="iphone-pro-mockup" id="hero-interactive-card">
+                <div class="iphone-bezel">
+                  <div class="iphone-screen">
+                    <!-- iOS Status Bar -->
+                    <div class="ios-status-bar">
+                      <span class="ios-time">9:41</span>
+                      <div class="dynamic-island">
+                        <span class="island-lens"></span>
+                        <span class="island-sensor"></span>
+                      </div>
+                      <div class="ios-icons">
+                        <svg width="14" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9z"/></svg>
+                        <div class="ios-battery"><span class="battery-level"></span></div>
+                      </div>
+                    </div>
+
+                    <!-- Apple Wallet Ticket Preview Inside Phone -->
+                    <div class="wallet-pass-preview">
+                      <div class="wallet-header">
+                        <span class="wallet-logo-badge">${escapeHtml(event.name.split(' ')[0])}</span>
+                        <span class="wallet-tag">VERIFIED PASS</span>
+                      </div>
+
+                      <div class="wallet-title">${escapeHtml(event.name)}</div>
+                      <div class="wallet-sub">${escapeHtml(event.edition)} • ${escapeHtml(event.host)}</div>
+
+                      <div class="wallet-user-card">
+                        <div class="wallet-avatar">RK</div>
+                        <div>
+                          <div class="wallet-name">Rahul Krishna</div>
+                          <div class="wallet-college">College of Engineering Trivandrum</div>
+                          <div class="wallet-id">HM-2026-7842</div>
+                        </div>
+                      </div>
+
+                      <div class="wallet-meta-grid">
+                        <div>
+                          <span class="wm-label">GATE ACCESS</span>
+                          <strong class="wm-val">Gate 1 (West Hill)</strong>
+                        </div>
+                        <div>
+                          <span class="wm-label">REPORT TIME</span>
+                          <strong class="wm-val">${reportFormatted} IST</strong>
+                        </div>
+                      </div>
+
+                      <div class="wallet-qr-box">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(window.location.origin + window.location.pathname + '#/e/' + event.slug)}" alt="QR Verification" class="wallet-qr-img">
+                        <div class="wallet-barcode-strip">
+                          <span class="barcode-line w2"></span><span class="barcode-line w1"></span><span class="barcode-line w3"></span>
+                          <span class="barcode-line w1"></span><span class="barcode-line w2"></span><span class="barcode-line w4"></span>
+                          <span class="barcode-line w1"></span><span class="barcode-line w3"></span><span class="barcode-line w2"></span>
+                          <span class="barcode-line w1"></span><span class="barcode-line w4"></span><span class="barcode-line w2"></span>
+                        </div>
+                      </div>
+
+                      <div class="wallet-footer">
+                        <span>NON-TRANSFERABLE • ORIGINAL COLLEGE PHOTO ID</span>
+                      </div>
+                    </div>
+
+                    <!-- iOS Home Bar -->
+                    <div class="ios-home-bar"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -778,37 +929,54 @@
       <div class="bento-layout">
         <!-- Main Column -->
         <div class="bento-primary-col">
-          <!-- Institutional Scope Card -->
+          <!-- Institutional Scope Card with Visual Pulse -->
           <article class="bento-card">
             <div class="card-header-row">
-              <h2 class="card-title">Institutional Accreditation & Duty Leave</h2>
+              <div class="title-with-pulse">
+                <span class="live-radar-ping" aria-hidden="true"></span>
+                <h2 class="card-title">Institutional Accreditation & Duty Leave</h2>
+              </div>
               <span class="card-pill">Official Verification</span>
             </div>
             <p class="card-text">${escapeHtml(event.note)}</p>
             <p class="card-subtext">
               Wardens, Resident Tutors (RTs), and Heads of Department can cross-reference participant credentials using this verified desk. Physical attendance slips and official duty leave certificates are stamped and issued at Registration Desk 3 before event close.
             </p>
+            <div class="security-stamp-bar">
+              <div class="stamp-chip">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>IEEE Student Branch NOC Protocol</span>
+              </div>
+              <div class="stamp-chip">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <span>KSUM Innovation Registry ID #KM-2026</span>
+              </div>
+            </div>
           </article>
 
-          <!-- Competency Tracks -->
+          <!-- Competency Tracks (Rich Visual Bento Tiles) -->
           <section class="bento-card" aria-label="Official Competency Tracks">
             <div class="card-header-row">
               <h2 class="card-title">Official Competency Tracks</h2>
               <span class="card-count">${event.tracks.length} Domains</span>
             </div>
-            <div class="tracks-list">
+            <div class="visual-tracks-grid">
               ${event.tracks.map((track, i) => `
-                <div class="track-row">
-                  <span class="track-index">0${i + 1}</span>
-                  <div class="track-info">
-                    <span class="track-name">${escapeHtml(track)}</span>
+                <div class="visual-track-card">
+                  <div class="track-icon-wrap">
+                    ${getTrackVisualIcon(track)}
+                  </div>
+                  <div class="track-card-body">
+                    <span class="track-card-index">DOMAIN 0${i + 1}</span>
+                    <h3 class="track-card-name">${escapeHtml(track)}</h3>
+                    <span class="track-card-badge">Accredited Problem Statement</span>
                   </div>
                 </div>
               `).join('')}
             </div>
           </section>
 
-          <!-- Chronological Schedule -->
+          <!-- Chronological Schedule (Laser Timeline) -->
           <section class="bento-card" aria-label="Full Event Schedule">
             <div class="card-header-row">
               <h2 class="card-title">Chronological Programme Milestones</h2>
@@ -830,14 +998,47 @@
             </div>
           </section>
 
-          <!-- Prize & Merit Breakdown -->
+          <!-- Prize & Merit Breakdown (Apple Card Titanium Visual) -->
           <section class="bento-card" aria-label="Prize Pool Breakdown">
             <div class="card-header-row">
               <h2 class="card-title">Prize Pool & Financial Grants</h2>
+              <span class="card-pill">Merit Recognition</span>
             </div>
-            <div class="prize-highlight-box">
+            <div class="prize-titanium-card">
+              <div class="card-chip-row">
+                <svg class="emv-chip" width="38" height="28" viewBox="0 0 38 28" fill="none">
+                  <rect width="38" height="28" rx="4" fill="url(#chip-grad)"/>
+                  <rect x="2" y="2" width="34" height="24" rx="2" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                  <line x1="12" y1="2" x2="12" y2="26" stroke="rgba(255,255,255,0.4)"/>
+                  <line x1="26" y1="2" x2="26" y2="26" stroke="rgba(255,255,255,0.4)"/>
+                  <line x1="2" y1="14" x2="36" y2="14" stroke="rgba(255,255,255,0.4)"/>
+                  <defs>
+                    <linearGradient id="chip-grad" x1="0" y1="0" x2="38" y2="28" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#ffd700"/>
+                      <stop offset="1" stop-color="#b8860b"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <span class="card-chip-label">GRANT ALLOCATION</span>
+              </div>
               <div class="prize-big-number">${escapeHtml(event.prize.split('(')[0].trim())}</div>
-              <div class="prize-details-text">${escapeHtml(event.prize)}</div>
+              <div class="prize-tier-bars">
+                <div class="tier-bar-row">
+                  <span class="tier-name">1st Prize</span>
+                  <div class="tier-progress"><div class="tier-fill gold" style="width: 50%;"></div></div>
+                  <span class="tier-amt">₹50,000</span>
+                </div>
+                <div class="tier-bar-row">
+                  <span class="tier-name">2nd Prize</span>
+                  <div class="tier-progress"><div class="tier-fill silver" style="width: 30%;"></div></div>
+                  <span class="tier-amt">₹30,000</span>
+                </div>
+                <div class="tier-bar-row">
+                  <span class="tier-name">3rd Prize</span>
+                  <div class="tier-progress"><div class="tier-fill bronze" style="width: 20%;"></div></div>
+                  <span class="tier-amt">₹20,000</span>
+                </div>
+              </div>
               <div class="fee-text">Registration Fee: <strong>${escapeHtml(event.fee)}</strong>. All shortlisted participants receive accredited participation certificates for academic credit reconciliation.</div>
             </div>
           </section>
@@ -901,7 +1102,9 @@
               <h2 class="card-title">Event Poster</h2>
               <span class="card-pill">1240x1754 A3</span>
             </div>
-            <img src="${escapeHtml(event.poster)}" alt="Official event poster for ${escapeHtml(event.name)}" class="poster-display-img" id="hero-poster-img">
+            <div class="poster-angled-frame">
+              <img src="${escapeHtml(event.poster)}" alt="Official event poster for ${escapeHtml(event.name)}" class="poster-display-img" id="hero-poster-img">
+            </div>
             <div class="poster-download-group">
               <a href="${escapeHtml(event.poster)}" download="${event.slug}-poster.png" class="btn-apple-primary" style="width:100%; justify-content:center;">
                 Download A3 Poster
@@ -999,13 +1202,19 @@
       </section>
 
       <div class="pass-layout">
-        <!-- Badge Preview Column -->
+        <!-- Badge Preview Column with Lanyard Clip & 3D Interactive Card -->
         <div class="pass-preview-column">
+          <!-- Physical Lanyard Strap Mockup -->
+          <div class="lanyard-strap" aria-hidden="true">
+            <div class="lanyard-fabric"></div>
+            <div class="lanyard-metal-clip"></div>
+          </div>
+
           <canvas id="pass-render-canvas" style="display:none;"></canvas>
 
-          <!-- Apple Wallet Style Pass Ticket -->
+          <!-- Apple Wallet Style Pass Ticket with 3D Tilt -->
           <div class="apple-pass" id="pass-ticket-dom">
-            <!-- Lanyard Slot -->
+            <!-- Lanyard Punch Hole Slot -->
             <div class="pass-lanyard-slot" aria-hidden="true"></div>
 
             <div class="pass-header-strip">
@@ -1121,7 +1330,7 @@
     `;
   }
 
-  // Screen 3: WhatsApp-Faithful Dark UI Organisers Chat
+  // Screen 3: WhatsApp-Faithful Dark UI inside iPhone 16 Pro Frame
   function renderChatScreen(event) {
     const messages = generateChatMessages(event);
     const day1Messages = messages.filter(m => m.day === 1);
@@ -1133,7 +1342,7 @@
           <div>
             <h1 class="page-title">Organisers WhatsApp Coordination</h1>
             <p class="page-subhead">
-              WhatsApp-faithful dark UI. 20 real-time chronological messages spanning 2 days covering shortlist release, Gate 1 reporting, Malappuram transit connections, overnight stay rules, and original college ID requirements.
+              WhatsApp-faithful dark UI presented within an authentic Apple iPhone frame. 20 real-time chronological messages spanning 2 days covering shortlist release, Gate 1 reporting, transit, overnight stay rules, and college ID requirements.
             </p>
           </div>
           <div class="action-buttons-wrap">
@@ -1143,48 +1352,68 @@
         </div>
       </section>
 
-      <div class="wa-chat-container">
-        <!-- WhatsApp Top Bar -->
-        <div class="wa-header-bar">
-          <div class="wa-header-profile">
-            <div class="wa-group-avatar">HM</div>
-            <div>
-              <div class="wa-group-title">${escapeHtml(event.name)} (Official Shortlisted Teams)</div>
-              <div class="wa-group-subs">${escapeHtml(event.people.map(p => p.name).join(', '))}</div>
+      <div class="phone-frame-outer">
+        <div class="iphone-hardware-chassis">
+          <!-- iOS Status Bar & Dynamic Island -->
+          <div class="ios-status-bar">
+            <span class="ios-time">9:41</span>
+            <div class="dynamic-island">
+              <span class="island-lens"></span>
+              <span class="island-sensor"></span>
+            </div>
+            <div class="ios-icons">
+              <svg width="14" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9z"/></svg>
+              <div class="ios-battery"><span class="battery-level"></span></div>
             </div>
           </div>
-          <div class="wa-header-actions" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+
+          <div class="wa-chat-container">
+            <!-- WhatsApp Top Bar -->
+            <div class="wa-header-bar">
+              <div class="wa-header-profile">
+                <div class="wa-group-avatar">HM</div>
+                <div>
+                  <div class="wa-group-title">${escapeHtml(event.name)} (Official Shortlisted Teams)</div>
+                  <div class="wa-group-subs">${escapeHtml(event.people.map(p => p.name).join(', '))}</div>
+                </div>
+              </div>
+              <div class="wa-header-actions" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+              </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div class="wa-messages-area" id="wa-messages-scroll">
+              <div class="wa-enc-banner">
+                Messages and calls are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them.
+              </div>
+
+              <div class="wa-date-divider">
+                <span class="wa-date-pill">21 NOVEMBER 2026</span>
+              </div>
+
+              ${day1Messages.map(msg => renderChatMessage(msg)).join('')}
+
+              <div class="wa-date-divider">
+                <span class="wa-date-pill">22 NOVEMBER 2026</span>
+              </div>
+
+              ${day2Messages.map(msg => renderChatMessage(msg)).join('')}
+            </div>
+
+            <!-- Chat Input Bar -->
+            <div class="wa-input-strip">
+              <input type="text" id="wa-quick-input" placeholder="Message shortlisted teams and convener..." readonly value="Logistical helpdesk active: ${escapeHtml(event.contactPhone)}">
+              <button type="button" class="wa-send-btn" title="Send" aria-label="Send">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
 
-        <!-- Chat Area -->
-        <div class="wa-messages-area" id="wa-messages-scroll">
-          <div class="wa-enc-banner">
-            Messages and calls are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them.
-          </div>
-
-          <div class="wa-date-divider">
-            <span class="wa-date-pill">21 NOVEMBER 2026</span>
-          </div>
-
-          ${day1Messages.map(msg => renderChatMessage(msg)).join('')}
-
-          <div class="wa-date-divider">
-            <span class="wa-date-pill">22 NOVEMBER 2026</span>
-          </div>
-
-          ${day2Messages.map(msg => renderChatMessage(msg)).join('')}
-        </div>
-
-        <!-- Chat Input Bar -->
-        <div class="wa-input-strip">
-          <input type="text" id="wa-quick-input" placeholder="Message shortlisted teams and convener..." readonly value="Logistical helpdesk active: ${escapeHtml(event.contactPhone)}">
-          <button type="button" class="wa-send-btn" title="Send" aria-label="Send">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-          </button>
+          <!-- Bottom Home Indicator -->
+          <div class="ios-home-bar"></div>
         </div>
       </div>
     `;
@@ -1209,7 +1438,7 @@
     `;
   }
 
-  // Screen 4: Selection Mail (Apple Mail Interface)
+  // Screen 4: Selection Mail inside macOS Sequoia Window
   function renderMailScreen(event) {
     const datesFormatted = formatDateRange(event.start, event.end);
     const reportFormatted = formatTime(event.report);
@@ -1221,7 +1450,7 @@
           <div>
             <h1 class="page-title">Selection Confirmation Mail</h1>
             <p class="page-subhead">
-              Official shortlist correspondence with security headers, confirmed milestone schedule, venue gate access, and direct pass credentials for hostel submission.
+              Official shortlist correspondence presented in an Apple macOS Sequoia window with security headers, confirmed milestones, gate access, and direct pass credentials for hostel submission.
             </p>
           </div>
           <div class="action-buttons-wrap">
@@ -1232,99 +1461,115 @@
         </div>
       </section>
 
-      <div class="mail-envelope">
-        <div class="mail-toolbar">
-          <div class="mail-toolbar-left">
-            <span class="mail-tool-icon" title="Archive">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
-            </span>
-            <span class="mail-tool-icon" title="Spam">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            </span>
-            <span class="mail-tool-icon" title="Delete">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-            </span>
+      <!-- macOS Window Mockup -->
+      <div class="macos-window-shell">
+        <div class="macos-titlebar">
+          <div class="traffic-lights">
+            <span class="traffic-dot red"></span>
+            <span class="traffic-dot yellow"></span>
+            <span class="traffic-dot green"></span>
           </div>
-          <div class="mail-toolbar-right">
-            <span class="mail-counter">Official Notice • Verified Sender</span>
+          <div class="macos-window-title">Mail — ${escapeHtml(event.name)} Selection Notice</div>
+          <div class="macos-search-box">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>Search</span>
           </div>
         </div>
 
-        <div class="mail-subject-area">
-          <h2 class="mail-subject">Official Selection Confirmation: Shortlisted for ${escapeHtml(event.name)} (${escapeHtml(event.edition)})</h2>
-          <div class="mail-tags">
-            <span class="mail-pill">Inbox</span>
-            <span class="mail-pill pill-accent">Academic Leave Endorsement</span>
-          </div>
-        </div>
-
-        <div class="mail-sender-row">
-          <div class="mail-sender-meta">
-            <div class="mail-avatar">${escapeHtml(event.contactName[0])}</div>
-            <div>
-              <div class="mail-sender-name">${escapeHtml(event.contactName)} • ${escapeHtml(event.host)}</div>
-              <div class="mail-sender-email">&lt;${escapeHtml(event.contactEmail)}&gt;</div>
-              <div class="mail-to-line">to me &lt;${escapeHtml(p.name.toLowerCase().replace(/\s+/g, '.'))}@cet.ac.in&gt;</div>
+        <div class="mail-envelope">
+          <div class="mail-toolbar">
+            <div class="mail-toolbar-left">
+              <span class="mail-tool-icon" title="Archive">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+              </span>
+              <span class="mail-tool-icon" title="Spam">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </span>
+              <span class="mail-tool-icon" title="Delete">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </span>
+            </div>
+            <div class="mail-toolbar-right">
+              <span class="mail-counter">Official Notice • Verified Sender</span>
             </div>
           </div>
-          <div class="mail-date">Nov 21, 2026, 4:15 PM</div>
-        </div>
 
-        <div class="mail-security-bar">
-          <span>mailed-by: <strong>gmail.com</strong></span>
-          <span>signed-by: <strong>${escapeHtml(extractHostname(event.site))}</strong></span>
-          <span>security: <strong>TLS Standard Encryption</strong></span>
-        </div>
-
-        <div class="mail-body-content" id="gm-body-content">
-          <p>Dear <strong>${escapeHtml(p.name)}</strong> (${escapeHtml(p.college)}),</p>
-
-          <p>
-            Congratulations! On behalf of the organising committee of <strong>${escapeHtml(event.name)} (${escapeHtml(event.edition)})</strong>, we are delighted to inform you that your registration and project abstract have been officially <strong>SHORTLISTED</strong> for the physical programme.
-          </p>
-
-          <div class="mail-highlight-card">
-            <h3 style="font-size:0.95rem; font-weight:700; color:#1d1d1f; margin-bottom:0.75rem;">Confirmed Programme Milestones</h3>
-            <ul>
-              <li><strong>Event:</strong> ${escapeHtml(event.name)} (${escapeHtml(event.edition)})</li>
-              <li><strong>Host Body:</strong> ${escapeHtml(event.host)}</li>
-              <li><strong>Supporting Body:</strong> ${escapeHtml(event.support)}</li>
-              <li><strong>Dates:</strong> ${datesFormatted}</li>
-              <li><strong>Reporting Schedule:</strong> ${reportFormatted} IST on ${formatDateNatural(event.start)} (Gate closes ${formatTime(event.close)} IST)</li>
-              <li><strong>Venue Address:</strong> ${escapeHtml(event.venue)}</li>
-              <li><strong>Access Gate:</strong> Gate 1 (Main Entrance facing NH 66 bypass, West Hill)</li>
-            </ul>
+          <div class="mail-subject-area">
+            <h2 class="mail-subject">Official Selection Confirmation: Shortlisted for ${escapeHtml(event.name)} (${escapeHtml(event.edition)})</h2>
+            <div class="mail-tags">
+              <span class="mail-pill">Inbox</span>
+              <span class="mail-pill pill-accent">Academic Leave Endorsement</span>
+            </div>
           </div>
 
-          <div style="text-align:center; margin: 1.75rem 0;">
-            <a href="#/e/${event.slug}/pass" class="btn-apple-primary" style="display:inline-flex;">
-              Generate & Download Verified Participant Pass
-            </a>
+          <div class="mail-sender-row">
+            <div class="mail-sender-meta">
+              <div class="mail-avatar">${escapeHtml(event.contactName[0])}</div>
+              <div>
+                <div class="mail-sender-name">${escapeHtml(event.contactName)} • ${escapeHtml(event.host)}</div>
+                <div class="mail-sender-email">&lt;${escapeHtml(event.contactEmail)}&gt;</div>
+                <div class="mail-to-line">to me &lt;${escapeHtml(p.name.toLowerCase().replace(/\s+/g, '.'))}@cet.ac.in&gt;</div>
+              </div>
+            </div>
+            <div class="mail-date">Nov 21, 2026, 4:15 PM</div>
           </div>
 
-          <p>
-            <strong>Hostel & Academic Leave Instructions:</strong><br>
-            Please produce a printed copy of this email along with your Participant Pass to your Head of Department (HOD) and Hostel Warden. Official institutional attendance and academic duty leave (OD) certificates will be countersigned and stamped at Registration Desk 3 before programme conclusion.
-          </p>
+          <div class="mail-security-bar">
+            <span>mailed-by: <strong>gmail.com</strong></span>
+            <span>signed-by: <strong>${escapeHtml(extractHostname(event.site))}</strong></span>
+            <span>security: <strong>TLS Standard Encryption</strong></span>
+          </div>
 
-          <p>
-            <strong>Accommodation & Kit:</strong><br>
-            24-hour overnight hacking and rest facilities are arranged within the venue for all verified outstation participants. Please ensure your team carries personal laptops, labeled power extension strips, and original college photo IDs.
-          </p>
+          <div class="mail-body-content" id="gm-body-content">
+            <p>Dear <strong>${escapeHtml(p.name)}</strong> (${escapeHtml(p.college)}),</p>
 
-          <p style="margin-top:1.5rem;">
-            Warm regards,<br>
-            <strong>${escapeHtml(event.contactName)}</strong><br>
-            Lead Convener, ${escapeHtml(event.name)}<br>
-            ${escapeHtml(event.host)}<br>
-            Phone: ${escapeHtml(event.contactPhone)} | Email: ${escapeHtml(event.contactEmail)}<br>
-            Web: <a href="${escapeHtml(event.site)}" target="_blank" rel="noopener">${escapeHtml(event.site)}</a>
-          </p>
-        </div>
+            <p>
+              Congratulations! On behalf of the organising committee of <strong>${escapeHtml(event.name)} (${escapeHtml(event.edition)})</strong>, we are delighted to inform you that your registration and project abstract have been officially <strong>SHORTLISTED</strong> for the physical programme.
+            </p>
 
-        <div class="mail-footer-bar">
-          <button type="button" class="btn-apple-ghost">Reply</button>
-          <button type="button" class="btn-apple-ghost">Forward</button>
+            <div class="mail-highlight-card">
+              <h3 style="font-size:0.95rem; font-weight:700; color:#1d1d1f; margin-bottom:0.75rem;">Confirmed Programme Milestones</h3>
+              <ul>
+                <li><strong>Event:</strong> ${escapeHtml(event.name)} (${escapeHtml(event.edition)})</li>
+                <li><strong>Host Body:</strong> ${escapeHtml(event.host)}</li>
+                <li><strong>Supporting Body:</strong> ${escapeHtml(event.support)}</li>
+                <li><strong>Dates:</strong> ${datesFormatted}</li>
+                <li><strong>Reporting Schedule:</strong> ${reportFormatted} IST on ${formatDateNatural(event.start)} (Gate closes ${formatTime(event.close)} IST)</li>
+                <li><strong>Venue Address:</strong> ${escapeHtml(event.venue)}</li>
+                <li><strong>Access Gate:</strong> Gate 1 (Main Entrance facing NH 66 bypass, West Hill)</li>
+              </ul>
+            </div>
+
+            <div style="text-align:center; margin: 1.75rem 0;">
+              <a href="#/e/${event.slug}/pass" class="btn-apple-primary" style="display:inline-flex;">
+                Generate & Download Verified Participant Pass
+              </a>
+            </div>
+
+            <p>
+              <strong>Hostel & Academic Leave Instructions:</strong><br>
+              Please produce a printed copy of this email along with your Participant Pass to your Head of Department (HOD) and Hostel Warden. Official institutional attendance and academic duty leave (OD) certificates will be countersigned and stamped at Registration Desk 3 before programme conclusion.
+            </p>
+
+            <p>
+              <strong>Accommodation & Kit:</strong><br>
+              24-hour overnight hacking and rest facilities are arranged within the venue for all verified outstation participants. Please ensure your team carries personal laptops, labeled power extension strips, and original college photo IDs.
+            </p>
+
+            <p style="margin-top:1.5rem;">
+              Warm regards,<br>
+              <strong>${escapeHtml(event.contactName)}</strong><br>
+              Lead Convener, ${escapeHtml(event.name)}<br>
+              ${escapeHtml(event.host)}<br>
+              Phone: ${escapeHtml(event.contactPhone)} | Email: ${escapeHtml(event.contactEmail)}<br>
+              Web: <a href="${escapeHtml(event.site)}" target="_blank" rel="noopener">${escapeHtml(event.site)}</a>
+            </p>
+          </div>
+
+          <div class="mail-footer-bar">
+            <button type="button" class="btn-apple-ghost">Reply</button>
+            <button type="button" class="btn-apple-ghost">Forward</button>
+          </div>
         </div>
       </div>
     `;
@@ -1738,9 +1983,29 @@
     window.scrollTo(0, 0);
   }
 
+  // Interactive 3D Perspective Tilt for Apple Cards & Devices
+  function setup3DTilt(element) {
+    if (!element) return;
+    element.style.transition = 'transform 0.1s ease-out';
+    element.addEventListener('mousemove', (e) => {
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const rotX = -(y / (rect.height / 2)) * 8;
+      const rotY = (x / (rect.width / 2)) * 8;
+      element.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+    });
+    element.addEventListener('mouseleave', () => {
+      element.style.transition = 'transform 0.5s ease-out';
+      element.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    });
+  }
+
   function bindPublicEvents() {
     const ev = state.currentEvent;
     if (!ev) return;
+
+    setup3DTilt(document.getElementById('hero-interactive-card'));
 
     const btnIcs = document.getElementById('btn-hero-ics');
     if (btnIcs) btnIcs.onclick = () => downloadICS(ev);
@@ -1752,6 +2017,8 @@
   function bindPassEvents() {
     const ev = state.currentEvent;
     if (!ev) return;
+
+    setup3DTilt(document.getElementById('pass-ticket-dom'));
 
     const canvas = document.getElementById('pass-render-canvas');
     if (canvas) renderPassCanvas(canvas, ev, state.participant);

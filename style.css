@@ -388,11 +388,39 @@ button {
 }
 
 /* ==========================================================================
-   Screen 1: Public Event Page (Apple Hero + Bento Grid)
+   Screen 1: Public Event Page (Apple Hero + 3D Device Showcase + Bento Grid)
    ========================================================================== */
 .hero-section {
-  padding: 2.5rem 0 2rem;
+  position: relative;
+  padding: 3rem 0 2.5rem;
   margin-bottom: 2.5rem;
+}
+
+.hero-ambient-spotlight {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  max-width: 1400px;
+  height: 600px;
+  background: radial-gradient(ellipse 75% 55% at 50% 0%, rgba(41, 151, 255, 0.22) 0%, rgba(0, 0, 0, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-split-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 3.5rem;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-copy-col {
+  display: flex;
+  flex-direction: column;
 }
 
 .hero-eyebrow {
@@ -404,7 +432,7 @@ button {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--apple-gray-500);
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .eyebrow-sep {
@@ -433,19 +461,20 @@ button {
 }
 
 .hero-headline {
-  font-size: clamp(2.6rem, 6vw, 4.5rem);
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
-  color: #ffffff;
+  font-size: clamp(2.8rem, 5.5vw, 4.4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+  background: linear-gradient(180deg, #ffffff 40%, #8e8e93 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: 1.25rem;
 }
 
 .hero-subhead {
-  font-size: 1.12rem;
+  font-size: 1.08rem;
   line-height: 1.6;
   color: var(--apple-gray-400);
-  max-width: 780px;
   margin-bottom: 2rem;
   font-weight: 400;
 }
@@ -468,7 +497,7 @@ button {
 
 .metric-cell {
   background: var(--apple-card);
-  padding: 1.35rem 1.25rem;
+  padding: 1.2rem 1.1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -479,7 +508,7 @@ button {
 }
 
 .metric-value {
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: -0.025em;
   color: #ffffff;
@@ -487,7 +516,7 @@ button {
 }
 
 .metric-label {
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--apple-gray-500);
@@ -499,6 +528,646 @@ button {
   align-items: center;
   flex-wrap: wrap;
   gap: 0.75rem;
+}
+
+/* ==========================================================================
+   Hero Visual Centerpiece: 3D Floating Apple Device & Pass
+   ========================================================================== */
+.hero-device-col {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  perspective: 1200px;
+}
+
+.device-stage {
+  position: relative;
+  padding: 1.5rem 1rem;
+}
+
+/* Floating Glass Badges */
+.floating-chip {
+  position: absolute;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.95rem;
+  background: rgba(22, 22, 26, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 980px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  animation: floatChip 4s ease-in-out infinite alternate;
+}
+
+.chip-top-right {
+  top: 10px;
+  right: -25px;
+  animation-delay: 0s;
+}
+
+.chip-bottom-left {
+  bottom: 25px;
+  left: -35px;
+  animation-delay: 2s;
+}
+
+@keyframes floatChip {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-8px); }
+}
+
+/* iPhone 16 Pro Hardware Mockup */
+.iphone-pro-mockup {
+  width: 310px;
+  background: #1c1c1f;
+  border-radius: 46px;
+  padding: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.8),
+    0 0 50px rgba(41, 151, 255, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  transform: perspective(1000px) rotateY(-5deg) rotateX(4deg);
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  cursor: pointer;
+}
+.iphone-pro-mockup:hover {
+  box-shadow:
+    0 40px 100px rgba(0, 0, 0, 0.9),
+    0 0 70px rgba(41, 151, 255, 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.iphone-bezel {
+  background: #000000;
+  border-radius: 40px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.iphone-screen {
+  background: #0d0d10;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* iOS Status Bar */
+.ios-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px 6px;
+  background: transparent;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  position: relative;
+  z-index: 5;
+}
+
+.ios-time {
+  font-weight: 600;
+  width: 35px;
+}
+
+.dynamic-island {
+  width: 82px;
+  height: 22px;
+  background: #000000;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  gap: 6px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.island-sensor {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #080820;
+}
+
+.island-lens {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #050515;
+  border: 1px solid #141430;
+}
+
+.ios-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 35px;
+  justify-content: flex-end;
+}
+
+.ios-battery {
+  width: 18px;
+  height: 9px;
+  border: 1px solid #ffffff;
+  border-radius: 3px;
+  padding: 1px;
+  position: relative;
+}
+.ios-battery::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 2px;
+  width: 2px;
+  height: 3px;
+  background: #ffffff;
+  border-radius: 0 1px 1px 0;
+}
+.battery-level {
+  display: block;
+  width: 75%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 1px;
+}
+
+/* Inside Wallet Preview */
+.wallet-pass-preview {
+  padding: 1rem 1.15rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.wallet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.wallet-logo-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.wallet-tag {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--apple-blue);
+  background: rgba(41, 151, 255, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.wallet-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.wallet-sub {
+  font-size: 0.72rem;
+  color: var(--apple-gray-400);
+  margin-bottom: 0.85rem;
+}
+
+.wallet-user-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #18181c;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid var(--apple-border);
+  margin-bottom: 0.85rem;
+}
+
+.wallet-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #2a2a30;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.wallet-name {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.wallet-college {
+  font-size: 0.68rem;
+  color: var(--apple-gray-400);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 170px;
+}
+
+.wallet-id {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  color: var(--apple-blue);
+}
+
+.wallet-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  background: #141418;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  margin-bottom: 0.85rem;
+}
+
+.wm-label {
+  display: block;
+  font-size: 0.58rem;
+  letter-spacing: 0.05em;
+  color: var(--apple-gray-500);
+}
+
+.wm-val {
+  font-size: 0.74rem;
+  color: #ffffff;
+}
+
+.wallet-qr-box {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.wallet-qr-img {
+  width: 50px;
+  height: 50px;
+}
+
+.wallet-barcode-strip {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 40px;
+  flex: 1;
+}
+
+.barcode-line {
+  background: #000000;
+  height: 100%;
+}
+.barcode-line.w1 { width: 1.5px; }
+.barcode-line.w2 { width: 3px; }
+.barcode-line.w3 { width: 4.5px; }
+.barcode-line.w4 { width: 6px; }
+
+.wallet-footer {
+  font-size: 0.55rem;
+  color: var(--apple-gray-500);
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+/* iOS Bottom Home Bar */
+.ios-home-bar {
+  width: 110px;
+  height: 4px;
+  background: #ffffff;
+  border-radius: 980px;
+  margin: auto auto 8px;
+  opacity: 0.6;
+}
+
+/* ==========================================================================
+   Visual Bento Components
+   ========================================================================== */
+.title-with-pulse {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.live-radar-ping {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  background: var(--apple-green);
+  border-radius: 50%;
+  display: inline-block;
+}
+.live-radar-ping::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--apple-green);
+  animation: radarPulse 2s ease-out infinite;
+}
+
+@keyframes radarPulse {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.security-stamp-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--apple-border);
+}
+
+.stamp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.74rem;
+  color: var(--apple-gray-400);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--apple-border);
+}
+
+/* Visual Competency Tracks Grid */
+.visual-tracks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.85rem;
+}
+
+.visual-track-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1.15rem;
+  background: var(--apple-card-elevated);
+  border: 1px solid var(--apple-border);
+  border-radius: 14px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.visual-track-card:hover {
+  background: var(--apple-card-hover);
+  border-color: var(--apple-border-highlight);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.track-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--apple-border);
+}
+
+.track-svg {
+  width: 32px;
+  height: 32px;
+}
+
+.track-card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.track-card-index {
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  color: var(--apple-blue);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.track-card-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0.2rem 0 0.3rem;
+  line-height: 1.3;
+}
+
+.track-card-badge {
+  font-size: 0.72rem;
+  color: var(--apple-gray-500);
+}
+
+/* Prize Titanium Card */
+.prize-titanium-card {
+  background: linear-gradient(135deg, #18181c 0%, #0d0d10 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+  padding: 1.75rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.card-chip-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.card-chip-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--apple-gray-500);
+}
+
+.prize-tier-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1.25rem 0 1.5rem;
+}
+
+.tier-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.84rem;
+}
+
+.tier-name {
+  width: 65px;
+  color: var(--apple-gray-400);
+  font-weight: 500;
+}
+
+.tier-progress {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 980px;
+  overflow: hidden;
+}
+
+.tier-fill {
+  height: 100%;
+  border-radius: 980px;
+}
+.tier-fill.gold { background: linear-gradient(90deg, #ffd700, #ffae00); }
+.tier-fill.silver { background: linear-gradient(90deg, #d1d1d6, #8e8e93); }
+.tier-fill.bronze { background: linear-gradient(90deg, #e5a65e, #a16b2d); }
+
+.tier-amt {
+  width: 70px;
+  text-align: right;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.poster-angled-frame {
+  perspective: 800px;
+  margin-bottom: 1.25rem;
+}
+.poster-angled-frame .poster-display-img {
+  transform: rotateX(2deg);
+  transition: transform 0.3s ease;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+}
+.poster-angled-frame:hover .poster-display-img {
+  transform: rotateX(0deg);
+}
+
+/* ==========================================================================
+   Apple Lanyard Strap (Participant Pass)
+   ========================================================================== */
+.lanyard-strap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: -6px;
+  position: relative;
+  z-index: 5;
+}
+
+.lanyard-fabric {
+  width: 28px;
+  height: 45px;
+  background: repeating-linear-gradient(45deg, #1c1c1f, #1c1c1f 4px, #26262b 4px, #26262b 8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.lanyard-metal-clip {
+  width: 38px;
+  height: 16px;
+  background: linear-gradient(180deg, #8e8e93 0%, #48484a 100%);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* ==========================================================================
+   iPhone 16 Pro Frame for WhatsApp Chat
+   ========================================================================== */
+.phone-frame-outer {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.iphone-hardware-chassis {
+  background: #18181b;
+  border-radius: 48px;
+  padding: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+}
+
+/* ==========================================================================
+   macOS Sequoia Window Shell for Selection Mail
+   ========================================================================== */
+.macos-window-shell {
+  max-width: 880px;
+  margin: 0 auto;
+  background: #121215;
+  border-radius: 16px;
+  border: 1px solid var(--apple-border-light);
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+}
+
+.macos-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  background: rgba(30, 30, 35, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--apple-border);
+}
+
+.traffic-lights {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.traffic-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.traffic-dot.red { background: #ff5f56; border: 1px solid #e0443e; }
+.traffic-dot.yellow { background: #ffbd2e; border: 1px solid #dea123; }
+.traffic-dot.green { background: #27c93f; border: 1px solid #1aab29; }
+
+.macos-window-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--apple-gray-400);
+}
+
+.macos-search-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 3px 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  font-size: 0.72rem;
+  color: var(--apple-gray-500);
 }
 
 /* Bento Layout */
@@ -1796,6 +2465,41 @@ button {
     padding: 1.5rem 0.85rem 3rem;
   }
 
+  .hero-split-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .hero-device-col {
+    order: 2;
+  }
+
+  .iphone-pro-mockup {
+    transform: none;
+    max-width: 290px;
+  }
+
+  .chip-top-right {
+    right: -5px;
+  }
+
+  .chip-bottom-left {
+    left: -5px;
+  }
+
+  .visual-tracks-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .phone-frame-outer {
+    max-width: 100%;
+  }
+
+  .iphone-hardware-chassis {
+    border-radius: 36px;
+    padding: 6px;
+  }
+
   .hero-eyebrow {
     flex-wrap: wrap;
     gap: 0.4rem 0.6rem;
@@ -1803,7 +2507,10 @@ button {
   }
 
   .hero-headline {
-    font-size: clamp(2.2rem, 9vw, 3.2rem);
+    font-size: clamp(1.8rem, 7.5vw, 2.7rem);
+    letter-spacing: -0.03em;
+    word-break: normal;
+    overflow-wrap: break-word;
   }
 
   .hero-subhead {
