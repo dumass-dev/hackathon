@@ -18,11 +18,11 @@
       venue: "Government Engineering College Kozhikode, West Hill, Kozhikode, Kerala 673005",
       district: "Kozhikode",
       mapsQuery: "Government Engineering College Kozhikode",
-      start: "2026-11-27T08:30:00+05:30",
-      end: "2026-11-28T18:00:00+05:30",
-      report: "2026-11-27T08:30:00+05:30",
-      close: "2026-11-28T18:00:00+05:30",
-      deadline: "2026-11-24T23:59:00+05:30",
+      start: "2026-11-23T08:30:00+05:30",
+      end: "2026-11-25T18:00:00+05:30",
+      report: "2026-11-23T08:30:00+05:30",
+      close: "2026-11-25T18:00:00+05:30",
+      deadline: "2026-11-20T23:59:00+05:30",
       contactName: "Arjun V. Nair",
       contactEmail: "convener@hackmalabar.dev",
       site: "https://hackmalabar.dev",
@@ -311,7 +311,6 @@
       <a href="#/e/${baseSlug}" class="sub-link ${currentScreen === 'public' ? 'active' : ''}" data-screen="public">Overview</a>
       <a href="#/e/${baseSlug}/pass" class="sub-link ${currentScreen === 'pass' ? 'active' : ''}" data-screen="pass">Participant Pass</a>
       <a href="#/e/${baseSlug}/chat" class="sub-link ${currentScreen === 'chat' ? 'active' : ''}" data-screen="chat">Organisers Channel</a>
-      <a href="#/e/${baseSlug}/mail" class="sub-link ${currentScreen === 'mail' ? 'active' : ''}" data-screen="mail">Selection Mail</a>
       <a href="#/e/${baseSlug}/brief" class="sub-link ${currentScreen === 'brief' ? 'active' : ''}" data-screen="brief">Hackathon Guide</a>
       ${adminLink}
     `;
@@ -1139,23 +1138,18 @@
             </div>
             <p class="card-subtext" style="margin-bottom:1rem;">Complete roadmap from selection notice to final stage presentations:</p>
             <div class="dossier-steps-list">
-              <a href="#/e/${event.slug}/mail" class="dossier-step-link">
-                <span class="step-num">01</span>
-                <span class="step-label">Selection Confirmation Mail</span>
-                <span class="step-arrow">→</span>
-              </a>
               <a href="#/e/${event.slug}/pass" class="dossier-step-link">
-                <span class="step-num">02</span>
+                <span class="step-num">01</span>
                 <span class="step-label">Participant Badge & Pass</span>
                 <span class="step-arrow">→</span>
               </a>
               <a href="#/e/${event.slug}/chat" class="dossier-step-link">
-                <span class="step-num">03</span>
+                <span class="step-num">02</span>
                 <span class="step-label">Organisers Channel</span>
                 <span class="step-arrow">→</span>
               </a>
               <a href="#/e/${event.slug}/brief" class="dossier-step-link">
-                <span class="step-num">04</span>
+                <span class="step-num">03</span>
                 <span class="step-label">Hackathon Guide & Rules</span>
                 <span class="step-arrow">→</span>
               </a>
@@ -1386,7 +1380,7 @@
           </div>
           <div class="action-buttons-wrap">
             <button type="button" id="btn-print-chat" class="btn-apple-secondary">Print Chat Transcript</button>
-            <a href="#/e/${event.slug}/mail" class="btn-apple-primary">View Selection Mail</a>
+            <a href="#/e/${event.slug}/brief" class="btn-apple-primary">View Hackathon Guide</a>
           </div>
         </div>
       </section>
@@ -2035,8 +2029,9 @@
       mount.innerHTML = renderChatScreen(state.currentEvent);
       bindChatEvents();
     } else if (screen === 'mail') {
-      mount.innerHTML = renderMailScreen(state.currentEvent);
-      bindMailEvents();
+      // Gracefully redirect legacy /mail URLs to main overview
+      mount.innerHTML = renderPublicPage(state.currentEvent);
+      bindPublicEvents();
     } else if (screen === 'brief') {
       mount.innerHTML = renderBriefScreen(state.currentEvent);
       bindBriefEvents();
