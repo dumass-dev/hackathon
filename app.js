@@ -88,43 +88,17 @@
     events: [...DEFAULT_EVENTS],
     currentEvent: null,
     currentScreen: 'public',
-    soundEnabled: false,
     participant: {
       name: 'Rahul Krishna',
       college: 'College of Engineering Trivandrum',
       regId: 'HM-2026-7842',
       track: ''
     },
-    chatMessagesMap: {},
     privateNote: localStorage.getItem('hackdesk_private_note') || ''
   };
 
-  // Web Audio Synthetic Sound FX (Zero External Files, High-Quality Feedback)
-  let audioCtx = null;
-  function playFuturisticBlip(freq = 780, duration = 0.04) {
-    if (!state.soundEnabled) return;
-    try {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(freq * 1.35, audioCtx.currentTime + duration);
-      gain.gain.setValueAtTime(0.025, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + duration);
-    } catch (e) {
-      // AudioContext unavailable or blocked by browser policy
-    }
-  }
+  // Safe no-op for legacy caller compatibility
+  function playFuturisticBlip() {}
 
   // Accredited Competency Tracks Metadata & Problem Focus
   const trackMetadata = {
@@ -165,20 +139,30 @@
   // Hackathon Schedule Presets
   const schedulePresets = {
     hackathon: [
-      { day: 'Day 1', time: '08:00 AM', label: 'Participant Gate Check-in & Badge Allotment', note: 'Gate 1, West Hill campus. Photo ID verification, welcome kits, and LAN credentials.' },
-      { day: 'Day 1', time: '08:30 AM', label: 'Mandatory Team Check-in & Table Allotment', note: 'All shortlisted finalist teams report to their assigned developer pods.' },
-      { day: 'Day 1', time: '09:30 AM', label: 'Keynote & Problem Statements Unveiling', note: 'Briefing by IEEE mentors, faculty advisors, and industry jury members.' },
-      { day: 'Day 1', time: '10:30 AM', label: 'Hacking Phase 1 Commences', note: 'Dedicated high-speed connectivity and power workstations active.' },
-      { day: 'Day 1', time: '01:00 PM', label: 'Working Lunch & Architecture Review', note: 'Mentors evaluate team architecture schematics and initial repo commits.' },
-      { day: 'Day 1', time: '04:30 PM', label: 'Mentorship Checkpoint 1 (Technical Feasibility)', note: 'Industry mentors inspect codebase commits and viability metrics.' },
-      { day: 'Day 1', time: '08:00 PM', label: 'Dinner & Sprint Progress Sync', note: 'Dining service and informal lightning demos across pods.' },
-      { day: 'Day 1', time: '11:30 PM', label: 'Midnight Snack & Lightning Code Review', note: 'Night technical helpdesk and 24/7 campus security desk active.' },
-      { day: 'Day 2', time: '07:30 AM', label: 'Breakfast & Final Sprint Commences', note: 'Final sprint toward code freeze.' },
-      { day: 'Day 2', time: '11:00 AM', label: 'Mentorship Checkpoint 2 (Pitch Dry-Run)', note: 'Rehearsals with presentation and product demo feedback.' },
-      { day: 'Day 2', time: '01:30 PM', label: 'Code Freeze & GitHub Repository Submission', note: 'Pull requests locked. Working software evaluation required.' },
-      { day: 'Day 2', time: '02:30 PM', label: 'Final Stage Presentations & Jury Deliberation', note: 'Top finalist teams present live in the main campus auditorium.' },
-      { day: 'Day 2', time: '05:00 PM', label: 'Valedictory Ceremony & Prize Distribution', note: 'Announcement of winners and presentation of ₹1,00,000 cash awards.' },
-      { day: 'Day 2', time: '06:00 PM', label: 'Programme Close & Participant Merit Credentials', note: 'Official stamped hackathon participation certificates and incubator vouchers.' }
+      // Day 1 — Nov 23
+      { day: 'Day 1', time: '08:30 AM', label: 'Participant Gate Check-in & Badge Allotment', note: 'Gate 1 check-in desk opens at GEC Kozhikode. ID verification, welcome kits, and LAN credentials.' },
+      { day: 'Day 1', time: '10:00 AM', label: 'Opening Keynote & Problem Statements Briefing', note: 'Orientation by IEEE Student Branch advisors, KSUM representatives, and industry jury.' },
+      { day: 'Day 1', time: '11:30 AM', label: '48-Hour Hacking Sprint Begins', note: 'Dedicated high-speed connectivity, table allocations, and cloud sandboxes active.' },
+      { day: 'Day 1', time: '01:30 PM', label: 'Lunch Break & Peer Networking', note: 'Campus dining pavilion open. Informal sync across teams.' },
+      { day: 'Day 1', time: '05:00 PM', label: 'Tech Workshop: Cloud Architecture & Scaling', note: 'Optional interactive session on deploying production-ready APIs and AI models.' },
+      { day: 'Day 1', time: '08:00 PM', label: 'Dinner & Sprint Progress Sync', note: 'Hot dinner served. Teams review initial commits and milestone targets.' },
+      { day: 'Day 1', time: '11:59 PM', label: 'Midnight Snack & Hacker Mini-Challenges', note: 'Caffeine bar, snacks, and rest lounges available through the night.' },
+
+      // Day 2 — Nov 24
+      { day: 'Day 2', time: '08:00 AM', label: 'Breakfast & Day 2 Sprint Resumes', note: 'Morning tea and breakfast service in the dining hall.' },
+      { day: 'Day 2', time: '10:30 AM', label: 'Mentor Review 1: Architecture & Feasibility', note: 'Industry mentors visit team workstations for codebase inspection and technical guidance.' },
+      { day: 'Day 2', time: '01:00 PM', label: 'Lunch Break', note: 'Afternoon dining and recharge.' },
+      { day: 'Day 2', time: '04:30 PM', label: 'Mid-Evaluation & Progress Checkpoint', note: 'Jury walkthrough to evaluate working prototypes and core feature progress.' },
+      { day: 'Day 2', time: '08:00 PM', label: 'Dinner & Overnight Build Sprint', note: 'Evening dinner served. Night sprint and feature refinement.' },
+      { day: 'Day 2', time: '11:00 PM', label: 'Pitch Preparation & Deck Dry-Runs', note: 'Mentors assist with pitch structure, storytelling, and demo preparation.' },
+
+      // Day 3 — Nov 25
+      { day: 'Day 3', time: '08:00 AM', label: 'Breakfast & Final Sprint', note: 'Final documentation, testing, and deployment verification.' },
+      { day: 'Day 3', time: '11:00 AM', label: 'Code Freeze & GitHub Repository Submissions', note: 'All repositories locked. Mandatory public repo, README, demo video link, and pitch deck.' },
+      { day: 'Day 3', time: '12:00 PM', label: 'Lunch & Demo Booth Setup', note: 'Teams set up demo screens in the main exhibition hall.' },
+      { day: 'Day 3', time: '01:30 PM', label: 'Live Project Demos & Grand Jury Evaluation', note: 'Stage presentations and live technical Q&A before the expert jury panel.' },
+      { day: 'Day 3', time: '04:30 PM', label: 'Valedictory Ceremony & Prize Distribution', note: 'Presentation of ₹1,00,000 cash prizes, KSUM incubation vouchers, and trophies.' },
+      { day: 'Day 3', time: '06:00 PM', label: 'Official Hackathon Close', note: 'Participant accreditation certificates distributed.' }
     ],
     workshop: [
       { day: 'Day 1', time: '09:00 AM', label: 'Check-in & Workstation Allotment', note: 'Registration verification and lab system access.' },
@@ -346,49 +330,6 @@
         <div class="footer-note">HackDesk • Claude AI Design System • Pure Hackathon Platform</div>
       </div>
     `;
-  }
-
-  // Generate Real Developer & Mentor Coordination Messages
-  function generateChatMessages(event) {
-    if (state.chatMessagesMap[event.slug]) {
-      return state.chatMessagesMap[event.slug];
-    }
-
-    const convener = event.contactName;
-    const venue = event.venue;
-    const reportTime = formatTime(event.report);
-    const startDate = formatDateNatural(event.start);
-    const techLead = event.people.find(p => p.role.toLowerCase().includes('technical') || p.role.toLowerCase().includes('operations')) || { name: 'Fahad Mansoor' };
-    const helpdeskLead = event.people.find(p => p.role.toLowerCase().includes('mentor') || p.role.toLowerCase().includes('experience') || p.role.toLowerCase().includes('support')) || { name: 'Ananya P.' };
-
-    const messages = [
-      // Day 1
-      { id: 1, day: 1, sender: convener, role: 'arjun', outgoing: false, time: '08:15 AM', text: `Welcome everyone to the official shortlisted teams coordinate channel for ${event.name} (${event.edition})! Hearty congratulations on clearing the screening round.` },
-      { id: 2, day: 1, sender: convener, role: 'arjun', outgoing: false, time: '08:16 AM', text: `This channel is strictly for technical announcements, API sandboxes, mentorship schedules, and submission checkpoints.` },
-      { id: 3, day: 1, sender: techLead.name, role: 'fahad', outgoing: false, time: '08:20 AM', text: `Quick update on venue logistics: Venue is ${venue}. Gate 1 check-in desk opens at 08:00 AM on ${startDate}. Mandatory team check-in deadline is ${reportTime} IST sharp.` },
-      { id: 4, day: 1, sender: techLead.name, role: 'fahad', outgoing: false, time: '08:22 AM', text: `Dedicated high-speed 1 Gbps lease line and Ethernet patch cables are provisioned at all 36 team pods. Power strips are pre-wired.` },
-      { id: 5, day: 1, sender: 'Kiran Dev (CET Team 4)', role: 'student', outgoing: true, time: '08:35 AM', text: `Morning team! What cloud credits or sandbox APIs are sponsored for the AI & Intelligent Automation track?` },
-      { id: 6, day: 1, sender: helpdeskLead.name, role: 'ananya', outgoing: false, time: '08:40 AM', text: `Great question Kiran! Every shortlisted team has been provisioned $200 in Claude 3.5 Sonnet API credits plus GitHub Copilot enterprise access via your registered lead email.` },
-      { id: 7, day: 1, sender: 'Sneha R. (TKM College)', role: 'student', outgoing: false, time: '09:05 AM', text: `Are teams permitted to use pre-existing boilerplate templates or component libraries?` },
-      { id: 8, day: 1, sender: convener, role: 'arjun', outgoing: false, time: '09:10 AM', text: `Standard open-source packages (Next.js, Tailwind, FastAPI, LangChain, PyTorch) are fully permitted. However, all project core business logic, schemas, and models must be authored during the 24-hour sprint. Initial commit timestamps will be verified.` },
-      { id: 9, day: 1, sender: helpdeskLead.name, role: 'ananya', outgoing: false, time: '10:00 AM', text: `Reminder: Please visit the Participant Pass tab on HackDesk to generate and download your individual badge before reporting.` },
-      { id: 10, day: 1, sender: convener, role: 'arjun', outgoing: false, time: '11:45 AM', text: `What each hacker must bring: 1. Personal laptops & chargers, 2. Extension cords, 3. Original College Student Photo ID, 4. Printed or digital Participant Pass.` },
-      { id: 11, day: 1, sender: 'Abhinav K. (GEC Thrissur)', role: 'student', outgoing: false, time: '12:15 PM', text: `When will Mentor Checkpoint 1 take place?` },
-      { id: 12, day: 1, sender: convener, role: 'arjun', outgoing: false, time: '12:18 PM', text: `Mentor Review 1 runs from 04:30 PM to 06:30 PM today. Industry judges from KSUM and IEEE will visit each pod to inspect architecture diagrams and user journeys.` },
-
-      // Day 2
-      { id: 13, day: 2, sender: helpdeskLead.name, role: 'ananya', outgoing: false, time: '08:00 AM', text: `Good morning hackers! Breakfast is being served in the central dining pavilion. 5 hours remaining until code freeze!` },
-      { id: 14, day: 2, sender: techLead.name, role: 'fahad', outgoing: false, time: '09:30 AM', text: `Mentorship Checkpoint 2 (Pitch Dry-Run) begins at 11:00 AM. Prepare a quick 3-minute screen-share demo of your working features.` },
-      { id: 15, day: 2, sender: 'Rohit Menon (NSS Palakkad)', role: 'student', outgoing: false, time: '10:15 AM', text: `Where do we submit our final repository and pitch slides?` },
-      { id: 16, day: 2, sender: convener, role: 'arjun', outgoing: false, time: '10:20 AM', text: `Submissions must be pushed to your assigned GitHub Classroom repository by 01:30 PM sharp. Requirements: public repo, README with demo video link, and 5-slide PDF pitch deck.` },
-      { id: 17, day: 2, sender: techLead.name, role: 'fahad', outgoing: false, time: '01:00 PM', text: `30-minute warning until code freeze! Ensure all branches are merged to main and your live deployment URLs are accessible.` },
-      { id: 18, day: 2, sender: 'Rahul Krishna (CET)', role: 'student', outgoing: true, time: '01:25 PM', text: `Team 4 repo pushed and live demo verified! Ready for stage presentations.` },
-      { id: 19, day: 2, sender: convener, role: 'arjun', outgoing: false, time: '01:35 PM', text: `Code freeze locked! Stage presentations commence at 02:30 PM in the Main Auditorium. Best of luck to all finalists!` },
-      { id: 20, day: 2, sender: helpdeskLead.name, role: 'ananya', outgoing: false, time: '04:00 PM', text: `For any presentation AV questions or laptop adapter needs, meet the helpdesk team by stage left. See you in the auditorium!` }
-    ];
-
-    state.chatMessagesMap[event.slug] = messages;
-    return messages;
   }
 
   // Generator: Calendar .ics file
@@ -792,32 +733,29 @@
       <section class="hero-section" aria-label="Hackathon Overview">
         <div class="hero-split-grid">
           <div class="hero-copy-col">
-            <!-- Telemetry Chip -->
             <div class="hackathon-live-ticker">
               <span class="live-dot" aria-hidden="true"></span>
-              <span class="ticker-badge">LIVE TELEMETRY</span>
-              <span class="ticker-text">142 Shortlisted Teams Verified • Gate 1 Check-in Ready (08:30 IST) • Dedicated Cloud Sandboxes Active</span>
+              <span class="ticker-badge">48-HOUR IN-PERSON SPRINT</span>
+              <span class="ticker-text">${datesFormatted} • ${escapeHtml(event.district)}, Kerala</span>
             </div>
 
             <div class="hero-meta-strip">
               <span class="hero-tag">${escapeHtml(event.host)}</span>
               <span class="meta-sep">/</span>
               <span class="hero-tag">${escapeHtml(event.edition)}</span>
-              <span class="meta-sep">/</span>
-              <span class="hero-status-pill pill-upcoming">• UPCOMING • 24-HOUR SPRINT</span>
             </div>
 
             <h1 class="hero-headline">${escapeHtml(event.name)}</h1>
 
             <p class="hero-subheading">
-              A premier collegiate hackathon endorsed and supported by <strong>${escapeHtml(event.support)}</strong>. Complete verified platform for team accreditation, track briefs, live developer coordination, and submission rubrics.
+              48 hours of collaborative engineering, design, and product building. Join South India's top student developers, designers, and innovators at ${escapeHtml(event.venue.split(',')[0])}.
             </p>
 
-            <!-- Countdown Timer HUD -->
-            <div class="countdown-card" id="hero-countdown" aria-label="Event commencement countdown">
+            <!-- Countdown Timer -->
+            <div class="countdown-card" id="hero-countdown" aria-label="Hackathon commencement countdown">
               <div class="countdown-header">
                 <span class="cd-ping"></span>
-                <span>EVENT COMMENCEMENT COUNTDOWN</span>
+                <span>HACKATHON STARTS IN</span>
               </div>
               <div class="countdown-hud-grid">
                 <div class="cd-unit">
@@ -850,19 +788,19 @@
                 <span class="ribbon-sub">₹50k / ₹30k / ₹20k</span>
               </div>
               <div class="stat-ribbon-card">
-                <span class="ribbon-val">24 Hours</span>
-                <span class="ribbon-title">Continuous Sprint</span>
-                <span class="ribbon-sub">Overnight Rest Zone</span>
+                <span class="ribbon-val">48 Hours</span>
+                <span class="ribbon-title">In-Person Sprint</span>
+                <span class="ribbon-sub">Non-stop building</span>
               </div>
               <div class="stat-ribbon-card">
-                <span class="ribbon-val">142 Teams</span>
-                <span class="ribbon-title">Collegiate Finalists</span>
-                <span class="ribbon-sub">Screened from 68 Inst.</span>
+                <span class="ribbon-val">150+ Teams</span>
+                <span class="ribbon-title">Finalist Developers</span>
+                <span class="ribbon-sub">Shortlisted builders</span>
               </div>
               <div class="stat-ribbon-card">
-                <span class="ribbon-val">5 Domains</span>
-                <span class="ribbon-title">Accredited Tracks</span>
-                <span class="ribbon-sub">Industry Mentored</span>
+                <span class="ribbon-val">5 Tracks</span>
+                <span class="ribbon-title">Challenge Domains</span>
+                <span class="ribbon-sub">Industry mentored</span>
               </div>
             </div>
 
@@ -874,11 +812,7 @@
               </a>
               <a href="#/e/${event.slug}/brief" class="btn-apple-secondary">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                <span>Hackathon Guide</span>
-              </a>
-              <a href="#/e/${event.slug}/chat" class="btn-apple-ghost">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                <span>Organisers Channel</span>
+                <span>Hackathon Guide & Rules</span>
               </a>
               <button type="button" id="btn-hero-ics" class="btn-apple-ghost" title="Add to Calendar (.ics)">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -891,51 +825,47 @@
             </div>
           </div>
 
-          <!-- 3D Interactive Card Showcase -->
-          <div class="hero-device-col">
-            <div class="device-card-wrapper" id="hero-interactive-card">
-              <div class="device-glow-mesh" aria-hidden="true"></div>
-              <div class="device-surface-card">
-                <div class="device-header">
-                  <div class="device-badge">VERIFIED ACCREDITATION</div>
-                  <div class="device-live-dot"></div>
-                </div>
-                <h3 class="device-event-name">${escapeHtml(event.name)}</h3>
-                <div class="device-district-pill">${escapeHtml(event.district)} • Collegiate Edition</div>
-
-                <div class="device-specs-grid">
-                  <div class="spec-cell">
-                    <span class="spec-label">REPORTING</span>
-                    <strong class="spec-val">${reportFormatted}</strong>
+          <!-- Hero Pass Preview Column -->
+          <div class="hero-badge-col">
+            <div class="event-hero-pass-card">
+              <div class="hero-pass-top">
+                <span class="hero-pass-tag">FINALIST ATTENDEE BADGE</span>
+                <span class="hero-pass-dates">${datesFormatted}</span>
+              </div>
+              <div class="hero-pass-body">
+                <h3 class="hero-pass-title">${escapeHtml(event.name)}</h3>
+                <p class="hero-pass-venue">${escapeHtml(event.venue.split(',')[0])}</p>
+                <div class="hero-pass-meta-grid">
+                  <div class="hero-meta-item">
+                    <span class="meta-label">Check-in</span>
+                    <strong class="meta-value">${reportFormatted}</strong>
                   </div>
-                  <div class="spec-cell">
-                    <span class="spec-label">CHECK-IN</span>
-                    <strong class="spec-val">${formatDateNatural(event.start)}</strong>
+                  <div class="hero-meta-item">
+                    <span class="meta-label">Format</span>
+                    <strong class="meta-value">48h In-Person</strong>
                   </div>
-                  <div class="spec-cell">
-                    <span class="spec-label">VENUE GATE</span>
-                    <strong class="spec-val">Gate 1 West Hill</strong>
+                  <div class="hero-meta-item">
+                    <span class="meta-label">District</span>
+                    <strong class="meta-value">${escapeHtml(event.district)}</strong>
                   </div>
-                  <div class="spec-cell">
-                    <span class="spec-label">PRIZE GRANTS</span>
-                    <strong class="spec-val">₹1,00,000 Pool</strong>
+                  <div class="hero-meta-item">
+                    <span class="meta-label">Prize Pool</span>
+                    <strong class="meta-value">₹1,00,000</strong>
                   </div>
                 </div>
 
-                <div class="device-qr-card">
-                  <div class="device-qr-placeholder">
-                    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                  </div>
-                  <div class="device-qr-copy">
-                    <strong>Direct Live Verification</strong>
-                    <span>Scan to verify shortlisted team credentials on HackDesk</span>
+                <div class="hero-pass-qr-strip">
+                  <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(window.location.origin + window.location.pathname + '#/e/' + event.slug)}" alt="Event QR" class="hero-qr-thumb">
+                  <div class="hero-pass-qr-text">
+                    <strong>Official Participant Accreditation</strong>
+                    <span>Scan for venue gates, pod mapping, and real-time sprint notices.</span>
                   </div>
                 </div>
-
-                <div class="device-card-footer">
-                  <span class="device-serial">REF: #KM-2026-FINAL</span>
-                  <a href="#/e/${event.slug}/pass" class="device-link-btn">Open Pass →</a>
-                </div>
+              </div>
+              <div class="hero-pass-footer">
+                <a href="#/e/${event.slug}/pass" class="btn-apple-primary" style="width:100%; justify-content:center;">
+                  Generate Your Badge →
+                </a>
               </div>
             </div>
           </div>
@@ -946,37 +876,24 @@
       <div class="bento-layout">
         <!-- Main Column -->
         <div class="bento-primary-col">
-          <!-- Institutional Scope Card with Visual Pulse -->
+          <!-- About Hackathon Card -->
           <article class="bento-card">
             <div class="card-header-row">
-              <div class="title-with-pulse">
-                <span class="live-radar-ping" aria-hidden="true"></span>
-                <h2 class="card-title">Official Hackathon Accreditation & Eligibility</h2>
-              </div>
-              <span class="card-pill">Official Verification</span>
+              <h2 class="card-title">About ${escapeHtml(event.name)}</h2>
+              <span class="card-pill">Collegiate Hackathon</span>
             </div>
             <p class="card-text">${escapeHtml(event.note)}</p>
             <p class="card-subtext">
-              Approved by Kerala Startup Mission (KSUM) Innovation Council & IEEE Student Branch. Open to active collegiate developer teams across South India. All finalist teams receive official participation credentials, cash prizes, cloud sandboxes, and startup incubation support.
+              Organized by <strong>${escapeHtml(event.host)}</strong> in partnership with <strong>${escapeHtml(event.support)}</strong>. Finalist teams receive 48 hours of continuous building workspace, 1 Gbps high-speed networking, mentor office hours with startup founders and engineers, food & refreshments, and ₹1,00,000 in cash awards.
             </p>
-            <div class="security-stamp-bar">
-              <div class="stamp-chip">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <span>IEEE Student Branch Vetted</span>
-              </div>
-              <div class="stamp-chip">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                <span>KSUM Innovation Registry ID #KM-2026</span>
-              </div>
-            </div>
           </article>
 
           <!-- Competency Tracks (Rich Visual Bento Tiles with Tech Badges) -->
           <section class="bento-card" aria-label="Official Competency Tracks">
             <div class="card-header-row">
               <div>
-                <h2 class="card-title">Official Competency Tracks</h2>
-                <p class="card-subtext" style="margin-top:0.25rem;">Accredited technical domains for team problem statements</p>
+                <h2 class="card-title">Challenge Tracks</h2>
+                <p class="card-subtext" style="margin-top:0.25rem;">Choose from 5 dedicated focus areas to build high-impact software</p>
               </div>
               <span class="card-count">${event.tracks.length} Domains</span>
             </div>
@@ -992,7 +909,7 @@
                     <div class="track-icon-wrap">
                       ${getTrackVisualIcon(track)}
                     </div>
-                    <span class="track-card-index">DOMAIN 0${i + 1}</span>
+                    <span class="track-card-index">TRACK 0${i + 1}</span>
                   </div>
                   <div class="track-card-body">
                     <h3 class="track-card-name">${escapeHtml(track)}</h3>
@@ -1016,15 +933,16 @@
           <section class="bento-card" aria-label="Full Event Schedule">
             <div class="card-header-row">
               <div>
-                <h2 class="card-title">Chronological Programme Milestones</h2>
-                <p class="card-subtext" style="margin-top:0.25rem;">Check-in, mentorship checkpoints, and code freeze ledger</p>
+                <h2 class="card-title">Event Schedule & Milestones</h2>
+                <p class="card-subtext" style="margin-top:0.25rem;">48-hour agenda from check-in to final jury demonstrations</p>
               </div>
-              <span class="card-pill">${escapeHtml(event.type.toUpperCase())}</span>
+              <span class="card-pill">Nov 23 – 25</span>
             </div>
             <div class="schedule-filter-bar">
-              <button type="button" class="sched-filter-btn active" data-day="all">All Milestones (14)</button>
-              <button type="button" class="sched-filter-btn" data-day="Day 1">Day 1 Sprint</button>
-              <button type="button" class="sched-filter-btn" data-day="Day 2">Day 2 Code Freeze & Jury</button>
+              <button type="button" class="sched-filter-btn active" data-day="all">All Days</button>
+              <button type="button" class="sched-filter-btn" data-day="Day 1">Day 1 (Nov 23)</button>
+              <button type="button" class="sched-filter-btn" data-day="Day 2">Day 2 (Nov 24)</button>
+              <button type="button" class="sched-filter-btn" data-day="Day 3">Day 3 (Nov 25)</button>
             </div>
             <div class="timeline-container">
               ${scheduleItems.map(item => `
@@ -1042,38 +960,57 @@
             </div>
           </section>
 
-          <!-- Prize & Merit Breakdown -->
+          <!-- Prizes & Awards -->
           <section class="bento-card" aria-label="Prize Pool Breakdown">
             <div class="card-header-row">
-              <h2 class="card-title">Prize Pool & Grants</h2>
-              <span class="card-pill">Merit Recognition</span>
-            </div>
-            <div class="prize-titanium-card">
-              <div class="card-chip-row">
-                <svg class="emv-chip" width="38" height="28" viewBox="0 0 38 28" fill="none">
-                  <rect width="38" height="28" rx="4" fill="#d4a373"/>
-                  <path d="M12 0v28M26 0v28M0 14h38" stroke="#fbf9f5" stroke-width="1.2"/>
-                </svg>
-                <span class="card-org">${escapeHtml(event.name)}</span>
+              <div>
+                <h2 class="card-title">Prizes & Awards</h2>
+                <p class="card-subtext" style="margin-top:0.25rem;">₹1,00,000 in cash awards, incubation grants, and developer perks</p>
               </div>
-              <div class="prize-main-sum">₹1,00,000</div>
-              <div class="prize-currency-label">TOTAL ALLOCATED CASH POOL</div>
-              <div class="tier-bars-wrap">
-                <div class="tier-col">
-                  <div class="tier-bar-bg"><div class="tier-fill gold" style="height:100%;"></div></div>
-                  <span class="tier-pos">First Place</span>
-                  <strong class="tier-amt">₹50,000</strong>
+              <span class="card-pill">₹1,00,000 Pool</span>
+            </div>
+
+            <div class="prize-cards-grid">
+              <div class="prize-winner-card first-place">
+                <div class="prize-badge-strip">
+                  <span class="prize-trophy-icon">🥇</span>
+                  <span class="prize-rank-pill">1st Place Winner</span>
                 </div>
-                <div class="tier-col">
-                  <div class="tier-bar-bg"><div class="tier-fill silver" style="height:60%;"></div></div>
-                  <span class="tier-pos">Second Place</span>
-                  <strong class="tier-amt">₹30,000</strong>
+                <div class="prize-amount">₹50,000</div>
+                <div class="prize-desc">Cash prize + KSUM Founder Incubation Grant + Direct interview fast-track with hiring partners.</div>
+              </div>
+
+              <div class="prize-winner-card second-place">
+                <div class="prize-badge-strip">
+                  <span class="prize-trophy-icon">🥈</span>
+                  <span class="prize-rank-pill">2nd Place Runner-Up</span>
                 </div>
-                <div class="tier-col">
-                  <div class="tier-bar-bg"><div class="tier-fill bronze" style="height:40%;"></div></div>
-                  <span class="tier-pos">Third Place</span>
-                  <strong class="tier-amt">₹20,000</strong>
+                <div class="prize-amount">₹30,000</div>
+                <div class="prize-desc">Cash prize + Developer Hardware Kits + 1-year cloud credit sponsorship.</div>
+              </div>
+
+              <div class="prize-winner-card third-place">
+                <div class="prize-badge-strip">
+                  <span class="prize-trophy-icon">🥉</span>
+                  <span class="prize-rank-pill">3rd Place</span>
                 </div>
+                <div class="prize-amount">₹20,000</div>
+                <div class="prize-desc">Cash prize + Cloud API credits + Partner ecosystem access.</div>
+              </div>
+            </div>
+
+            <div class="prize-perks-row">
+              <div class="prize-perk-item">
+                <strong>Swag & Goodies</strong>
+                <span>Custom tees, stickers, and developer welcome packs for all finalists.</span>
+              </div>
+              <div class="prize-perk-item">
+                <strong>Mentorship</strong>
+                <span>1-on-1 office hours with industry engineers and startup founders.</span>
+              </div>
+              <div class="prize-perk-item">
+                <strong>Hospitality</strong>
+                <span>Full meals, midnight snacks, caffeine bar, and rest areas provided.</span>
               </div>
             </div>
           </section>
@@ -1082,15 +1019,15 @@
           <section class="bento-card" aria-label="Hackathon FAQ">
             <div class="card-header-row">
               <div>
-                <h2 class="card-title">Hackathon Hacker FAQ</h2>
-                <p class="card-subtext" style="margin-top:0.25rem;">Rules, originality requirements, and submission standards</p>
+                <h2 class="card-title">Frequently Asked Questions</h2>
+                <p class="card-subtext" style="margin-top:0.25rem;">Rules, eligibility, and submission standards</p>
               </div>
-              <span class="card-pill">4 Guidance Items</span>
+              <span class="card-pill">4 Questions</span>
             </div>
             <div class="faq-group">
               ${[
                 { q: "Who is eligible to participate in HackMalabar 2026?", a: "All active undergraduate, postgraduate, and diploma engineering students from recognized collegiate institutions who have cleared the online screening round." },
-                { q: "What are the rules regarding project code and originality?", a: "All project code must be developed fresh during the 24-hour sprint. Open-source libraries, APIs, and public frameworks are permitted, but proprietary pre-built applications will result in disqualification." },
+                { q: "What are the rules regarding project code and originality?", a: "All project code must be developed fresh during the 48-hour sprint. Open-source libraries, APIs, and public frameworks are permitted, but proprietary pre-built applications will result in disqualification." },
                 { q: "What deliverables are mandatory for jury evaluation?", a: "Every team must submit: 1. A public GitHub repository with open-source license, 2. A 2-minute demo video link, 3. A live deployment URL, and 4. A 5-slide pitch presentation." },
                 { q: "What equipment should each hacker bring to the venue?", a: "Personal laptops, chargers, extension strips, original college student photo ID cards, and your digital or printed HackDesk Participant Pass." }
               ].map((faq, idx) => `
@@ -1136,20 +1073,15 @@
             <div class="card-header-row">
               <h2 class="card-title">Participation Flow</h2>
             </div>
-            <p class="card-subtext" style="margin-bottom:1rem;">Complete roadmap from selection notice to final stage presentations:</p>
+            <p class="card-subtext" style="margin-bottom:1rem;">Essential steps for shortlisted finalists:</p>
             <div class="dossier-steps-list">
               <a href="#/e/${event.slug}/pass" class="dossier-step-link">
                 <span class="step-num">01</span>
                 <span class="step-label">Participant Badge & Pass</span>
                 <span class="step-arrow">→</span>
               </a>
-              <a href="#/e/${event.slug}/chat" class="dossier-step-link">
-                <span class="step-num">02</span>
-                <span class="step-label">Organisers Channel</span>
-                <span class="step-arrow">→</span>
-              </a>
               <a href="#/e/${event.slug}/brief" class="dossier-step-link">
-                <span class="step-num">03</span>
+                <span class="step-num">02</span>
                 <span class="step-label">Hackathon Guide & Rules</span>
                 <span class="step-arrow">→</span>
               </a>
@@ -1362,249 +1294,7 @@
   }
 
   // =========================================================================
-  // Screen 3: Organisers Channel inside Phone Frame
-  // =========================================================================
-  function renderChatScreen(event) {
-    const messages = generateChatMessages(event);
-    const day1Messages = messages.filter(m => m.day === 1);
-    const day2Messages = messages.filter(m => m.day === 2);
-
-    return `
-      <section class="section-hero">
-        <div class="hero-actions-row">
-          <div>
-            <h1 class="page-title">Organisers Coordination Channel</h1>
-            <p class="page-subhead">
-              Live chronological developer updates covering API sandboxes, 1 Gbps LAN provisioning, mentorship checkpoints, and final code freeze.
-            </p>
-          </div>
-          <div class="action-buttons-wrap">
-            <button type="button" id="btn-print-chat" class="btn-apple-secondary">Print Chat Transcript</button>
-            <a href="#/e/${event.slug}/brief" class="btn-apple-primary">View Hackathon Guide</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Phone Shell -->
-      <div class="phone-frame-wrapper">
-        <div class="iphone-frame">
-          <div class="iphone-notch">
-            <span class="notch-speaker"></span>
-            <span class="notch-camera"></span>
-          </div>
-
-          <div class="wa-chat-container">
-            <!-- Channel Header -->
-            <div class="wa-header">
-              <div class="wa-header-left">
-                <button type="button" class="wa-back-btn" aria-label="Back">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-                </button>
-                <div class="wa-avatar-group">
-                  <div class="wa-avatar">${escapeHtml(event.name[0])}</div>
-                </div>
-                <div class="wa-title-meta">
-                  <h2 class="wa-group-name">${escapeHtml(event.name)} • Finalists</h2>
-                  <span class="wa-status-text">Arjun, Fahad, Ananya, +142 finalists</span>
-                </div>
-              </div>
-              <div class="wa-header-right">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
-              </div>
-            </div>
-
-            <!-- Encryption Notice -->
-            <div class="wa-encryption-pill">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              <span>Messages in this channel are verified by the HackDesk organizing desk.</span>
-            </div>
-
-            <!-- Messages Stream -->
-            <div class="wa-messages-scroller" id="wa-scroller">
-              <!-- Day 1 Divider -->
-              <div class="wa-day-divider">
-                <span>DAY 1 — CHECK-IN & SPRINT COMMENCES</span>
-              </div>
-              ${day1Messages.map(renderMessageBubble).join('')}
-
-              <!-- Day 2 Divider -->
-              <div class="wa-day-divider">
-                <span>DAY 2 — CODE FREEZE & PRESENTATIONS</span>
-              </div>
-              ${day2Messages.map(renderMessageBubble).join('')}
-            </div>
-
-            <!-- Chat Bottom Strip -->
-            <div class="wa-input-strip">
-              <input type="text" id="wa-quick-input" placeholder="Channel active: post questions to mentors..." readonly value="Mentorship & Helpdesk: ${escapeHtml(event.contactEmail)}">
-              <button type="button" class="wa-mic-btn" aria-label="Send">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  function renderMessageBubble(m) {
-    const isOut = m.outgoing;
-    return `
-      <div class="wa-bubble-row ${isOut ? 'outgoing' : 'incoming'}">
-        <div class="wa-bubble ${isOut ? 'bubble-out' : 'bubble-in'}">
-          ${!isOut ? `<div class="wa-sender-label role-${escapeHtml(m.role)}">${escapeHtml(m.sender)}</div>` : ''}
-          <div class="wa-message-body">${escapeHtml(m.text)}</div>
-          <div class="wa-meta-row">
-            <span class="wa-msg-time">${escapeHtml(m.time)}</span>
-            ${isOut ? `
-              <span class="wa-ticks">
-                <svg width="15" height="11" viewBox="0 0 16 11" fill="none"><path d="M1 6l3.5 3.5L14 1" stroke="#d97757" stroke-width="2" stroke-linecap="round"/><path d="M5 6l3.5 3.5L15 1" stroke="#d97757" stroke-width="2" stroke-linecap="round"/></svg>
-              </span>
-            ` : ''}
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  // =========================================================================
-  // Screen 4: macOS Sequoia Selection Confirmation Mail
-  // =========================================================================
-  function renderMailScreen(event) {
-    const datesFormatted = formatDateRange(event.start, event.end);
-    const reportFormatted = formatTime(event.report);
-    const p = state.participant;
-
-    return `
-      <section class="section-hero">
-        <div class="hero-actions-row">
-          <div>
-            <h1 class="page-title">Selection Confirmation Mail</h1>
-            <p class="page-subhead">
-              Official shortlist correspondence presented in a macOS Sequoia mail window with security headers, confirmed milestones, and team accreditation credentials.
-            </p>
-          </div>
-          <div class="action-buttons-wrap">
-            <button type="button" id="btn-print-mail" class="btn-apple-secondary">Print Letterhead (A4)</button>
-            <button type="button" id="btn-copy-mail" class="btn-apple-ghost">Copy Email Body</button>
-            <a href="#/e/${event.slug}/pass" class="btn-apple-primary">Open Pass</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- macOS Window Shell -->
-      <div class="macos-window-shell">
-        <div class="macos-titlebar">
-          <div class="traffic-lights">
-            <span class="traffic-dot red"></span>
-            <span class="traffic-dot yellow"></span>
-            <span class="traffic-dot green"></span>
-          </div>
-          <div class="macos-window-title">Mail — ${escapeHtml(event.name)} Shortlist Notice</div>
-          <div class="macos-search-box">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <span>Search</span>
-          </div>
-        </div>
-
-        <div class="mail-envelope">
-          <div class="mail-toolbar">
-            <div class="mail-toolbar-left">
-              <span class="mail-tool-icon" title="Archive">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
-              </span>
-              <span class="mail-tool-icon" title="Star">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              </span>
-            </div>
-            <div class="mail-toolbar-right">
-              <span class="mail-counter">Official Notice • Verified Sender</span>
-            </div>
-          </div>
-
-          <div class="mail-subject-area">
-            <h2 class="mail-subject">Official Selection Confirmation: Shortlisted for ${escapeHtml(event.name)} (${escapeHtml(event.edition)})</h2>
-            <div class="mail-tags">
-              <span class="mail-pill">Inbox</span>
-              <span class="mail-pill pill-accent">Finalist Accreditation</span>
-            </div>
-          </div>
-
-          <div class="mail-sender-row">
-            <div class="mail-sender-meta">
-              <div class="mail-avatar">${escapeHtml(event.contactName[0])}</div>
-              <div>
-                <div class="mail-sender-name">${escapeHtml(event.contactName)} • ${escapeHtml(event.host)}</div>
-                <div class="mail-sender-email">&lt;${escapeHtml(event.contactEmail)}&gt;</div>
-                <div class="mail-to-line">to me &lt;${escapeHtml(p.name.toLowerCase().replace(/\s+/g, '.'))}@cet.ac.in&gt;</div>
-              </div>
-            </div>
-            <div class="mail-date">Nov 21, 2026, 4:15 PM</div>
-          </div>
-
-          <div class="mail-security-bar">
-            <span>mailed-by: <strong>${escapeHtml(extractHostname(event.site))}</strong></span>
-            <span>signed-by: <strong>${escapeHtml(extractHostname(event.site))}</strong></span>
-            <span>security: <strong>TLS Standard Encryption</strong></span>
-          </div>
-
-          <div class="mail-body-content" id="gm-body-content">
-            <p>Dear <strong>${escapeHtml(p.name)}</strong> (${escapeHtml(p.college)}),</p>
-
-            <p>
-              Congratulations! On behalf of the organising committee of <strong>${escapeHtml(event.name)} (${escapeHtml(event.edition)})</strong>, we are delighted to inform you that your team registration and technical abstract have been officially <strong>SHORTLISTED</strong> for the 24-hour physical hackathon.
-            </p>
-
-            <div class="mail-highlight-card">
-              <h3 style="font-size:0.95rem; font-weight:700; color:#1f1e1b; margin-bottom:0.75rem;">Confirmed Programme Milestones</h3>
-              <ul>
-                <li><strong>Event:</strong> ${escapeHtml(event.name)} (${escapeHtml(event.edition)})</li>
-                <li><strong>Host Body:</strong> ${escapeHtml(event.host)}</li>
-                <li><strong>Supporting Partner:</strong> ${escapeHtml(event.support)}</li>
-                <li><strong>Dates:</strong> ${datesFormatted}</li>
-                <li><strong>Reporting Schedule:</strong> ${reportFormatted} IST on ${formatDateNatural(event.start)} (Code freeze ${formatTime(event.close)} IST)</li>
-                <li><strong>Venue Address:</strong> ${escapeHtml(event.venue)}</li>
-                <li><strong>Access Gate:</strong> Gate 1 (Main Entrance facing NH 66 bypass, West Hill)</li>
-              </ul>
-            </div>
-
-            <div style="text-align:center; margin: 1.75rem 0;">
-              <a href="#/e/${event.slug}/pass" class="btn-apple-primary" style="display:inline-flex;">
-                Generate & Download Verified Participant Pass
-              </a>
-            </div>
-
-            <p>
-              <strong>Hackathon Finalist Instructions:</strong><br>
-              Please produce your generated Participant Pass alongside your college student photo ID card at Gate 1 registration. Your assigned developer pod, 1 Gbps LAN ports, and welcome packet will be issued upon check-in.
-            </p>
-
-            <p>
-              <strong>Hardware & API Sandboxes:</strong><br>
-              24-hour continuous power and high-speed internet are provisioned for all pods. Every shortlisted team has been granted $200 in Claude API credits and sandbox endpoints for AI integrations.
-            </p>
-
-            <p style="margin-top:1.5rem;">
-              Warm regards,<br>
-              <strong>${escapeHtml(event.contactName)}</strong><br>
-              Lead Convener, ${escapeHtml(event.name)}<br>
-              ${escapeHtml(event.host)}<br>
-              Email: ${escapeHtml(event.contactEmail)}<br>
-              Web: <a href="${escapeHtml(event.site)}" target="_blank" rel="noopener">${escapeHtml(event.site)}</a>
-            </p>
-          </div>
-
-          <div class="mail-footer-bar">
-            <button type="button" class="btn-apple-ghost">Reply</button>
-            <button type="button" class="btn-apple-ghost">Forward</button>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  // =========================================================================
-  // Screen 5: Hackathon Guide & Submission Brief
+  // Screen 3: Hackathon Guide & Submission Brief
   // =========================================================================
   function renderBriefScreen(event) {
     const datesFormatted = formatDateRange(event.start, event.end);
@@ -1997,6 +1687,10 @@
     } else if (parts[0] === 'e') {
       targetSlug = parts[1];
       screen = parts[2] || 'public';
+      if (screen === 'chat' || screen === 'mail') {
+        window.location.hash = `#/e/${targetSlug}`;
+        return;
+      }
     }
 
     state.currentScreen = screen;
@@ -2025,13 +1719,6 @@
     } else if (screen === 'pass') {
       mount.innerHTML = renderPassScreen(state.currentEvent);
       bindPassEvents();
-    } else if (screen === 'chat') {
-      mount.innerHTML = renderChatScreen(state.currentEvent);
-      bindChatEvents();
-    } else if (screen === 'mail') {
-      // Gracefully redirect legacy /mail URLs to main overview
-      mount.innerHTML = renderPublicPage(state.currentEvent);
-      bindPublicEvents();
     } else if (screen === 'brief') {
       mount.innerHTML = renderBriefScreen(state.currentEvent);
       bindBriefEvents();
@@ -2256,50 +1943,7 @@
     const btnPrint = document.getElementById('btn-print-pass');
     if (btnPrint) {
       btnPrint.onclick = () => {
-        playFuturisticBlip(880);
         window.print();
-      };
-    }
-  }
-
-  function bindChatEvents() {
-    const scroller = document.getElementById('wa-scroller');
-    if (scroller) {
-      scroller.scrollTop = scroller.scrollHeight;
-    }
-    const btnPrint = document.getElementById('btn-print-chat');
-    if (btnPrint) {
-      btnPrint.onclick = () => {
-        playFuturisticBlip(880);
-        window.print();
-      };
-    }
-  }
-
-  function bindMailEvents() {
-    const btnPrint = document.getElementById('btn-print-mail');
-    if (btnPrint) {
-      btnPrint.onclick = () => {
-        playFuturisticBlip(880);
-        window.print();
-      };
-    }
-
-    const btnCopy = document.getElementById('btn-copy-mail');
-    if (btnCopy) {
-      btnCopy.onclick = async () => {
-        playFuturisticBlip(780);
-        const bodyEl = document.getElementById('gm-body-content');
-        if (!bodyEl) return;
-        try {
-          await navigator.clipboard.writeText(bodyEl.innerText);
-          btnCopy.textContent = 'Copied to Clipboard!';
-          setTimeout(() => {
-            btnCopy.textContent = 'Copy Email Body';
-          }, 2500);
-        } catch (err) {
-          alert('Could not copy mail text: ' + err);
-        }
       };
     }
   }
@@ -2534,17 +2178,6 @@
       const cleanBase = path.replace(/\/admin\/?$/, '');
       window.location.replace((cleanBase || '/') + '#/admin');
       return;
-    }
-
-    const soundBtn = document.getElementById('btn-sound-toggle');
-    const soundLabel = document.getElementById('sound-label');
-    if (soundBtn && soundLabel) {
-      soundBtn.onclick = () => {
-        state.soundEnabled = !state.soundEnabled;
-        soundLabel.textContent = state.soundEnabled ? 'Audio: ON' : 'Audio: OFF';
-        soundBtn.classList.toggle('active', state.soundEnabled);
-        if (state.soundEnabled) playFuturisticBlip(880);
-      };
     }
 
     window.addEventListener('hashchange', handleRoute);
