@@ -19,9 +19,9 @@
       district: "Malappuram",
       mapsQuery: "MES College of Engineering Kuttippuram Malappuram",
       start: "2026-11-23T08:30:00+05:30",
-      end: "2026-11-24T20:30:00+05:30",
+      end: "2026-11-25T17:00:00+05:30",
       report: "2026-11-23T08:30:00+05:30",
-      close: "2026-11-24T20:30:00+05:30",
+      close: "2026-11-25T17:00:00+05:30",
       deadline: "2026-11-21T23:59:00+05:30",
       contactName: "Arjun Menon",
       contactEmail: "hackthecoast26@gmail.com",
@@ -156,26 +156,33 @@
     }
   };
 
-  // Hackathon Schedule Presets (36-Hour Schedule for Nov 23 - Nov 24)
+  // Hackathon Schedule Presets (Nov 23 - Nov 25)
   const schedulePresets = {
     hackathon: [
       // Day 1 — Nov 23
       { day: 'Day 1', time: '08:30 AM', label: 'Participant Gate Check-in & Badge Allotment', note: 'Gate 1 check-in desk opens at MES College of Engineering, Malappuram. Physical student ID verification, badge issuance, and welcome kits.' },
       { day: 'Day 1', time: '10:00 AM', label: 'Opening Keynote & Problem Statements Briefing', note: 'Ceremonial opening by IEEE Student Branch MESCE, Kerala Startup Mission advisors, and industry jury.' },
-      { day: 'Day 1', time: '11:00 AM', label: '36-Hour Hacking Sprint Begins', note: 'Dedicated high-speed connectivity, table allocations, and cloud developer sandboxes active.' },
+      { day: 'Day 1', time: '11:00 AM', label: 'Hacking Sprint Begins', note: 'Dedicated high-speed connectivity, table allocations, and cloud developer sandboxes active.' },
       { day: 'Day 1', time: '01:30 PM', label: 'Lunch Break & Peer Networking', note: 'Campus dining pavilion open. Cross-team collaboration and tech discussions.' },
       { day: 'Day 1', time: '04:30 PM', label: 'Mentor Review 1: Architecture & Feasibility', note: 'Industry mentors visit team workstations for codebase inspection and technical guidance.' },
       { day: 'Day 1', time: '08:30 PM', label: 'Dinner & Sprint Progress Sync', note: 'Hot dinner served in dining hall. Teams review initial commits and milestone targets.' },
       { day: 'Day 1', time: '11:59 PM', label: 'Midnight Caffeine Sprint & Mini-Challenges', note: 'Caffeine bar, snacks, and rest lounges available through the night in the arena.' },
 
       // Day 2 — Nov 24
-      { day: 'Day 2', time: '08:00 AM', label: 'Breakfast & Day 2 Sprint Resumes', note: 'Morning tea and breakfast service in the dining hall. Final stretch of coding.' },
-      { day: 'Day 2', time: '10:30 AM', label: 'Mentor Review 2: Progress & Demo Readiness', note: 'Jury and mentors conduct second round of hands-on code reviews and demo dry-runs.' },
+      { day: 'Day 2', time: '08:00 AM', label: 'Breakfast & Day 2 Sprint Resumes', note: 'Morning tea and breakfast service in the dining hall. Continued prototype build.' },
+      { day: 'Day 2', time: '10:30 AM', label: 'Mentor Review 2: Progress & Demo Readiness', note: 'Jury and mentors conduct second round of hands-on code reviews and architecture guidance.' },
       { day: 'Day 2', time: '01:00 PM', label: 'Lunch Break', note: 'Afternoon dining and recharge.' },
-      { day: 'Day 2', time: '03:00 PM', label: 'Code Freeze & GitHub Repository Submissions', note: 'All repositories locked. Mandatory public repo, README, demo video link, and pitch deck.' },
-      { day: 'Day 2', time: '04:00 PM', label: 'Live Project Demos & Grand Jury Evaluation', note: 'Stage presentations and live technical Q&A before the expert jury panel in MESCE Auditorium.' },
-      { day: 'Day 2', time: '06:30 PM', label: 'Valedictory Ceremony & Prize Distribution', note: 'Presentation of ₹1,00,000 cash prizes (₹50k Winner, ₹30k Runner-Up, ₹20k Best Women-Led), KSUM incubation vouchers, and trophies.' },
-      { day: 'Day 2', time: '08:00 PM', label: 'Official Hackathon Close', note: 'Participant accreditation certificates distributed.' }
+      { day: 'Day 2', time: '04:30 PM', label: 'Mid-Evaluation & Progress Checkpoint', note: 'Jury walkthrough to evaluate working prototypes and core feature progress.' },
+      { day: 'Day 2', time: '08:30 PM', label: 'Dinner & Overnight Build Sprint', note: 'Evening dinner served. Night sprint and feature refinement.' },
+      { day: 'Day 2', time: '11:00 PM', label: 'Pitch Preparation & Deck Dry-Runs', note: 'Mentors assist with pitch structure, storytelling, and demo preparation.' },
+
+      // Day 3 — Nov 25
+      { day: 'Day 3', time: '08:00 AM', label: 'Breakfast & Final Sprint', note: 'Final documentation, testing, and deployment verification.' },
+      { day: 'Day 3', time: '11:00 AM', label: 'Code Freeze & GitHub Repository Submissions', note: 'All repositories locked. Mandatory public repo, README, demo video link, and pitch deck.' },
+      { day: 'Day 3', time: '12:00 PM', label: 'Lunch & Demo Setup', note: 'Teams set up demo screens in MESCE exhibition hall.' },
+      { day: 'Day 3', time: '01:30 PM', label: 'Live Project Demos & Grand Jury Evaluation', note: 'Stage presentations and live technical Q&A before the expert jury panel in MESCE Auditorium.' },
+      { day: 'Day 3', time: '04:30 PM', label: 'Valedictory Ceremony & Prize Distribution', note: 'Presentation of ₹1,00,000 cash prizes (₹50k Winner, ₹30k Runner-Up, ₹20k Best Women-Led), KSUM incubation vouchers, and trophies.' },
+      { day: 'Day 3', time: '05:00 PM', label: 'Official Hackathon Close', note: 'Participant accreditation certificates distributed.' }
     ],
     workshop: [
       { day: 'Day 1', time: '09:00 AM', label: 'Check-in & Workstation Allotment', note: 'Registration verification and lab system access.' },
@@ -951,12 +958,13 @@
                 <h2 class="card-title">Event Schedule & Milestones</h2>
                 <p class="card-subtext" style="margin-top:0.25rem;">36-hour agenda from check-in to final jury demonstrations</p>
               </div>
-              <span class="card-pill">Nov 23 – 24</span>
+              <span class="card-pill">Nov 23 – 25</span>
             </div>
             <div class="schedule-filter-bar">
               <button type="button" class="sched-filter-btn active" data-day="all">All Days</button>
               <button type="button" class="sched-filter-btn" data-day="Day 1">Day 1 (Nov 23)</button>
               <button type="button" class="sched-filter-btn" data-day="Day 2">Day 2 (Nov 24)</button>
+              <button type="button" class="sched-filter-btn" data-day="Day 3">Day 3 (Nov 25)</button>
             </div>
             <div class="timeline-container">
               ${scheduleItems.map(item => `

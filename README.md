@@ -5,7 +5,7 @@
 
 **HackDesk** is a dedicated hackathon posting and participation desk designed for developers, student teams, and organizers. Built with Claude AI's signature editorial typography and warm palette, it generates an entire verified presence from one JSON record:
 
-1. **Public Event Presence**: Editorial hero, live countdown, 5 challenge tracks, 36-hour 2-day chronological milestones (Nov 23 – 24, 2026 at MES College of Engineering, Malappuram), prize awards (₹1,00,000 cash pool: ₹50k Winner, ₹30k Runner-Up, ₹20k Best Women-Led Team), interactive track selector, FAQ, and organizing committee.
+1. **Public Event Presence**: Editorial hero, live countdown, 5 challenge tracks, 3-day chronological milestones (Nov 23 – 25, 2026 at MES College of Engineering, Malappuram), prize awards (₹1,00,000 cash pool: ₹50k Winner, ₹30k Runner-Up, ₹20k Best Women-Led Team), interactive track selector, FAQ, and organizing committee.
 2. **Participant Pass Generator**: Real-time canvas badge and 100x140mm print lanyard ticket with QR code linking to the live event record, customizable attendee identity, non-transferable student ID notice, and authorized organizer sign-off.
 3. **Hackathon Guide & Submission Brief**: Mandatory deliverables checklist (GitHub repo, demo video, live deployment, 5-slide pitch deck), scoring weights (Innovation 30%, Complexity 30%, Polish 20%, Impact 20%), code integrity standards, and browser-persisted sprint workspace.
 4. **In-Memory Admin Desk**: Password-protected (`dumass-dev`) schema editor for posting and editing hackathons, instant canvas poster regeneration, and one-click export of updated `events.json`.
