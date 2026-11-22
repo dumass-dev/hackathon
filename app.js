@@ -235,12 +235,28 @@
     };
   }
 
-  // Update navigation tabs hrefs
+  // Admin clearance state helper (password: dumass-dev)
+  function isAdminAuthenticated() {
+    return sessionStorage.getItem('cpd_admin_authenticated') === 'true';
+  }
+
+  function setAdminAuthenticated(val) {
+    if (val) {
+      sessionStorage.setItem('cpd_admin_authenticated', 'true');
+    } else {
+      sessionStorage.removeItem('cpd_admin_authenticated');
+    }
+  }
+
+  // Update navigation tabs hrefs (hides Event Desk from public visitors)
   function updateNavTabs(currentSlug, currentScreen) {
     const nav = document.getElementById('nav-tabs-container');
     if (!nav) return;
 
     const baseSlug = currentSlug || (state.currentEvent ? state.currentEvent.slug : 'hackmalabar-2026');
+    const adminLink = (currentScreen === 'admin' && isAdminAuthenticated())
+      ? `<a href="#/admin" class="sub-link active" data-screen="admin">Event Desk</a>`
+      : '';
 
     nav.innerHTML = `
       <a href="#/e/${baseSlug}" class="sub-link ${currentScreen === 'public' ? 'active' : ''}" data-screen="public">Overview</a>
@@ -248,11 +264,11 @@
       <a href="#/e/${baseSlug}/chat" class="sub-link ${currentScreen === 'chat' ? 'active' : ''}" data-screen="chat">Organisers Chat</a>
       <a href="#/e/${baseSlug}/mail" class="sub-link ${currentScreen === 'mail' ? 'active' : ''}" data-screen="mail">Selection Mail</a>
       <a href="#/e/${baseSlug}/brief" class="sub-link ${currentScreen === 'brief' ? 'active' : ''}" data-screen="brief">Leave Brief</a>
-      <a href="#/admin" class="sub-link ${currentScreen === 'admin' ? 'active' : ''}" data-screen="admin">Event Desk</a>
+      ${adminLink}
     `;
   }
 
-  // Update footer
+  // Update footer (no admin traces in public view)
   function updateFooter(event) {
     const mount = document.getElementById('footer-mount');
     if (!mount) return;
@@ -275,8 +291,6 @@
       <div class="footer-right">
         <div class="footer-links">
           <a href="${escapeHtml(event.site)}" target="_blank" rel="noopener">Official Portal</a>
-          <span class="dot-sep">•</span>
-          <a href="#/admin">Event Desk</a>
           <span class="dot-sep">•</span>
           <a href="#/e/${event.slug}/pass">Pass Engine</a>
         </div>
@@ -781,8 +795,15 @@
       <div class="hero-ambient-spotlight" aria-hidden="true"></div>
 
       <section class="hero-section" aria-label="Event Overview">
+        <!-- Hackathon Live Telemetry Banner -->
+        <div class="hackathon-live-ticker">
+          <span class="ticker-beacon" aria-hidden="true"></span>
+          <span class="ticker-tag">LIVE TELEMETRY</span>
+          <span class="ticker-text">142 Shortlisted Teams Verified • Gate 1 Sign-in Desk Ready (08:30 IST) • Biometric Attendance Sync Active</span>
+        </div>
+
         <div class="hero-split-grid">
-          <!-- Left Column: Typography & Key Metrics -->
+          <!-- Left Column: Typography, Countdown HUD & Key Metrics -->
           <div class="hero-copy-col">
             <div class="hero-eyebrow">
               <span class="eyebrow-host">${escapeHtml(event.host.toUpperCase())}</span>
@@ -798,6 +819,23 @@
             <p class="hero-subhead">
               A collegiate innovation programme endorsed and supported by <strong>${escapeHtml(event.support)}</strong>. Complete cross-consistent documentation for participant accreditation, physical gate permissions, and residential hostel leave clearance.
             </p>
+
+            <!-- Hackathon Live HUD Countdown -->
+            <div class="hackathon-countdown-hud">
+              <div class="countdown-hud-header">
+                <span class="countdown-pulse-icon" aria-hidden="true"></span>
+                <span class="countdown-hud-title">EVENT COMMENCEMENT COUNTDOWN</span>
+              </div>
+              <div class="countdown-blocks-grid">
+                <div class="cd-digit-block"><span class="cd-num" id="cd-days">--</span><span class="cd-unit">DAYS</span></div>
+                <span class="cd-colon">:</span>
+                <div class="cd-digit-block"><span class="cd-num" id="cd-hours">--</span><span class="cd-unit">HOURS</span></div>
+                <span class="cd-colon">:</span>
+                <div class="cd-digit-block"><span class="cd-num" id="cd-mins">--</span><span class="cd-unit">MINS</span></div>
+                <span class="cd-colon">:</span>
+                <div class="cd-digit-block"><span class="cd-num" id="cd-secs">--</span><span class="cd-unit">SECS</span></div>
+              </div>
+            </div>
 
             <!-- Apple-Style Key Metrics Strip -->
             <div class="metrics-grid">
@@ -1696,8 +1734,58 @@
     `;
   }
 
-  // Screen 6: Admin Screen & Event Editor
+  // Screen 6A: Admin Password Gate (Restricted to 'dumass-dev')
+  function renderAdminLockScreen() {
+    return `
+      <section class="admin-lock-wrapper" aria-label="Administrative Clearance Gate">
+        <div class="admin-lock-card">
+          <div class="admin-lock-icon-wrap" aria-hidden="true">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2997ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <h1 class="admin-lock-title">Event Desk Clearance</h1>
+          <p class="admin-lock-subhead">
+            Administrative access is restricted. Enter your authorization key to access event controls and editor.
+          </p>
+
+          <form id="admin-lock-form" class="admin-lock-form" onsubmit="return false;">
+            <div class="lock-field-group">
+              <label for="admin-key-input" class="sr-only">Access Key</label>
+              <input
+                type="password"
+                id="admin-key-input"
+                class="apple-input lock-key-input"
+                placeholder="Enter access key"
+                autocomplete="current-password"
+                required
+              />
+            </div>
+            <div id="admin-lock-error" class="lock-error-msg" style="display:none;" role="alert"></div>
+            <button type="submit" id="btn-admin-unlock" class="btn-apple-primary lock-submit-btn">
+              <span>Authorize & Unlock</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </form>
+
+          <div class="admin-lock-footer">
+            <a href="#/" class="lock-return-link">← Return to Public Overview</a>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  // Screen 6B: Admin Screen & Event Editor
   function renderAdminScreen() {
+    if (!isAdminAuthenticated()) {
+      return renderAdminLockScreen();
+    }
+
     const cur = state.currentEvent || state.events[0];
 
     return `
@@ -1706,12 +1794,13 @@
           <div>
             <h1 class="page-title">Event Desk & Editor</h1>
             <p class="page-subhead">
-              Edit events in memory, regenerate posters, download updated events.json, and import JSON directly.
+              Authorized administrative workspace. Edit events in memory, regenerate posters, and download updated assets.
             </p>
           </div>
           <div class="action-buttons-wrap">
             <button type="button" id="btn-admin-download-json" class="btn-apple-primary">Download events.json</button>
             <button type="button" id="btn-admin-reset-seeds" class="btn-apple-ghost">Reset to Seeds</button>
+            <button type="button" id="btn-admin-lock" class="btn-apple-ghost" style="color:#ff453a; border-color:rgba(255,69,58,0.3);">Lock & Exit Desk</button>
           </div>
         </div>
       </section>
@@ -2001,11 +2090,51 @@
     });
   }
 
+  let countdownTimer = null;
+  function startCountdown(targetIso) {
+    if (countdownTimer) clearInterval(countdownTimer);
+    const target = new Date(targetIso).getTime();
+
+    const update = () => {
+      const now = new Date().getTime();
+      const diff = target - now;
+      const daysEl = document.getElementById('cd-days');
+      const hoursEl = document.getElementById('cd-hours');
+      const minsEl = document.getElementById('cd-mins');
+      const secsEl = document.getElementById('cd-secs');
+
+      if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
+
+      if (diff <= 0) {
+        daysEl.textContent = '00';
+        hoursEl.textContent = '00';
+        minsEl.textContent = '00';
+        secsEl.textContent = '00';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+      const pad = (n) => String(n).padStart(2, '0');
+      daysEl.textContent = pad(days);
+      hoursEl.textContent = pad(hours);
+      minsEl.textContent = pad(mins);
+      secsEl.textContent = pad(secs);
+    };
+
+    update();
+    countdownTimer = setInterval(update, 1000);
+  }
+
   function bindPublicEvents() {
     const ev = state.currentEvent;
     if (!ev) return;
 
     setup3DTilt(document.getElementById('hero-interactive-card'));
+    startCountdown(ev.start);
 
     const btnIcs = document.getElementById('btn-hero-ics');
     if (btnIcs) btnIcs.onclick = () => downloadICS(ev);
@@ -2137,6 +2266,55 @@
   }
 
   function bindAdminEvents() {
+    if (!isAdminAuthenticated()) {
+      const form = document.getElementById('admin-lock-form');
+      const input = document.getElementById('admin-key-input');
+      const errorBox = document.getElementById('admin-lock-error');
+
+      const attemptUnlock = () => {
+        const val = input ? input.value.trim() : '';
+        if (val === 'dumass-dev') {
+          setAdminAuthenticated(true);
+          const activeSlug = state.currentEvent ? state.currentEvent.slug : 'hackmalabar-2026';
+          updateNavTabs(activeSlug, 'admin');
+          handleRoute();
+        } else {
+          if (errorBox) {
+            errorBox.textContent = 'Invalid authorization key. Access denied.';
+            errorBox.style.display = 'block';
+            const card = document.querySelector('.admin-lock-card');
+            if (card) {
+              card.classList.remove('shake-anim');
+              void card.offsetWidth;
+              card.classList.add('shake-anim');
+            }
+          }
+          if (input) {
+            input.value = '';
+            input.focus();
+          }
+        }
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          attemptUnlock();
+        };
+      }
+      return;
+    }
+
+    const btnLock = document.getElementById('btn-admin-lock');
+    if (btnLock) {
+      btnLock.onclick = () => {
+        setAdminAuthenticated(false);
+        const activeSlug = state.currentEvent ? state.currentEvent.slug : 'hackmalabar-2026';
+        updateNavTabs(activeSlug, 'public');
+        window.location.hash = `#/e/${activeSlug}`;
+      };
+    }
+
     const cur = state.currentEvent || state.events[0];
     const canvas = document.getElementById('admin-poster-canvas');
 
@@ -2270,8 +2448,93 @@
     globalPrintBtn.onclick = () => window.print();
   }
 
+  // Interactive Ambient Background Particles & Dynamic Cursor Glow
+  function initCyberParticles() {
+    const canvas = document.getElementById('cyber-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const count = Math.min(45, Math.floor(window.innerWidth / 28));
+
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        r: Math.random() * 1.5 + 0.8,
+        alpha: Math.random() * 0.4 + 0.1
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 110) {
+            const alpha = (1 - dist / 110) * 0.12;
+            ctx.strokeStyle = `rgba(41, 151, 255, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (const p of particles) {
+        ctx.fillStyle = `rgba(41, 151, 255, ${p.alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0) p.x = width;
+        else if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        else if (p.y > height) p.y = 0;
+      }
+
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  }
+
+  function initCursorGlow() {
+    const glow = document.getElementById('cursor-glow');
+    if (!glow) return;
+    window.addEventListener('pointermove', (e) => {
+      glow.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    }, { passive: true });
+  }
+
   // Application Entry Point
   async function init() {
+    const path = window.location.pathname;
+    if (path.endsWith('/admin') || path.endsWith('/admin/')) {
+      const cleanBase = path.replace(/\/admin\/?$/, '');
+      window.location.replace((cleanBase || '/') + '#/admin');
+      return;
+    }
+
+    initCyberParticles();
+    initCursorGlow();
+
     window.addEventListener('hashchange', handleRoute);
     handleRoute();
     await loadData();

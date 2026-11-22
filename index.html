@@ -10,6 +10,10 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23000%22/><text x=%2250%22 y=%2265%22 fill=%22%23fff%22 font-family=%22system-ui,sans-serif%22 font-weight=%22700%22 font-size=%2250%22 text-anchor=%22middle%22>P</text></svg>">
 </head>
 <body>
+  <!-- Interactive Ambient Background Canvas & Mouse Glow -->
+  <canvas id="cyber-canvas" class="cyber-particles-canvas" aria-hidden="true"></canvas>
+  <div id="cursor-glow" class="cursor-glow-mesh" aria-hidden="true"></div>
+
   <!-- Apple-Style Global Frosted Header -->
   <header class="site-header" role="banner">
     <div class="header-inner">
@@ -44,14 +48,6 @@
           </svg>
           <span>Print A4</span>
         </button>
-
-        <a href="#/admin" class="btn-ghost" title="Admin Event Desk">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-          </svg>
-          <span>Admin</span>
-        </a>
       </div>
     </div>
   </header>
@@ -64,7 +60,6 @@
       <a href="#/e/hackmalabar-2026/chat" class="sub-link" data-screen="chat">Organisers Chat</a>
       <a href="#/e/hackmalabar-2026/mail" class="sub-link" data-screen="mail">Selection Mail</a>
       <a href="#/e/hackmalabar-2026/brief" class="sub-link" data-screen="brief">Leave Brief</a>
-      <a href="#/admin" class="sub-link" data-screen="admin">Event Desk</a>
     </div>
   </nav>
 

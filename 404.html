@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    var path = window.location.pathname;
+    if (path.includes('/admin')) {
+      var base = path.replace(/\/admin\/?$/, '');
+      window.location.replace(base + '/#/admin');
+    } else {
+      var segments = path.split('/').filter(Boolean);
+      var repo = segments.length > 0 ? '/' + segments[0] : '';
+      window.location.replace(repo + '/#/');
+    }
+  </script>
+</head>
+<body style="background:#000;color:#fff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">
+  <p>Loading Campus Proof Desk...</p>
+</body>
+</html>

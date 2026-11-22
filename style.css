@@ -2575,6 +2575,278 @@ button {
 }
 
 /* ==========================================================================
+   Ambient Cyber Background & Interactive Cursor Mesh
+   ========================================================================== */
+.cyber-particles-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.65;
+}
+
+.cursor-glow-mesh {
+  position: fixed;
+  top: -150px;
+  left: -150px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(41, 151, 255, 0.08) 0%, rgba(41, 151, 255, 0) 70%);
+  pointer-events: none;
+  z-index: 1;
+  transition: transform 0.08s ease-out;
+  will-change: transform;
+}
+
+/* ==========================================================================
+   Hackathon Live Telemetry Activity Ticker
+   ========================================================================== */
+.hackathon-live-ticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(22, 22, 26, 0.7);
+  border: 1px solid var(--apple-border-light);
+  border-radius: 980px;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(12px);
+  max-width: 100%;
+}
+
+.ticker-beacon {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #30d158;
+  box-shadow: 0 0 8px rgba(48, 209, 88, 0.8);
+  animation: pulseBeacon 2s infinite ease-in-out;
+  flex-shrink: 0;
+}
+
+@keyframes pulseBeacon {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.6; }
+}
+
+.ticker-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #30d158;
+  background: rgba(48, 209, 88, 0.12);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.ticker-text {
+  font-size: 0.78rem;
+  color: var(--apple-gray-200);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+/* ==========================================================================
+   Live Hackathon Countdown HUD
+   ========================================================================== */
+.hackathon-countdown-hud {
+  background: rgba(15, 15, 18, 0.8);
+  border: 1px solid var(--apple-border-light);
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.countdown-hud-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.countdown-pulse-icon {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--apple-blue);
+  box-shadow: 0 0 6px var(--apple-blue);
+}
+
+.countdown-hud-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--apple-gray-400);
+}
+
+.countdown-blocks-grid {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cd-digit-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  min-width: 58px;
+  padding: 0.4rem 0.5rem;
+}
+
+.cd-num {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--apple-white);
+  letter-spacing: -0.02em;
+}
+
+.cd-unit {
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--apple-gray-500);
+  margin-top: 0.15rem;
+}
+
+.cd-colon {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--apple-gray-500);
+}
+
+/* ==========================================================================
+   Admin Security Clearance Lock Screen
+   ========================================================================== */
+.admin-lock-wrapper {
+  min-height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.admin-lock-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(15, 15, 18, 0.85);
+  border: 1px solid var(--apple-border-light);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  backdrop-filter: blur(25px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(41, 151, 255, 0.08);
+}
+
+.admin-lock-icon-wrap {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 1.5rem auto;
+  border-radius: 20px;
+  background: rgba(41, 151, 255, 0.08);
+  border: 1px solid rgba(41, 151, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-lock-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--apple-white);
+  margin-bottom: 0.5rem;
+}
+
+.admin-lock-subhead {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--apple-gray-400);
+  margin-bottom: 1.75rem;
+}
+
+.admin-lock-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lock-key-input {
+  text-align: center;
+  font-size: 1.05rem;
+  letter-spacing: 0.12em;
+  padding: 0.85rem 1rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--apple-border-light);
+  border-radius: 12px;
+}
+
+.lock-key-input:focus {
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 0 3px rgba(41, 151, 255, 0.25);
+}
+
+.lock-error-msg {
+  font-size: 0.82rem;
+  color: #ff453a;
+  background: rgba(255, 69, 58, 0.1);
+  border: 1px solid rgba(255, 69, 58, 0.25);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+.lock-submit-btn {
+  width: 100%;
+  justify-content: center;
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  border-radius: 12px;
+}
+
+.admin-lock-footer {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--apple-border);
+}
+
+.lock-return-link {
+  font-size: 0.82rem;
+  color: var(--apple-gray-400);
+  transition: color 0.15s ease;
+}
+
+.lock-return-link:hover {
+  color: var(--apple-white);
+}
+
+/* Shake Animation for incorrect password */
+.shake-anim {
+  animation: lockShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes lockShake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(3px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
+  40%, 60% { transform: translate3d(5px, 0, 0); }
+}
+
+/* ==========================================================================
    Print Stylesheet (Stripped Chrome for A4 Clean Output)
    ========================================================================== */
 @media print {
