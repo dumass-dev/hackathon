@@ -90,6 +90,7 @@
     events: [...DEFAULT_EVENTS],
     currentEvent: null,
     currentScreen: 'public',
+    soundEnabled: false,
     participant: {
       name: 'Rahul Krishna',
       college: 'College of Engineering Trivandrum',
@@ -98,6 +99,57 @@
     },
     chatMessagesMap: {},
     privateNote: localStorage.getItem('cpd_private_note') || ''
+  };
+
+  // Web Audio Synthetic Sound FX (Zero External Files, Pure High-Tech Audio Feedback)
+  let audioCtx = null;
+  function playFuturisticBlip(freq = 880, duration = 0.035) {
+    if (!state.soundEnabled) return;
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.5, audioCtx.currentTime + duration);
+      gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    } catch (e) {
+      // AudioContext unavailable or blocked by browser policy
+    }
+  }
+
+  // Accredited Competency Tracks Metadata & Problem Focus
+  const trackMetadata = {
+    "AI & Intelligent Automation": {
+      techs: ["PyTorch", "LLMs", "Vision AI", "Agentic Systems"],
+      focus: "Autonomous agent workflows, multimodal edge reasoning, and collegiate document intelligence."
+    },
+    "Cybersecurity & Campus Privacy": {
+      techs: ["Zero-Trust", "eBPF Tracing", "Cryptographic Auth", "Network Forensics"],
+      focus: "Hardened institutional privacy, intrusion telemetry, and verifiable digital credentials."
+    },
+    "GovTech & Citizen Services": {
+      techs: ["Public Digital Goods", "DigiLocker", "Aadhaar Auth", "Accessible UI"],
+      focus: "Citizen services modernization, transparent public registries, and localized governance."
+    },
+    "FinTech & Financial Inclusion": {
+      techs: ["UPI Rails", "Fraud Guard", "Smart Contracts", "Micro-Credit"],
+      focus: "Campus transaction transparency, decentralized student aid, and automated escrow."
+    },
+    "Open Innovation for Local Impact": {
+      techs: ["Civic IoT", "Renewable Energy", "Disaster Alert", "Edge Computing"],
+      focus: "Monsoon flood warning telemetry, renewable micro-grid metrics, and community crisis response."
+    }
   };
 
   // Preset schedules by event type
@@ -837,6 +889,30 @@
               </div>
             </div>
 
+            <!-- Hackathon Keynote Stats Ribbon -->
+            <div class="hackathon-stats-ribbon">
+              <div class="stat-ribbon-card">
+                <span class="ribbon-val">₹1,00,000</span>
+                <span class="ribbon-title">Total Cash Prize</span>
+                <span class="ribbon-sub">₹50k / ₹30k / ₹20k</span>
+              </div>
+              <div class="stat-ribbon-card">
+                <span class="ribbon-val">24 Hours</span>
+                <span class="ribbon-title">Continuous Sprint</span>
+                <span class="ribbon-sub">Overnight Rest Zone</span>
+              </div>
+              <div class="stat-ribbon-card">
+                <span class="ribbon-val">142 Teams</span>
+                <span class="ribbon-title">Collegiate Finalists</span>
+                <span class="ribbon-sub">Screened from 68 Inst.</span>
+              </div>
+              <div class="stat-ribbon-card">
+                <span class="ribbon-val">100% NOC</span>
+                <span class="ribbon-title">Hostel Leave Approval</span>
+                <span class="ribbon-sub">Academic Duty Stamped</span>
+              </div>
+            </div>
+
             <!-- Apple-Style Key Metrics Strip -->
             <div class="metrics-grid">
               <div class="metric-cell">
@@ -992,37 +1068,64 @@
             </div>
           </article>
 
-          <!-- Competency Tracks (Rich Visual Bento Tiles) -->
+          <!-- Competency Tracks (Rich Visual Bento Tiles with Tech Badges) -->
           <section class="bento-card" aria-label="Official Competency Tracks">
             <div class="card-header-row">
-              <h2 class="card-title">Official Competency Tracks</h2>
+              <div>
+                <h2 class="card-title">Official Competency Tracks</h2>
+                <p class="card-subtext" style="margin-top:0.25rem;">Accredited technical domains for team problem statements</p>
+              </div>
               <span class="card-count">${event.tracks.length} Domains</span>
             </div>
             <div class="visual-tracks-grid">
-              ${event.tracks.map((track, i) => `
-                <div class="visual-track-card">
-                  <div class="track-icon-wrap">
-                    ${getTrackVisualIcon(track)}
+              ${event.tracks.map((track, i) => {
+                const meta = trackMetadata[track] || {
+                  techs: ["Next.js", "Python", "Cloud Native", "APIs"],
+                  focus: "Advanced problem solving and production-grade implementation."
+                };
+                return `
+                <div class="visual-track-card" data-track-card="${escapeHtml(track)}">
+                  <div class="track-card-top">
+                    <div class="track-icon-wrap">
+                      ${getTrackVisualIcon(track)}
+                    </div>
+                    <span class="track-card-index">DOMAIN 0${i + 1}</span>
                   </div>
                   <div class="track-card-body">
-                    <span class="track-card-index">DOMAIN 0${i + 1}</span>
                     <h3 class="track-card-name">${escapeHtml(track)}</h3>
-                    <span class="track-card-badge">Accredited Problem Statement</span>
+                    <p class="track-focus-desc">${escapeHtml(meta.focus)}</p>
+                    <div class="track-tech-pills">
+                      ${meta.techs.map(tc => `<span class="tech-pill">${escapeHtml(tc)}</span>`).join('')}
+                    </div>
+                  </div>
+                  <div class="track-card-footer">
+                    <button type="button" class="btn-track-select" data-track="${escapeHtml(track)}">
+                      <span>Select Track for Pass</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
                   </div>
                 </div>
-              `).join('')}
+              `}).join('')}
             </div>
           </section>
 
-          <!-- Chronological Schedule (Laser Timeline) -->
+          <!-- Chronological Schedule (Laser Timeline with Day Filters) -->
           <section class="bento-card" aria-label="Full Event Schedule">
             <div class="card-header-row">
-              <h2 class="card-title">Chronological Programme Milestones</h2>
+              <div>
+                <h2 class="card-title">Chronological Programme Milestones</h2>
+                <p class="card-subtext" style="margin-top:0.25rem;">Gate clearances, mentorship reviews, and code freeze ledger</p>
+              </div>
               <span class="card-pill">${escapeHtml(event.type.toUpperCase())}</span>
+            </div>
+            <div class="schedule-filter-bar">
+              <button type="button" class="sched-filter-btn active" data-day="all">All Milestones (14)</button>
+              <button type="button" class="sched-filter-btn" data-day="Day 1">Day 1 Sprint</button>
+              <button type="button" class="sched-filter-btn" data-day="Day 2">Day 2 Code Freeze & Jury</button>
             </div>
             <div class="timeline-container">
               ${scheduleItems.map(item => `
-                <div class="timeline-row">
+                <div class="timeline-row" data-day="${escapeHtml(item.day)}">
                   <div class="timeline-time-col">
                     <span class="timeline-day">${escapeHtml(item.day)}</span>
                     <span class="timeline-time">${escapeHtml(item.time)}</span>
@@ -1106,28 +1209,34 @@
             </p>
           </section>
 
-          <!-- FAQ Section -->
+          <!-- FAQ Section (Interactive Accordion) -->
           <section class="bento-card" aria-label="Hostel Leave & Participant FAQ">
             <div class="card-header-row">
-              <h2 class="card-title">Hostel Leave & Participant FAQ</h2>
+              <div>
+                <h2 class="card-title">Hostel Leave & Participant FAQ</h2>
+                <p class="card-subtext" style="margin-top:0.25rem;">Guidelines for warden verification, out-passes, and overnight rest</p>
+              </div>
+              <span class="card-pill">4 Guidance Items</span>
             </div>
             <div class="faq-group">
-              <div class="faq-row">
-                <div class="faq-question">How do I verify my attendance to my hostel warden or Resident Tutor?</div>
-                <div class="faq-answer">Submit your generated Participant Pass alongside your Selection Confirmation Mail. Our Leave Brief screen gives you the exact verbal sentence to recite. Physical countersigned duty slips are stamped at Registration Desk 3 before closing.</div>
-              </div>
-              <div class="faq-row">
-                <div class="faq-question">What are the mandatory reporting hours and gate access rules?</div>
-                <div class="faq-answer">Gate 1 opens at 08:00 AM on ${datesFormatted.split('–')[0].trim()} with mandatory physical sign-in at ${reportFormatted} IST sharp. Gate 1 closes at ${closeFormatted} on the final day.</div>
-              </div>
-              <div class="faq-row">
-                <div class="faq-question">Is overnight stay permitted for outstation participants?</div>
-                <div class="faq-answer">Yes. Continuous 24-hour overnight hacking is hosted inside the air-conditioned campus seminar hall with dedicated rest zones and mattresses. Female participants have a separate rest lounge with 24/7 security supervision.</div>
-              </div>
-              <div class="faq-row">
-                <div class="faq-question">What items are mandatory for entry clearance?</div>
-                <div class="faq-answer">Personal laptops, labeled spike busters/extension strips, original college photo ID cards, and your printed or digital Participant Pass.</div>
-              </div>
+              ${[
+                { q: "How do I verify my attendance to my hostel warden or Resident Tutor?", a: "Submit your generated Participant Pass alongside your Selection Confirmation Mail. Our Leave Brief screen gives you the exact verbal sentence to recite. Physical countersigned duty slips are stamped at Registration Desk 3 before closing." },
+                { q: "What are the mandatory reporting hours and gate access rules?", a: `Gate 1 opens at 08:00 AM on ${datesFormatted.split('–')[0].trim()} with mandatory physical sign-in at ${reportFormatted} IST sharp. Gate 1 closes at ${closeFormatted} on the final day.` },
+                { q: "Is overnight stay permitted for outstation participants?", a: "Yes. Continuous 24-hour overnight hacking is hosted inside the air-conditioned campus seminar hall with dedicated rest zones and mattresses. Female participants have a separate rest lounge with 24/7 security supervision." },
+                { q: "What items are mandatory for entry clearance?", a: "Personal laptops, labeled spike busters/extension strips, original college photo ID cards, and your printed or digital Participant Pass." }
+              ].map((faq, idx) => `
+                <div class="faq-accordion-item ${idx === 0 ? 'active' : ''}">
+                  <button type="button" class="faq-question-btn">
+                    <span>${escapeHtml(faq.q)}</span>
+                    <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                  </button>
+                  <div class="faq-answer-pane">
+                    <div class="faq-answer-inner">${escapeHtml(faq.a)}</div>
+                  </div>
+                </div>
+              `).join('')}
             </div>
           </section>
         </div>
@@ -1217,6 +1326,36 @@
                   <div class="committee-role">${escapeHtml(p.role)}</div>
                 </div>
               `).join('')}
+            </div>
+          </div>
+
+          <!-- Institutional Accreditation & Partners -->
+          <div class="bento-card">
+            <div class="card-header-row">
+              <h2 class="card-title">Institutional Patronage</h2>
+              <span class="card-pill">Verified</span>
+            </div>
+            <div class="partner-logos-strip">
+              <div class="partner-cell">
+                <strong class="partner-abbr">IEEE SB</strong>
+                <span class="partner-org">NIT Calicut</span>
+                <span class="partner-role">Technical Patron</span>
+              </div>
+              <div class="partner-cell">
+                <strong class="partner-abbr">KSUM</strong>
+                <span class="partner-org">Govt. of Kerala</span>
+                <span class="partner-role">Innovation Grant</span>
+              </div>
+              <div class="partner-cell">
+                <strong class="partner-abbr">GEC</strong>
+                <span class="partner-org">Kozhikode</span>
+                <span class="partner-role">Campus Host</span>
+              </div>
+              <div class="partner-cell">
+                <strong class="partner-abbr">ICFOSS</strong>
+                <span class="partner-org">Kerala FOSS</span>
+                <span class="partner-role">Ecosystem Partner</span>
+              </div>
             </div>
           </div>
         </aside>
@@ -2136,11 +2275,95 @@
     setup3DTilt(document.getElementById('hero-interactive-card'));
     startCountdown(ev.start);
 
+    // Dynamic Live Telemetry Stream
+    const tickerEl = document.querySelector('.ticker-text');
+    if (tickerEl) {
+      const stream = [
+        "142 Shortlisted Teams Verified • Gate 1 Sign-in Desk Ready (08:30 IST) • Biometric Attendance Sync Active",
+        "1 Gbps Dedicated Campus Lease Line Provisioned Across All Hacking Zones • 24/7 Power Backup Active",
+        "Hostel Out-Pass Protocol Approved by Resident Tutors • Verified Convener Hotline Online",
+        "₹1,00,000 Cash Grant Pool Vetted by KSUM Innovation Council & IEEE Student Branch NIT Calicut"
+      ];
+      let streamIdx = 0;
+      if (window._telemetryInterval) clearInterval(window._telemetryInterval);
+      window._telemetryInterval = setInterval(() => {
+        streamIdx = (streamIdx + 1) % stream.length;
+        tickerEl.style.opacity = '0';
+        setTimeout(() => {
+          tickerEl.textContent = stream[streamIdx];
+          tickerEl.style.opacity = '1';
+        }, 200);
+      }, 4000);
+    }
+
+    // Dynamic Spotlight for All Bento & Track Cards
+    document.querySelectorAll('.bento-card, .visual-track-card, .stat-ribbon-card, .prize-titanium-card').forEach(card => {
+      card.addEventListener('pointermove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      }, { passive: true });
+    });
+
+    // Interactive Schedule Day Filter
+    const schedBtns = document.querySelectorAll('.sched-filter-btn');
+    schedBtns.forEach(btn => {
+      btn.onclick = () => {
+        schedBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const targetDay = btn.getAttribute('data-day');
+        const rows = document.querySelectorAll('.timeline-row');
+        rows.forEach(row => {
+          const rowDay = row.getAttribute('data-day');
+          if (targetDay === 'all' || rowDay === targetDay) {
+            row.style.display = 'grid';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+        playFuturisticBlip(920);
+      };
+    });
+
+    // Interactive Competency Track Selection
+    document.querySelectorAll('.btn-track-select').forEach(btn => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        const trackName = btn.getAttribute('data-track');
+        state.participant.track = trackName;
+        playFuturisticBlip(1080);
+        window.location.hash = `#/e/${ev.slug}/pass`;
+      };
+    });
+
+    // Interactive FAQ Accordions
+    document.querySelectorAll('.faq-accordion-item').forEach(item => {
+      const trigger = item.querySelector('.faq-question-btn');
+      if (trigger) {
+        trigger.onclick = () => {
+          const isOpen = item.classList.contains('active');
+          document.querySelectorAll('.faq-accordion-item').forEach(i => i.classList.remove('active'));
+          if (!isOpen) {
+            item.classList.add('active');
+            playFuturisticBlip(750);
+          }
+        };
+      }
+    });
+
     const btnIcs = document.getElementById('btn-hero-ics');
-    if (btnIcs) btnIcs.onclick = () => downloadICS(ev);
+    if (btnIcs) btnIcs.onclick = () => {
+      playFuturisticBlip(880);
+      downloadICS(ev);
+    };
 
     const btnShare = document.getElementById('btn-hero-share');
-    if (btnShare) btnShare.onclick = () => shareEventBrief(ev);
+    if (btnShare) btnShare.onclick = () => {
+      playFuturisticBlip(880);
+      shareEventBrief(ev);
+    };
   }
 
   function bindPassEvents() {
@@ -2534,6 +2757,17 @@
 
     initCyberParticles();
     initCursorGlow();
+
+    const soundBtn = document.getElementById('btn-sound-toggle');
+    const soundLabel = document.getElementById('sound-label');
+    if (soundBtn && soundLabel) {
+      soundBtn.onclick = () => {
+        state.soundEnabled = !state.soundEnabled;
+        soundLabel.textContent = state.soundEnabled ? 'Audio: ON' : 'Audio: OFF';
+        soundBtn.classList.toggle('active', state.soundEnabled);
+        if (state.soundEnabled) playFuturisticBlip(1040);
+      };
+    }
 
     window.addEventListener('hashchange', handleRoute);
     handleRoute();
