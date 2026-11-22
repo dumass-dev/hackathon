@@ -1,48 +1,73 @@
 /* ==========================================================================
-   Campus Proof Desk — Apple & Awwwards Production Design
-   Obsidian Black • SF Pro Typography • Precision Glass • Zero Slop
+   Campus Proof Desk — Claude AI Signature Design System
+   Warm Dark Espresso • Claude Terracotta & Clay • Warm Ivory Typography
    ========================================================================== */
 
 :root {
-  /* Apple Pro Typography System */
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Claude Typography System - Warm Humanist & Modern Clean */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Apple Garamond", "Baskerville", "Times New Roman", "Droid Serif", Times, "Source Serif Pro", serif;
   --font-mono: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-  /* Apple Pro Color Palette */
-  --apple-black: #000000;
-  --apple-dark: #08080a;
-  --apple-card: #0f0f12;
-  --apple-card-elevated: #16161a;
-  --apple-card-hover: #1c1c22;
-  --apple-border: rgba(255, 255, 255, 0.08);
-  --apple-border-light: rgba(255, 255, 255, 0.14);
-  --apple-border-highlight: rgba(255, 255, 255, 0.22);
+  /* Claude Signature Warm Espresso & Charcoal Palette */
+  --claude-bg: #141312;               /* Iconic Claude warm dark background */
+  --claude-bg-subtle: #1a1918;        /* Subtle contrast section background */
+  --claude-surface: #201f1d;          /* Card surface base */
+  --claude-surface-elevated: #282624; /* Elevated card surface */
+  --claude-surface-hover: #32302c;    /* Hover card surface */
   
-  --apple-white: #f5f5f7;
-  --apple-gray-100: #e5e5ea;
-  --apple-gray-200: #d1d1d6;
-  --apple-gray-400: #a1a1a6;
-  --apple-gray-500: #86868b;
-  --apple-gray-700: #3a3a3c;
-  --apple-gray-900: #1c1c1e;
+  --claude-border: rgba(236, 231, 222, 0.08);
+  --claude-border-light: rgba(236, 231, 222, 0.14);
+  --claude-border-highlight: rgba(217, 119, 87, 0.45);
 
-  /* Apple Brand Accents */
-  --apple-blue: #2997ff;
-  --apple-blue-deep: #0071e3;
-  --apple-green: #30d158;
-  --apple-orange: #f56300;
-  --apple-glow: rgba(41, 151, 255, 0.15);
+  /* Claude Warm Ivory & Stone Typography */
+  --claude-ivory: #faf7f2;
+  --claude-text-primary: #ece7de;
+  --claude-text-secondary: #b5ada4;
+  --claude-text-muted: #7d756d;
+  --claude-text-subtle: #57524d;
 
-  /* WhatsApp Theme Tokens */
-  --wa-bg: #0b141a;
-  --wa-header: #1f2c34;
-  --wa-bubble-in: #1f2c34;
-  --wa-bubble-out: #005c4b;
-  --wa-bubble-text: #e9edef;
-  --wa-time: #8696a0;
-  --wa-tick: #53bdeb;
-  --wa-banner: #182229;
-  --wa-banner-text: #ffd279;
+  /* Iconic Claude Brand Accents */
+  --claude-terracotta: #d97757;       /* Iconic Claude Coral / Terracotta */
+  --claude-terracotta-hover: #c46243; /* Deep Terracotta */
+  --claude-clay-soft: rgba(217, 119, 87, 0.15);
+  --claude-clay-glow: rgba(217, 119, 87, 0.28);
+  --claude-amber: #d4a373;            /* Warm Claude Amber */
+  --claude-sage: #8da399;             /* Claude Sage Green (Success/Verification) */
+  --claude-sage-soft: rgba(141, 163, 153, 0.15);
+
+  /* Design Token Aliases */
+  --apple-black: var(--claude-bg);
+  --apple-dark: var(--claude-bg-subtle);
+  --apple-card: var(--claude-surface);
+  --apple-card-elevated: var(--claude-surface-elevated);
+  --apple-card-hover: var(--claude-surface-hover);
+  --apple-border: var(--claude-border);
+  --apple-border-light: var(--claude-border-light);
+  --apple-border-highlight: var(--claude-border-highlight);
+  --apple-white: var(--claude-text-primary);
+  --apple-gray-100: var(--claude-ivory);
+  --apple-gray-200: var(--claude-text-primary);
+  --apple-gray-400: var(--claude-text-secondary);
+  --apple-gray-500: var(--claude-text-muted);
+  --apple-gray-700: #383531;
+  --apple-gray-900: #262422;
+  --apple-blue: var(--claude-terracotta);
+  --apple-blue-deep: var(--claude-terracotta-hover);
+  --apple-green: var(--claude-sage);
+  --apple-orange: var(--claude-amber);
+  --apple-glow: var(--claude-clay-glow);
+
+  /* WhatsApp Theme Tokens (Warm Claude Dark Theme) */
+  --wa-bg: #141312;
+  --wa-header: #201f1d;
+  --wa-bubble-in: #262422;
+  --wa-bubble-out: #382721;
+  --wa-bubble-text: #ece7de;
+  --wa-time: #948c82;
+  --wa-tick: #d97757;
+  --wa-banner: #231f1c;
+  --wa-banner-text: #d4a373;
 }
 
 /* Base Reset */
@@ -62,6 +87,8 @@ html {
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
   letter-spacing: -0.015em;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -69,6 +96,8 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  max-width: 100%;
+  position: relative;
   background-color: var(--apple-black);
   color: var(--apple-white);
 }
@@ -392,6 +421,7 @@ button {
    ========================================================================== */
 .hero-section {
   position: relative;
+  overflow: hidden;
   padding: 3rem 0 2.5rem;
   margin-bottom: 2.5rem;
 }
@@ -399,12 +429,12 @@ button {
 .hero-ambient-spotlight {
   position: absolute;
   top: -60px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
-  max-width: 1400px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100%;
   height: 600px;
-  background: radial-gradient(ellipse 75% 55% at 50% 0%, rgba(41, 151, 255, 0.22) 0%, rgba(0, 0, 0, 0) 70%);
+  background: radial-gradient(ellipse 75% 55% at 50% 0%, rgba(217, 119, 87, 0.22) 0%, rgba(0, 0, 0, 0) 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -2438,118 +2468,612 @@ button {
 /* ==========================================================================
    Mobile Responsive Adjustments (390px Viewport)
    ========================================================================== */
+/* ==========================================================================
+   Comprehensive Mobile Responsive Engine (Optimized for 360px - 480px Viewports)
+   Zero horizontal overflow • One-thumb ergonomics • Native touch feel
+   ========================================================================== */
 @media (max-width: 860px) {
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  /* Header Bar */
+  .site-header {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
   .header-inner {
-    padding: 0.55rem 0.85rem;
-    gap: 0.5rem;
+    padding: 0.5rem 0.65rem;
+    gap: 0.35rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
   }
+
+  .header-left {
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  .brand-symbol svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .brand-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
   .brand-pill {
-    display: none;
+    display: none !important;
   }
+
+  .header-center {
+    flex: 1;
+    min-width: 0;
+    max-width: 125px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .event-picker-wrap {
+    min-width: 0;
+    max-width: 125px;
+    width: 100%;
+  }
+
   .event-picker-select {
-    max-width: 155px;
-    font-size: 0.76rem;
-    padding: 0.35rem 0.65rem;
+    width: 100%;
+    min-width: 0;
+    max-width: 125px;
+    font-size: 0.72rem;
+    padding: 0.35rem 0.45rem;
     text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    background: rgba(255, 255, 255, 0.05);
+    box-sizing: border-box;
   }
-  .btn-ghost {
-    padding: 0.4rem 0.55rem;
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
   }
+
+  .sound-toggle,
+  #btn-sound-toggle,
+  #btn-global-print {
+    padding: 0 !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    background: rgba(236, 231, 222, 0.08) !important;
+    border: 1px solid rgba(236, 231, 222, 0.18) !important;
+    color: var(--claude-text-primary) !important;
+  }
+
+  .sound-toggle svg,
+  #btn-sound-toggle svg,
+  #btn-global-print svg {
+    width: 15px !important;
+    height: 15px !important;
+    stroke: var(--claude-text-primary) !important;
+    display: block !important;
+  }
+
+  .sound-toggle #sound-label,
   .btn-ghost span {
-    display: none;
+    display: none !important;
   }
+
+  /* Sub-Navigation Tabs: Silky smooth horizontal scrollbar */
+  .sub-nav {
+    overflow: hidden;
+    position: relative;
+  }
+
   .sub-nav-inner {
-    padding: 0.35rem 0.85rem;
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.4rem 0.65rem;
+    gap: 0.35rem;
   }
+
+  .sub-nav-inner::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .sub-link {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.7rem;
+    flex-shrink: 0;
+    border-radius: 980px;
+  }
+
+  /* Page Container & Typography */
   .page-container {
-    padding: 1.5rem 0.85rem 3rem;
+    padding: 1rem 0.65rem 2.5rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .section-hero {
+    margin-bottom: 1.25rem;
+  }
+
+  .page-title {
+    font-size: clamp(1.4rem, 6vw, 1.85rem);
+    line-height: 1.15;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    margin-bottom: 0.4rem;
+  }
+
+  .page-subhead {
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    padding-bottom: 1.5rem;
+  }
+
+  .hackathon-live-ticker {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+    padding: 0.35rem 0.65rem;
+  }
+
+  .ticker-text {
+    font-size: 0.72rem;
   }
 
   .hero-split-grid {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-
-  .hero-device-col {
-    order: 2;
-  }
-
-  .iphone-pro-mockup {
-    transform: none;
-    max-width: 290px;
-  }
-
-  .chip-top-right {
-    right: -5px;
-  }
-
-  .chip-bottom-left {
-    left: -5px;
-  }
-
-  .visual-tracks-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .phone-frame-outer {
-    max-width: 100%;
-  }
-
-  .iphone-hardware-chassis {
-    border-radius: 36px;
-    padding: 6px;
+    gap: 1.75rem;
   }
 
   .hero-eyebrow {
     flex-wrap: wrap;
-    gap: 0.4rem 0.6rem;
-    font-size: 0.72rem;
+    gap: 0.35rem 0.5rem;
+    font-size: 0.7rem;
   }
 
   .hero-headline {
-    font-size: clamp(1.8rem, 7.5vw, 2.7rem);
-    letter-spacing: -0.03em;
-    word-break: normal;
+    font-size: clamp(1.85rem, 8vw, 2.5rem);
+    line-height: 1.08;
+    margin-bottom: 0.75rem;
     overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   .hero-subhead {
-    font-size: 1rem;
+    font-size: 0.9rem;
     line-height: 1.5;
+    margin-bottom: 1.15rem;
   }
 
-  .hero-cta-bar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.6rem;
+  /* Countdown HUD on 390px/360px */
+  .hackathon-countdown-hud {
+    padding: 0.75rem 0.65rem;
+    margin-bottom: 1rem;
+    border-radius: 12px;
   }
+
+  .countdown-hud-title {
+    font-size: 0.62rem;
+  }
+
+  .countdown-blocks-grid {
+    gap: 0.2rem;
+    justify-content: space-between;
+  }
+
+  .cd-digit-block {
+    min-width: 40px;
+    flex: 1;
+    padding: 0.35rem 0.15rem;
+    border-radius: 8px;
+  }
+
+  .cd-num {
+    font-size: 1.15rem;
+  }
+
+  .cd-unit {
+    font-size: 0.48rem;
+  }
+
+  .cd-colon {
+    font-size: 0.95rem;
+  }
+
+  /* Hackathon Keynote Stats Ribbon */
+  .hackathon-stats-ribbon {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+  }
+
+  .stat-ribbon-card {
+    padding: 0.65rem 0.75rem;
+    border-radius: 12px;
+  }
+
+  .ribbon-val {
+    font-size: 1.15rem;
+  }
+
+  .ribbon-title {
+    font-size: 0.62rem;
+  }
+
+  .ribbon-sub {
+    font-size: 0.62rem;
+  }
+
+  /* Key Metrics Strip */
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 1px;
+    margin-bottom: 1.25rem;
+  }
+
+  .metric-cell {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .metric-value {
+    font-size: 0.95rem;
+  }
+
+  .metric-label {
+    font-size: 0.72rem;
+  }
+
+  /* Hero CTA Buttons on Mobile: full width, thumb-friendly */
+  .hero-cta-bar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
   .hero-cta-bar .btn-apple-primary,
   .hero-cta-bar .btn-apple-secondary,
   .hero-cta-bar .btn-apple-tertiary,
   .hero-cta-bar .btn-apple-ghost {
     width: 100%;
     justify-content: center;
+    min-height: 48px;
+    font-size: 0.9rem;
+    border-radius: 980px;
   }
 
-  .metrics-grid {
-    grid-template-columns: 1fr;
-    gap: 1px;
+  /* iPhone Pro Mockup */
+  .hero-device-col {
+    order: 2;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 100%;
   }
 
+  .device-stage {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .iphone-pro-mockup {
+    max-width: 100%;
+    width: 100%;
+    transform: none !important;
+    border-radius: 36px;
+    padding: 6px;
+  }
+
+  .floating-chip {
+    display: none !important;
+  }
+
+  /* Bento Layouts & Cards */
   .bento-layout {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 
+  .bento-primary-col,
+  .bento-secondary-col {
+    width: 100%;
+  }
+
+  .bento-card {
+    padding: 1.15rem 0.85rem;
+    border-radius: 14px;
+    margin-bottom: 0.85rem;
+  }
+
+  .card-header-row {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .card-title {
+    font-size: 1.02rem;
+  }
+
+  .visual-tracks-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .visual-track-card {
+    padding: 1rem 0.85rem;
+    border-radius: 12px;
+  }
+
+  /* Timeline & Schedule */
+  .schedule-filter-bar {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    gap: 0.25rem;
+    box-sizing: border-box;
+  }
+
+  .sched-filter-btn {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    padding: 0.35rem 0.65rem;
+  }
+
+  .timeline-row {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+    padding: 0.75rem 0.65rem;
+  }
+
+  /* Titanium Card */
+  .prize-titanium-card {
+    padding: 1.15rem 0.85rem;
+    border-radius: 16px;
+  }
+
+  .prize-big-number {
+    font-size: 1.6rem;
+  }
+
+  .tier-bar-row {
+    gap: 0.4rem;
+  }
+
+  .tier-name {
+    width: 65px;
+    font-size: 0.78rem;
+  }
+
+  /* FAQ Accordion */
+  .faq-question-btn {
+    padding: 0.85rem 0.85rem;
+    font-size: 0.88rem;
+  }
+
+  .faq-answer-inner {
+    padding: 0 0.85rem 0.85rem;
+    font-size: 0.82rem;
+  }
+
+  /* Participant Pass Screen */
   .pass-layout {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .apple-pass {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 18px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  .pass-header-strip {
+    padding: 1rem 0.85rem;
+  }
+
+  .pass-body-section {
+    padding: 1rem 0.85rem;
+  }
+
+  .pass-grid-fields {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .pass-qr-row {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .pass-qr-box {
+    margin: 0 auto;
+  }
+
+  .pass-controls-column {
+    width: 100%;
+  }
+
+  .pass-controls-column .apple-input,
+  .pass-controls-column .apple-select {
+    font-size: 16px !important;
+    min-height: 48px;
+    padding: 0.75rem 0.85rem;
+  }
+
+  .pass-actions-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .pass-actions-group button,
+  .pass-actions-group a {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+  }
+
+  /* WhatsApp Chat Screen */
+  .wa-chat-container {
+    max-width: 100%;
+    border-radius: 12px;
+    min-height: 70vh;
+  }
+
+  .wa-chat-header {
+    padding: 0.55rem 0.65rem;
+  }
+
+  .wa-messages-area {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .wa-msg {
+    max-width: 90%;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.65rem;
+  }
+
+  .wa-input-strip {
+    padding: 0.45rem 0.55rem;
+  }
+
+  /* Selection Mail Screen */
+  .mail-envelope {
+    padding: 1rem 0.75rem;
+    border-radius: 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .mail-subject {
+    font-size: 1.15rem;
+    line-height: 1.25;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .mail-sender-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .mail-meta-tags {
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .mail-actions-bar {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .mail-actions-bar button,
+  .mail-actions-bar a {
+    width: 100%;
+    justify-content: center;
+    min-height: 46px;
+  }
+
+  /* Leave Brief Screen */
+  .verbal-box {
+    padding: 0.85rem 0.75rem;
+  }
+
+  .verbal-quote {
+    font-size: 0.88rem;
+    line-height: 1.5;
   }
 
   .scripts-two-col {
     grid-template-columns: 1fr;
+    gap: 0.85rem;
   }
 
   .dossier-numbered-grid {
     grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .card-actions-row {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .card-actions-row button,
+  .card-actions-row a {
+    width: 100%;
+    justify-content: center;
+    min-height: 46px;
+  }
+
+  /* Admin Screen & Lock Gate */
+  .admin-lock-wrapper {
+    padding: 1rem 0.5rem;
+    min-height: 55vh;
+  }
+
+  .admin-lock-card {
+    padding: 1.5rem 1rem;
+    border-radius: 16px;
+    width: 100%;
+  }
+
+  .lock-key-input {
+    font-size: 16px !important;
+    min-height: 48px;
+  }
+
+  .hero-actions-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+
+  .action-buttons-wrap {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .action-buttons-wrap button {
+    width: 100%;
+    justify-content: center;
+    min-height: 46px;
   }
 
   .admin-layout {
@@ -2560,17 +3084,16 @@ button {
     grid-template-columns: 1fr;
   }
 
+  /* Footer */
   .footer-inner {
     flex-direction: column;
     align-items: flex-start;
-  }
-  .footer-right {
-    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem 0.85rem;
   }
 
-  .timeline-row {
-    grid-template-columns: 1fr;
-    gap: 0.35rem;
+  .footer-right {
+    align-items: flex-start;
   }
 }
 
@@ -2581,8 +3104,8 @@ button {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 0;
   opacity: 0.65;
@@ -2595,7 +3118,7 @@ button {
   width: 300px;
   height: 300px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(41, 151, 255, 0.08) 0%, rgba(41, 151, 255, 0) 70%);
+  background: radial-gradient(circle, rgba(217, 119, 87, 0.12) 0%, rgba(217, 119, 87, 0) 70%);
   pointer-events: none;
   z-index: 1;
   transition: transform 0.08s ease-out;

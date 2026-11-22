@@ -43,7 +43,7 @@
         { name: "Ananya P.", role: "Participant Support & Helpdesk" }
       ],
       note: "Approved regional collegiate hackathon recognized by KSUM innovation council. Participant attendance certificates issued for academic duty leave and residential hostel attendance reconciliation.",
-      palette: { c1: "#2997ff", c2: "#f5f5f7", bg: "#000000" },
+      palette: { c1: "#d97757", c2: "#faf7f2", bg: "#141312" },
       poster: "posters/hackmalabar-2026.png",
       status: "upcoming"
     },
@@ -79,7 +79,7 @@
         { name: "Reshma Balan", role: "Student Coordinator" }
       ],
       note: "Intensive systems engineering workshop. Authorized for institutional academic duty leave and laboratory attendance waiver.",
-      palette: { c1: "#f56300", c2: "#f5f5f7", bg: "#000000" },
+      palette: { c1: "#d4a373", c2: "#faf7f2", bg: "#141312" },
       poster: "posters/build-kernel-kochi.png",
       status: "completed"
     }
@@ -2708,7 +2708,7 @@
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 110) {
             const alpha = (1 - dist / 110) * 0.12;
-            ctx.strokeStyle = `rgba(41, 151, 255, ${alpha})`;
+            ctx.strokeStyle = `rgba(217, 119, 87, ${alpha})`;
             ctx.lineWidth = 0.8;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
@@ -2719,7 +2719,7 @@
       }
 
       for (const p of particles) {
-        ctx.fillStyle = `rgba(41, 151, 255, ${p.alpha})`;
+        ctx.fillStyle = `rgba(217, 119, 87, ${p.alpha})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
