@@ -9,41 +9,41 @@
   // Built-in Seed Hackathons for Zero-Latency First Render
   const DEFAULT_EVENTS = [
     {
-      slug: "hackmalabar-2026",
+      slug: "hack-the-coast-2026",
       type: "hackathon",
-      name: "HackMalabar 2026",
-      edition: "Edition 3",
-      host: "IEEE Student Branch NIT Calicut",
-      support: "Kerala Startup Mission (KSUM)",
-      venue: "Government Engineering College Kozhikode, West Hill, Kozhikode, Kerala 673005",
-      district: "Kozhikode",
-      mapsQuery: "Government Engineering College Kozhikode",
+      name: "Hack The Coast 2026",
+      edition: "2026 Edition",
+      host: "IEEE Student Branch • MES College of Engineering, Malappuram",
+      support: "Kerala Startup Mission (KSUM) • IEDC MESCE Malappuram",
+      venue: "MES College of Engineering, Kuttippuram Road, Malappuram, Kerala 676519",
+      district: "Malappuram",
+      mapsQuery: "MES College of Engineering Kuttippuram Malappuram",
       start: "2026-11-23T08:30:00+05:30",
-      end: "2026-11-25T18:00:00+05:30",
+      end: "2026-11-24T20:30:00+05:30",
       report: "2026-11-23T08:30:00+05:30",
-      close: "2026-11-25T18:00:00+05:30",
-      deadline: "2026-11-20T23:59:00+05:30",
-      contactName: "Arjun V. Nair",
-      contactEmail: "convener@hackmalabar.dev",
-      site: "https://hackmalabar.dev",
-      prize: "₹1,00,000 Cash Pool (First: ₹50,000 | Second: ₹30,000 | Third: ₹20,000)",
-      fee: "Free registration for shortlisted teams",
+      close: "2026-11-24T20:30:00+05:30",
+      deadline: "2026-11-21T23:59:00+05:30",
+      contactName: "Arjun Menon",
+      contactEmail: "hackthecoast26@gmail.com",
+      site: "https://hackthecoast26.in",
+      prize: "₹1,00,000 Total Prize Pool (Winner: ₹50,000 | Runner-Up: ₹30,000 | Best Women-Led: ₹20,000)",
+      fee: "Entry free, shortlisted teams only",
       tracks: [
-        "AI & Intelligent Automation",
-        "Developer Tooling & Infrastructure",
-        "FinTech & Decentralized Systems",
-        "HealthTech & Assistive Technologies",
-        "Open Innovation for Real-World Impact"
+        "AI/ML",
+        "Agri-Tech",
+        "Health-Tech",
+        "FinTech",
+        "Open Innovation"
       ],
       people: [
-        { name: "Arjun V. Nair", role: "Lead Convener (IEEE SB)" },
-        { name: "Dr. Sreela N.", role: "Faculty Advisor & HoD CSE" },
+        { name: "Arjun Menon", role: "Organising Secretary" },
+        { name: "Dr. Sreela N.", role: "Faculty Advisor & HoD CSE, MESCE" },
         { name: "Fahad Mansoor", role: "Technical Operations & Track Lead" },
         { name: "Ananya P.", role: "Hacker Experience & Mentorship Lead" }
       ],
-      note: "Premier 24-hour collegiate hackathon endorsed and supported by KSUM Innovation Council. 140+ finalist developer teams building next-generation products with ₹1,00,000 in cash prizes, API credits, and venture incubation grants.",
+      note: "Official 36-hour collegiate hackathon organized by IEEE Student Branch MES College of Engineering, Malappuram. Supported by Kerala Startup Mission and IEDC MESCE. 100+ shortlisted developer teams building cutting-edge prototypes across AI/ML, Agri-Tech, Health-Tech, FinTech, and Open Innovation with ₹1,00,000 in cash prizes, cloud credits, and incubation opportunities.",
       palette: { c1: "#d97757", c2: "#1f1e1b", bg: "#fbf9f5" },
-      poster: "posters/hackmalabar-2026.png",
+      poster: "posters/hack-the-coast-2026.jpg",
       status: "upcoming"
     },
     {
@@ -89,9 +89,9 @@
     currentEvent: null,
     currentScreen: 'public',
     participant: {
-      name: 'Rahul Krishna',
-      college: 'College of Engineering Trivandrum',
-      regId: 'HM-2026-7842',
+      name: '',
+      college: '',
+      regId: 'HTC-2026-1042',
       track: ''
     },
     privateNote: localStorage.getItem('hackdesk_private_note') || ''
@@ -102,6 +102,26 @@
 
   // Accredited Competency Tracks Metadata & Problem Focus
   const trackMetadata = {
+    "AI/ML": {
+      techs: ["Claude 3.5 Sonnet", "PyTorch", "Hugging Face", "LangChain", "Autonomous Agents"],
+      focus: "Multimodal AI solutions, real-time reasoning agents, vision models, and intelligent automated workflows."
+    },
+    "Agri-Tech": {
+      techs: ["IoT Sensors", "Computer Vision", "Satellite Data", "Edge ML", "Drone Telemetry"],
+      focus: "Precision agriculture, crop disease detection, soil moisture monitoring, and supply-chain transparency."
+    },
+    "Health-Tech": {
+      techs: ["Edge Vision", "Sensors", "WebRTC", "Offline-First", "FHIR / HL7"],
+      focus: "Remote patient monitoring, rapid triage assistance, vital signal diagnostics, and accessibility tools."
+    },
+    "FinTech": {
+      techs: ["UPI Rails", "Account Aggregator", "Zero-Knowledge", "Rust", "Fraud ML"],
+      focus: "Real-time payment solutions, decentralized credit verification, fraud detection, and financial inclusion."
+    },
+    "Open Innovation": {
+      techs: ["Civic APIs", "GeoJSON", "Edge IoT", "Cloudflare Workers", "Python"],
+      focus: "High-impact civic technology, sustainable infrastructure, disaster response, and community empowerment."
+    },
     "AI & Intelligent Automation": {
       techs: ["Claude 3.5 Sonnet", "PyTorch", "LangChain", "Autonomous Agents"],
       focus: "Autonomous agentic workflows, multimodal document intelligence, and real-time reasoning engines."
@@ -136,33 +156,26 @@
     }
   };
 
-  // Hackathon Schedule Presets
+  // Hackathon Schedule Presets (36-Hour Schedule for Nov 23 - Nov 24)
   const schedulePresets = {
     hackathon: [
       // Day 1 — Nov 23
-      { day: 'Day 1', time: '08:30 AM', label: 'Participant Gate Check-in & Badge Allotment', note: 'Gate 1 check-in desk opens at GEC Kozhikode. ID verification, welcome kits, and LAN credentials.' },
-      { day: 'Day 1', time: '10:00 AM', label: 'Opening Keynote & Problem Statements Briefing', note: 'Orientation by IEEE Student Branch advisors, KSUM representatives, and industry jury.' },
-      { day: 'Day 1', time: '11:30 AM', label: '48-Hour Hacking Sprint Begins', note: 'Dedicated high-speed connectivity, table allocations, and cloud sandboxes active.' },
-      { day: 'Day 1', time: '01:30 PM', label: 'Lunch Break & Peer Networking', note: 'Campus dining pavilion open. Informal sync across teams.' },
-      { day: 'Day 1', time: '05:00 PM', label: 'Tech Workshop: Cloud Architecture & Scaling', note: 'Optional interactive session on deploying production-ready APIs and AI models.' },
-      { day: 'Day 1', time: '08:00 PM', label: 'Dinner & Sprint Progress Sync', note: 'Hot dinner served. Teams review initial commits and milestone targets.' },
-      { day: 'Day 1', time: '11:59 PM', label: 'Midnight Snack & Hacker Mini-Challenges', note: 'Caffeine bar, snacks, and rest lounges available through the night.' },
+      { day: 'Day 1', time: '08:30 AM', label: 'Participant Gate Check-in & Badge Allotment', note: 'Gate 1 check-in desk opens at MES College of Engineering, Malappuram. Physical student ID verification, badge issuance, and welcome kits.' },
+      { day: 'Day 1', time: '10:00 AM', label: 'Opening Keynote & Problem Statements Briefing', note: 'Ceremonial opening by IEEE Student Branch MESCE, Kerala Startup Mission advisors, and industry jury.' },
+      { day: 'Day 1', time: '11:00 AM', label: '36-Hour Hacking Sprint Begins', note: 'Dedicated high-speed connectivity, table allocations, and cloud developer sandboxes active.' },
+      { day: 'Day 1', time: '01:30 PM', label: 'Lunch Break & Peer Networking', note: 'Campus dining pavilion open. Cross-team collaboration and tech discussions.' },
+      { day: 'Day 1', time: '04:30 PM', label: 'Mentor Review 1: Architecture & Feasibility', note: 'Industry mentors visit team workstations for codebase inspection and technical guidance.' },
+      { day: 'Day 1', time: '08:30 PM', label: 'Dinner & Sprint Progress Sync', note: 'Hot dinner served in dining hall. Teams review initial commits and milestone targets.' },
+      { day: 'Day 1', time: '11:59 PM', label: 'Midnight Caffeine Sprint & Mini-Challenges', note: 'Caffeine bar, snacks, and rest lounges available through the night in the arena.' },
 
       // Day 2 — Nov 24
-      { day: 'Day 2', time: '08:00 AM', label: 'Breakfast & Day 2 Sprint Resumes', note: 'Morning tea and breakfast service in the dining hall.' },
-      { day: 'Day 2', time: '10:30 AM', label: 'Mentor Review 1: Architecture & Feasibility', note: 'Industry mentors visit team workstations for codebase inspection and technical guidance.' },
+      { day: 'Day 2', time: '08:00 AM', label: 'Breakfast & Day 2 Sprint Resumes', note: 'Morning tea and breakfast service in the dining hall. Final stretch of coding.' },
+      { day: 'Day 2', time: '10:30 AM', label: 'Mentor Review 2: Progress & Demo Readiness', note: 'Jury and mentors conduct second round of hands-on code reviews and demo dry-runs.' },
       { day: 'Day 2', time: '01:00 PM', label: 'Lunch Break', note: 'Afternoon dining and recharge.' },
-      { day: 'Day 2', time: '04:30 PM', label: 'Mid-Evaluation & Progress Checkpoint', note: 'Jury walkthrough to evaluate working prototypes and core feature progress.' },
-      { day: 'Day 2', time: '08:00 PM', label: 'Dinner & Overnight Build Sprint', note: 'Evening dinner served. Night sprint and feature refinement.' },
-      { day: 'Day 2', time: '11:00 PM', label: 'Pitch Preparation & Deck Dry-Runs', note: 'Mentors assist with pitch structure, storytelling, and demo preparation.' },
-
-      // Day 3 — Nov 25
-      { day: 'Day 3', time: '08:00 AM', label: 'Breakfast & Final Sprint', note: 'Final documentation, testing, and deployment verification.' },
-      { day: 'Day 3', time: '11:00 AM', label: 'Code Freeze & GitHub Repository Submissions', note: 'All repositories locked. Mandatory public repo, README, demo video link, and pitch deck.' },
-      { day: 'Day 3', time: '12:00 PM', label: 'Lunch & Demo Booth Setup', note: 'Teams set up demo screens in the main exhibition hall.' },
-      { day: 'Day 3', time: '01:30 PM', label: 'Live Project Demos & Grand Jury Evaluation', note: 'Stage presentations and live technical Q&A before the expert jury panel.' },
-      { day: 'Day 3', time: '04:30 PM', label: 'Valedictory Ceremony & Prize Distribution', note: 'Presentation of ₹1,00,000 cash prizes, KSUM incubation vouchers, and trophies.' },
-      { day: 'Day 3', time: '06:00 PM', label: 'Official Hackathon Close', note: 'Participant accreditation certificates distributed.' }
+      { day: 'Day 2', time: '03:00 PM', label: 'Code Freeze & GitHub Repository Submissions', note: 'All repositories locked. Mandatory public repo, README, demo video link, and pitch deck.' },
+      { day: 'Day 2', time: '04:00 PM', label: 'Live Project Demos & Grand Jury Evaluation', note: 'Stage presentations and live technical Q&A before the expert jury panel in MESCE Auditorium.' },
+      { day: 'Day 2', time: '06:30 PM', label: 'Valedictory Ceremony & Prize Distribution', note: 'Presentation of ₹1,00,000 cash prizes (₹50k Winner, ₹30k Runner-Up, ₹20k Best Women-Led), KSUM incubation vouchers, and trophies.' },
+      { day: 'Day 2', time: '08:00 PM', label: 'Official Hackathon Close', note: 'Participant accreditation certificates distributed.' }
     ],
     workshop: [
       { day: 'Day 1', time: '09:00 AM', label: 'Check-in & Workstation Allotment', note: 'Registration verification and lab system access.' },
@@ -191,7 +204,7 @@
     const year = s.getFullYear();
 
     if (sMonth === eMonth) {
-      return `${sDay} ${sMonth} – ${eDay} ${eMonth} ${year}`;
+      return `${sDay} – ${eDay} ${sMonth} ${year}`;
     }
     return `${sDay} ${sMonth} – ${eDay} ${eMonth} ${year}`;
   }
@@ -286,7 +299,7 @@
     const nav = document.getElementById('nav-tabs-container');
     if (!nav) return;
 
-    const baseSlug = currentSlug || (state.currentEvent ? state.currentEvent.slug : 'hackmalabar-2026');
+    const baseSlug = currentSlug || (state.currentEvent ? state.currentEvent.slug : 'hack-the-coast-2026');
     const adminLink = (currentScreen === 'admin' && isAdminAuthenticated())
       ? `<a href="#/admin" class="sub-link active" data-screen="admin">Admin Desk</a>`
       : '';
@@ -294,7 +307,6 @@
     nav.innerHTML = `
       <a href="#/e/${baseSlug}" class="sub-link ${currentScreen === 'public' ? 'active' : ''}" data-screen="public">Overview</a>
       <a href="#/e/${baseSlug}/pass" class="sub-link ${currentScreen === 'pass' ? 'active' : ''}" data-screen="pass">Participant Pass</a>
-      <a href="#/e/${baseSlug}/chat" class="sub-link ${currentScreen === 'chat' ? 'active' : ''}" data-screen="chat">Organisers Channel</a>
       <a href="#/e/${baseSlug}/brief" class="sub-link ${currentScreen === 'brief' ? 'active' : ''}" data-screen="brief">Hackathon Guide</a>
       ${adminLink}
     `;
@@ -471,20 +483,20 @@
     ctx.fillStyle = '#d97757';
     ctx.font = '700 18px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.textAlign = 'center';
-    const initials = (participant.name || 'RK').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+    const initials = participant.name ? participant.name.split(' ').filter(Boolean).map(n => n[0]).join('').slice(0, 2).toUpperCase() : '—';
     ctx.fillText(initials, 60, 182);
     ctx.textAlign = 'left';
 
     // Details text
     ctx.fillStyle = '#1f1e1b';
     ctx.font = '700 16px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(participant.name || 'Rahul Krishna', 105, 160);
+    ctx.fillText(participant.name || 'Your Full Name', 105, 160);
     ctx.fillStyle = '#57534e';
     ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(participant.college || 'College of Engineering Trivandrum', 105, 180);
+    ctx.fillText(participant.college || 'Your College / Institution', 105, 180);
     ctx.fillStyle = '#d97757';
     ctx.font = '600 11px monospace';
-    ctx.fillText(`ID: ${participant.regId || 'HM-2026-7842'}`, 105, 200);
+    ctx.fillText(`ID: ${participant.regId || 'HTC-2026-XXXX'}`, 105, 200);
 
     // Grid details
     const yGrid = 240;
@@ -508,7 +520,7 @@
 
     ctx.fillStyle = '#1f1e1b';
     ctx.font = '700 13px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText('Gate 1 (West Hill)', col1, yGrid + 66);
+    ctx.fillText('Gate 1 (MESCE Campus)', col1, yGrid + 66);
     const trackStr = participant.track || event.tracks[0];
     ctx.fillText(trackStr.length > 20 ? trackStr.slice(0, 18) + '...' : trackStr, col2, yGrid + 66);
 
@@ -707,6 +719,9 @@
     if (track.toLowerCase().includes('ai') || track.toLowerCase().includes('automation')) {
       return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 3.36 2.07 6.24 5 7.42V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2.58c2.93-1.18 5-4.06 5-7.42a8 8 0 0 0-8-8z"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><path d="M10 13a2 2 0 0 0 4 0"/></svg>`;
     }
+    if (track.toLowerCase().includes('agri')) {
+      return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>`;
+    }
     if (track.toLowerCase().includes('tool') || track.toLowerCase().includes('infra') || track.toLowerCase().includes('kernel')) {
       return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`;
     }
@@ -735,7 +750,7 @@
           <div class="hero-copy-col">
             <div class="hackathon-live-ticker">
               <span class="live-dot" aria-hidden="true"></span>
-              <span class="ticker-badge">48-HOUR IN-PERSON SPRINT</span>
+              <span class="ticker-badge">36-HOUR IN-PERSON SPRINT</span>
               <span class="ticker-text">${datesFormatted} • ${escapeHtml(event.district)}, Kerala</span>
             </div>
 
@@ -748,7 +763,7 @@
             <h1 class="hero-headline">${escapeHtml(event.name)}</h1>
 
             <p class="hero-subheading">
-              48 hours of collaborative engineering, design, and product building. Join South India's top student developers, designers, and innovators at ${escapeHtml(event.venue.split(',')[0])}.
+              36 hours of collaborative engineering, design, and product building. Join South India's top student developers, designers, and innovators at ${escapeHtml(event.venue.split(',')[0])}.
             </p>
 
             <!-- Countdown Timer -->
@@ -785,15 +800,15 @@
               <div class="stat-ribbon-card">
                 <span class="ribbon-val">₹1,00,000</span>
                 <span class="ribbon-title">Total Cash Prize</span>
-                <span class="ribbon-sub">₹50k / ₹30k / ₹20k</span>
+                <span class="ribbon-sub">Winner ₹50k / Runner ₹30k / Women-Led ₹20k</span>
               </div>
               <div class="stat-ribbon-card">
-                <span class="ribbon-val">48 Hours</span>
+                <span class="ribbon-val">36 Hours</span>
                 <span class="ribbon-title">In-Person Sprint</span>
                 <span class="ribbon-sub">Non-stop building</span>
               </div>
               <div class="stat-ribbon-card">
-                <span class="ribbon-val">150+ Teams</span>
+                <span class="ribbon-val">100+ Teams</span>
                 <span class="ribbon-title">Finalist Developers</span>
                 <span class="ribbon-sub">Shortlisted builders</span>
               </div>
@@ -842,7 +857,7 @@
                   </div>
                   <div class="hero-meta-item">
                     <span class="meta-label">Format</span>
-                    <strong class="meta-value">48h In-Person</strong>
+                    <strong class="meta-value">36h In-Person</strong>
                   </div>
                   <div class="hero-meta-item">
                     <span class="meta-label">District</span>
@@ -884,7 +899,7 @@
             </div>
             <p class="card-text">${escapeHtml(event.note)}</p>
             <p class="card-subtext">
-              Organized by <strong>${escapeHtml(event.host)}</strong> in partnership with <strong>${escapeHtml(event.support)}</strong>. Finalist teams receive 48 hours of continuous building workspace, 1 Gbps high-speed networking, mentor office hours with startup founders and engineers, food & refreshments, and ₹1,00,000 in cash awards.
+              Organized by <strong>${escapeHtml(event.host)}</strong> in partnership with <strong>${escapeHtml(event.support)}</strong>. Finalist teams receive 36 hours of continuous building workspace, 1 Gbps high-speed networking, mentor office hours with startup founders and engineers, food & refreshments, and ₹1,00,000 in cash awards.
             </p>
           </article>
 
@@ -934,15 +949,14 @@
             <div class="card-header-row">
               <div>
                 <h2 class="card-title">Event Schedule & Milestones</h2>
-                <p class="card-subtext" style="margin-top:0.25rem;">48-hour agenda from check-in to final jury demonstrations</p>
+                <p class="card-subtext" style="margin-top:0.25rem;">36-hour agenda from check-in to final jury demonstrations</p>
               </div>
-              <span class="card-pill">Nov 23 – 25</span>
+              <span class="card-pill">Nov 23 – 24</span>
             </div>
             <div class="schedule-filter-bar">
               <button type="button" class="sched-filter-btn active" data-day="all">All Days</button>
               <button type="button" class="sched-filter-btn" data-day="Day 1">Day 1 (Nov 23)</button>
               <button type="button" class="sched-filter-btn" data-day="Day 2">Day 2 (Nov 24)</button>
-              <button type="button" class="sched-filter-btn" data-day="Day 3">Day 3 (Nov 25)</button>
             </div>
             <div class="timeline-container">
               ${scheduleItems.map(item => `
@@ -974,7 +988,7 @@
               <div class="prize-winner-card first-place">
                 <div class="prize-badge-strip">
                   <span class="prize-trophy-icon">🥇</span>
-                  <span class="prize-rank-pill">1st Place Winner</span>
+                  <span class="prize-rank-pill">Winner</span>
                 </div>
                 <div class="prize-amount">₹50,000</div>
                 <div class="prize-desc">Cash prize + KSUM Founder Incubation Grant + Direct interview fast-track with hiring partners.</div>
@@ -983,7 +997,7 @@
               <div class="prize-winner-card second-place">
                 <div class="prize-badge-strip">
                   <span class="prize-trophy-icon">🥈</span>
-                  <span class="prize-rank-pill">2nd Place Runner-Up</span>
+                  <span class="prize-rank-pill">Runner-Up</span>
                 </div>
                 <div class="prize-amount">₹30,000</div>
                 <div class="prize-desc">Cash prize + Developer Hardware Kits + 1-year cloud credit sponsorship.</div>
@@ -991,11 +1005,11 @@
 
               <div class="prize-winner-card third-place">
                 <div class="prize-badge-strip">
-                  <span class="prize-trophy-icon">🥉</span>
-                  <span class="prize-rank-pill">3rd Place</span>
+                  <span class="prize-trophy-icon">🌟</span>
+                  <span class="prize-rank-pill">Best Women-Led Team</span>
                 </div>
                 <div class="prize-amount">₹20,000</div>
-                <div class="prize-desc">Cash prize + Cloud API credits + Partner ecosystem access.</div>
+                <div class="prize-desc">Cash prize + Women in Tech founder mentorship + Cloud API grant pool.</div>
               </div>
             </div>
 
@@ -1026,8 +1040,8 @@
             </div>
             <div class="faq-group">
               ${[
-                { q: "Who is eligible to participate in HackMalabar 2026?", a: "All active undergraduate, postgraduate, and diploma engineering students from recognized collegiate institutions who have cleared the online screening round." },
-                { q: "What are the rules regarding project code and originality?", a: "All project code must be developed fresh during the 48-hour sprint. Open-source libraries, APIs, and public frameworks are permitted, but proprietary pre-built applications will result in disqualification." },
+                { q: "Who is eligible to participate in Hack The Coast 2026?", a: "All active undergraduate, postgraduate, and diploma engineering students from recognized collegiate institutions who have cleared the online screening round." },
+                { q: "What are the rules regarding project code and originality?", a: "All project code must be developed fresh during the 36-hour sprint. Open-source libraries, APIs, and public frameworks are permitted, but proprietary pre-built applications will result in disqualification." },
                 { q: "What deliverables are mandatory for jury evaluation?", a: "Every team must submit: 1. A public GitHub repository with open-source license, 2. A 2-minute demo video link, 3. A live deployment URL, and 4. A 5-slide pitch presentation." },
                 { q: "What equipment should each hacker bring to the venue?", a: "Personal laptops, chargers, extension strips, original college student photo ID cards, and your digital or printed HackDesk Participant Pass." }
               ].map((faq, idx) => `
@@ -1134,15 +1148,15 @@
             <div class="partner-logos-strip">
               <div class="partner-cell">
                 <strong class="partner-abbr">IEEE SB</strong>
-                <span class="partner-full">NIT Calicut</span>
+                <span class="partner-full">MESCE</span>
               </div>
               <div class="partner-cell">
                 <strong class="partner-abbr">KSUM</strong>
                 <span class="partner-full">Startup Mission</span>
               </div>
               <div class="partner-cell">
-                <strong class="partner-abbr">GEC</strong>
-                <span class="partner-full">Kozhikode</span>
+                <strong class="partner-abbr">IEDC</strong>
+                <span class="partner-full">MESCE Malappuram</span>
               </div>
             </div>
           </div>
@@ -1189,12 +1203,12 @@
             <div class="pass-body-section">
               <div class="pass-user-strip">
                 <div class="pass-avatar" id="pass-dom-avatar">
-                  ${escapeHtml(p.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'RK')}
+                  ${escapeHtml(p.name ? p.name.split(' ').filter(Boolean).map(n => n[0]).join('').slice(0, 2).toUpperCase() : '—')}
                 </div>
                 <div>
-                  <h3 class="pass-user-name" id="pass-dom-name">${escapeHtml(p.name)}</h3>
-                  <div class="pass-user-college" id="pass-dom-college">${escapeHtml(p.college)}</div>
-                  <div class="pass-user-id" id="pass-dom-id">ID: ${escapeHtml(p.regId)}</div>
+                  <h3 class="pass-user-name" id="pass-dom-name">${escapeHtml(p.name || 'Your Full Name')}</h3>
+                  <div class="pass-user-college" id="pass-dom-college">${escapeHtml(p.college || 'Your Institution / College')}</div>
+                  <div class="pass-user-id" id="pass-dom-id">ID: ${escapeHtml(p.regId || 'HTC-2026-XXXX')}</div>
                 </div>
               </div>
 
@@ -1209,7 +1223,7 @@
                 </div>
                 <div class="pass-field">
                   <span class="field-title">Venue Gate</span>
-                  <strong class="field-value">Gate 1 (West Hill)</strong>
+                  <strong class="field-value">Gate 1 (MESCE Campus)</strong>
                 </div>
                 <div class="pass-field">
                   <span class="field-title">Assigned Track</span>
@@ -1231,7 +1245,7 @@
               </div>
 
               <div class="pass-legal-banner">
-                Non-transferable • Must present original college student photo ID at Gate 1
+                Non-transferable • Must present original college student photo ID at Gate 1 (MESCE Campus)
               </div>
 
               <div class="pass-sign-row">
@@ -1255,17 +1269,17 @@
             <form id="pass-form" onsubmit="return false;" class="pass-form-fields">
               <div class="input-block">
                 <label for="pass-input-name">Full Name (As on College ID)</label>
-                <input type="text" id="pass-input-name" class="apple-input" value="${escapeHtml(p.name)}" required>
+                <input type="text" id="pass-input-name" class="apple-input" value="${escapeHtml(p.name)}" placeholder="Enter your full name" required>
               </div>
 
               <div class="input-block">
                 <label for="pass-input-college">Institution / College Name</label>
-                <input type="text" id="pass-input-college" class="apple-input" value="${escapeHtml(p.college)}" required>
+                <input type="text" id="pass-input-college" class="apple-input" value="${escapeHtml(p.college)}" placeholder="Enter your college / institution" required>
               </div>
 
               <div class="input-block">
                 <label for="pass-input-reg">Registration / Team Ref ID</label>
-                <input type="text" id="pass-input-reg" class="apple-input" value="${escapeHtml(p.regId)}" required>
+                <input type="text" id="pass-input-reg" class="apple-input" value="${escapeHtml(p.regId)}" placeholder="e.g. HTC-2026-1042" required>
               </div>
 
               <div class="input-block">
@@ -1391,7 +1405,7 @@
             <h2 class="card-title">Code Integrity & Originality Policy</h2>
             <p class="card-subtext" style="margin-bottom:0.75rem;">Fair play and open-source standards:</p>
             <blockquote class="script-quote">
-              "All core business logic and models must be written fresh inside the 24-hour sprint window. Open-source libraries and public frameworks are welcomed, but proprietary pre-existing applications will be disqualified upon commit analysis."
+              "All core business logic and models must be written fresh inside the 36-hour sprint window. Open-source libraries and public frameworks are welcomed, but proprietary pre-existing applications will be disqualified upon commit analysis."
             </blockquote>
           </div>
         </div>
@@ -1400,7 +1414,7 @@
         <div class="bento-card">
           <div class="card-header-row">
             <h2 class="card-title">Stage Pitch Presentation Rules</h2>
-            <span class="card-pill">Main Auditorium</span>
+            <span class="card-pill">MESCE Auditorium</span>
           </div>
           <div class="pitch-rules-grid">
             <div class="pitch-rule-cell">
@@ -1696,6 +1710,9 @@
     state.currentScreen = screen;
 
     if (targetSlug) {
+      if (targetSlug === 'hackmalabar-2026') {
+        targetSlug = state.events[0].slug;
+      }
       const found = state.events.find(ev => ev.slug === targetSlug);
       if (found) {
         state.currentEvent = found;
@@ -1798,10 +1815,10 @@
     const tickerEl = document.querySelector('.ticker-text');
     if (tickerEl) {
       const stream = [
-        "142 Shortlisted Teams Verified • Gate 1 Check-in Ready (08:30 IST) • Dedicated Cloud Sandboxes Active",
-        "1 Gbps Dedicated Campus Lease Line Provisioned Across All Hacking Pods • 24/7 Power Backup Active",
+        "100+ Shortlisted Teams Verified • Gate 1 Check-in Ready (08:30 IST) • Dedicated Cloud Sandboxes Active",
+        "1 Gbps Dedicated Campus Lease Line Provisioned Across All Hacking Pods • MESCE Malappuram",
         "Claude 3.5 Sonnet & GPT-4o API Sandboxes Online • GitHub Classroom Repos Distributed",
-        "₹1,00,000 Cash Grant Pool Vetted by KSUM Innovation Council & IEEE Student Branch NIT Calicut"
+        "₹1,00,000 Cash Grant Pool Vetted by KSUM & IEEE Student Branch MESCE Malappuram"
       ];
       let streamIdx = 0;
       if (window._telemetryInterval) clearInterval(window._telemetryInterval);
@@ -1900,10 +1917,10 @@
     const selectTrack = document.getElementById('pass-select-track');
 
     const updateParticipant = () => {
-      state.participant.name = inputName.value.trim() || 'Rahul Krishna';
-      state.participant.college = inputCollege.value.trim() || 'College of Engineering Trivandrum';
-      state.participant.regId = inputReg.value.trim() || 'HM-2026-7842';
-      state.participant.track = selectTrack.value;
+      state.participant.name = inputName.value.trim();
+      state.participant.college = inputCollege.value.trim();
+      state.participant.regId = inputReg.value.trim();
+      state.participant.track = selectTrack ? selectTrack.value : '';
 
       const domAvatar = document.getElementById('pass-dom-avatar');
       const domName = document.getElementById('pass-dom-name');
@@ -1911,10 +1928,13 @@
       const domId = document.getElementById('pass-dom-id');
       const domTrack = document.getElementById('pass-dom-track');
 
-      if (domAvatar) domAvatar.textContent = state.participant.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'RK';
-      if (domName) domName.textContent = state.participant.name;
-      if (domCollege) domCollege.textContent = state.participant.college;
-      if (domId) domId.textContent = `ID: ${state.participant.regId}`;
+      if (domAvatar) {
+        const raw = state.participant.name;
+        domAvatar.textContent = raw ? raw.split(' ').filter(Boolean).map(n => n[0]).join('').slice(0, 2).toUpperCase() : '—';
+      }
+      if (domName) domName.textContent = state.participant.name || 'Your Full Name';
+      if (domCollege) domCollege.textContent = state.participant.college || 'Your Institution / College';
+      if (domId) domId.textContent = state.participant.regId ? `ID: ${state.participant.regId}` : 'ID: HTC-2026-XXXX';
       if (domTrack) domTrack.textContent = state.participant.track;
 
       if (canvas) renderPassCanvas(canvas, ev, state.participant);
@@ -2101,7 +2121,7 @@
           host: "Department of Computer Science",
           support: "Kerala Startup Mission (KSUM)",
           venue: "Main Campus Auditorium, Kerala",
-          district: "Kozhikode",
+          district: "Malappuram",
           mapsQuery: "Campus Auditorium",
           start: new Date(Date.now() + 86400000 * 14).toISOString(),
           end: new Date(Date.now() + 86400000 * 15).toISOString(),
@@ -2117,7 +2137,7 @@
           people: [{ name: "Lead Organizer", role: "Convener" }],
           note: "Premier collegiate developer hackathon for innovative prototypes.",
           palette: { c1: "#d97757", c2: "#1f1e1b", bg: "#fbf9f5" },
-          poster: "posters/hackmalabar-2026.png",
+          poster: "posters/hack-the-coast-2026.jpg",
           status: "upcoming"
         };
         state.events.unshift(newEvent);

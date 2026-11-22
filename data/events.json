@@ -1,39 +1,39 @@
 [
   {
-    "slug": "hackmalabar-2026",
+    "slug": "hack-the-coast-2026",
     "type": "hackathon",
-    "name": "HackMalabar 2026",
-    "edition": "Edition 3",
-    "host": "IEEE Student Branch NIT Calicut",
-    "support": "Kerala Startup Mission (KSUM)",
-    "venue": "Government Engineering College Kozhikode, West Hill, Kozhikode, Kerala 673005",
-    "district": "Kozhikode",
-    "mapsQuery": "Government Engineering College Kozhikode",
+    "name": "Hack The Coast 2026",
+    "edition": "2026 Edition",
+    "host": "IEEE Student Branch • MES College of Engineering, Malappuram",
+    "support": "Kerala Startup Mission (KSUM) • IEDC MESCE Malappuram",
+    "venue": "MES College of Engineering, Kuttippuram Road, Malappuram, Kerala 676519",
+    "district": "Malappuram",
+    "mapsQuery": "MES College of Engineering Kuttippuram Malappuram",
     "start": "2026-11-23T08:30:00+05:30",
-    "end": "2026-11-25T18:00:00+05:30",
+    "end": "2026-11-24T20:30:00+05:30",
     "report": "2026-11-23T08:30:00+05:30",
-    "close": "2026-11-25T18:00:00+05:30",
-    "deadline": "2026-11-20T23:59:00+05:30",
-    "contactName": "Arjun V. Nair",
-    "contactEmail": "convener@hackmalabar.dev",
-    "site": "https://hackmalabar.dev",
-    "prize": "₹1,00,000 Cash Pool (First: ₹50,000 | Second: ₹30,000 | Third: ₹20,000)",
-    "fee": "Free registration for shortlisted teams",
+    "close": "2026-11-24T20:30:00+05:30",
+    "deadline": "2026-11-21T23:59:00+05:30",
+    "contactName": "Arjun Menon",
+    "contactEmail": "hackthecoast26@gmail.com",
+    "site": "https://hackthecoast26.in",
+    "prize": "₹1,00,000 Total Prize Pool (Winner: ₹50,000 | Runner-Up: ₹30,000 | Best Women-Led: ₹20,000)",
+    "fee": "Entry free, shortlisted teams only",
     "tracks": [
-      "AI & Intelligent Automation",
-      "Developer Tooling & Infrastructure",
-      "FinTech & Decentralized Systems",
-      "HealthTech & Assistive Technologies",
-      "Open Innovation for Real-World Impact"
+      "AI/ML",
+      "Agri-Tech",
+      "Health-Tech",
+      "FinTech",
+      "Open Innovation"
     ],
     "people": [
       {
-        "name": "Arjun V. Nair",
-        "role": "Lead Convener (IEEE SB)"
+        "name": "Arjun Menon",
+        "role": "Organising Secretary"
       },
       {
         "name": "Dr. Sreela N.",
-        "role": "Faculty Advisor & HoD CSE"
+        "role": "Faculty Advisor & HoD CSE, MESCE"
       },
       {
         "name": "Fahad Mansoor",
@@ -44,13 +44,13 @@
         "role": "Hacker Experience & Mentorship Lead"
       }
     ],
-    "note": "Premier 24-hour collegiate hackathon endorsed and supported by KSUM Innovation Council. 140+ finalist developer teams building next-generation products with ₹1,00,000 in cash prizes, API credits, and venture incubation grants.",
+    "note": "Official 36-hour collegiate hackathon organized by IEEE Student Branch MES College of Engineering, Malappuram. Supported by Kerala Startup Mission and IEDC MESCE. 100+ shortlisted developer teams building cutting-edge prototypes across AI/ML, Agri-Tech, Health-Tech, FinTech, and Open Innovation with ₹1,00,000 in cash prizes, cloud credits, and incubation opportunities.",
     "palette": {
       "c1": "#d97757",
       "c2": "#1f1e1b",
       "bg": "#fbf9f5"
     },
-    "poster": "posters/hackmalabar-2026.png",
+    "poster": "posters/hack-the-coast-2026.jpg",
     "status": "upcoming"
   },
   {
