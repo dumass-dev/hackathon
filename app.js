@@ -6,9 +6,88 @@
 (function () {
   'use strict';
 
+  // Built-in Seed Events for Zero-Latency First Render
+  const DEFAULT_EVENTS = [
+    {
+      slug: "hackmalabar-2026",
+      type: "hackathon",
+      name: "HackMalabar 2026",
+      edition: "Edition 3",
+      host: "IEEE Student Branch NIT Calicut",
+      support: "Kerala Startup Mission (KSUM)",
+      venue: "Government Engineering College Kozhikode, West Hill, Kozhikode, Kerala 673005",
+      district: "Kozhikode",
+      mapsQuery: "Government Engineering College Kozhikode",
+      start: "2026-11-27T08:30:00+05:30",
+      end: "2026-11-28T18:00:00+05:30",
+      report: "2026-11-27T08:30:00+05:30",
+      close: "2026-11-28T18:00:00+05:30",
+      deadline: "2026-11-24T23:59:00+05:30",
+      contactName: "Arjun V. Nair",
+      contactPhone: "+91 94471 28392",
+      contactEmail: "convener.hackmalabar@gmail.com",
+      site: "https://hackmalabar.in",
+      prize: "₹1,00,000 Cash Pool (First: ₹50,000 | Second: ₹30,000 | Third: ₹20,000)",
+      fee: "Free registration for shortlisted student teams",
+      tracks: [
+        "AI & Intelligent Automation",
+        "Cybersecurity & Campus Privacy",
+        "GovTech & Citizen Services",
+        "FinTech & Financial Inclusion",
+        "Open Innovation for Local Impact"
+      ],
+      people: [
+        { name: "Arjun V. Nair", role: "Lead Convener (IEEE SB)" },
+        { name: "Dr. Sreela N.", role: "Faculty Coordinator & HoD CSE" },
+        { name: "Fahad Mansoor", role: "Logistics & Hostel NOC Lead" },
+        { name: "Ananya P.", role: "Participant Support & Helpdesk" }
+      ],
+      note: "Approved regional collegiate hackathon recognized by KSUM innovation council. Participant attendance certificates issued for academic duty leave and residential hostel attendance reconciliation.",
+      palette: { c1: "#2997ff", c2: "#f5f5f7", bg: "#000000" },
+      poster: "posters/hackmalabar-2026.png",
+      status: "upcoming"
+    },
+    {
+      slug: "build-kernel-kochi",
+      type: "workshop",
+      name: "Hands-on Linux Kernel & Systems Workshop",
+      edition: "Autumn 2026",
+      host: "FOSS Cell & Department of Computer Applications, CUSAT",
+      support: "Kerala FOSS Initiative & ICFOSS",
+      venue: "Seminar Complex, Cochin University of Science and Technology, South Kalamassery, Kochi, Kerala 682022",
+      district: "Ernakulam",
+      mapsQuery: "CUSAT Seminar Complex Kalamassery",
+      start: "2026-10-31T09:00:00+05:30",
+      end: "2026-11-01T17:00:00+05:30",
+      report: "2026-10-31T09:00:00+05:30",
+      close: "2026-11-01T17:00:00+05:30",
+      deadline: "2026-10-25T20:00:00+05:30",
+      contactName: "Nivin George",
+      contactPhone: "+91 98460 31824",
+      contactEmail: "fosscell.cusat@gmail.com",
+      site: "https://fosscell.cusat.ac.in/kernel-workshop",
+      prize: "Certificates of Commendation & Hardware Toolkits",
+      fee: "₹250 subsidized kit fee",
+      tracks: [
+        "Kernel Architecture & Device Driver Fundamentals",
+        "eBPF Tracing & Runtime Observability",
+        "Embedded Linux Board Bringup"
+      ],
+      people: [
+        { name: "Nivin George", role: "Staff Advisor (CUSAT FOSS Cell)" },
+        { name: "Prof. K. R. Suresh", role: "Director, School of Engineering" },
+        { name: "Reshma Balan", role: "Student Coordinator" }
+      ],
+      note: "Intensive systems engineering workshop. Authorized for institutional academic duty leave and laboratory attendance waiver.",
+      palette: { c1: "#f56300", c2: "#f5f5f7", bg: "#000000" },
+      poster: "posters/build-kernel-kochi.png",
+      status: "completed"
+    }
+  ];
+
   // Application State
   const state = {
-    events: [],
+    events: [...DEFAULT_EVENTS],
     currentEvent: null,
     currentScreen: 'public',
     participant: {
@@ -154,7 +233,7 @@
             { name: 'Ananya P.', role: 'Participant Support & Helpdesk' }
           ],
           note: 'Approved regional collegiate hackathon recognized by KSUM innovation council. Participant attendance certificates issued for academic duty leave and residential hostel attendance reconciliation.',
-          palette: { c1: '#1d4ed8', c2: '#059669', bg: '#0a1128' },
+          palette: { c1: '#2997ff', c2: '#f5f5f7', bg: '#000000' },
           poster: 'posters/hackmalabar-2026.png',
           status: 'upcoming'
         }
@@ -367,7 +446,7 @@
   }
 
   // =========================================================================
-  // Canvas Generator: Participant Pass (400x560)
+  // Canvas Generator: Participant Pass (400x560) — Apple Wallet Aesthetic
   // =========================================================================
   function renderPassCanvas(canvas, event, participant) {
     if (!canvas) return;
@@ -375,7 +454,6 @@
     const w = 400;
     const h = 560;
 
-    // Reset canvas dimensions
     canvas.width = w;
     canvas.height = h;
 
@@ -383,81 +461,84 @@
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, w, h);
 
-    // Outer border
-    ctx.strokeStyle = '#0f172a';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(4, 4, w - 8, h - 8);
+    // Border
+    ctx.strokeStyle = '#d1d1d6';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(2, 2, w - 4, h - 4);
 
     // Header bar
-    ctx.fillStyle = '#0f172a';
-    ctx.fillRect(4, 4, w - 8, 95);
+    ctx.fillStyle = '#1c1c1e';
+    ctx.fillRect(2, 2, w - 4, 96);
 
-    // Accent strip
-    ctx.fillStyle = event.palette ? event.palette.c1 : '#1d4ed8';
-    ctx.fillRect(4, 99, w - 8, 5);
+    // Accent line
+    ctx.fillStyle = event.palette ? event.palette.c1 : '#2997ff';
+    ctx.fillRect(2, 98, w - 4, 4);
 
-    // Event Type & Edition badge
-    ctx.fillStyle = event.palette ? event.palette.c2 : '#059669';
-    ctx.fillRect(16, 14, 110, 22);
+    // Event Type pill badge
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.beginPath();
+    ctx.arc(28, 25, 10, Math.PI / 2, (Math.PI * 3) / 2);
+    ctx.arc(120, 25, 10, (Math.PI * 3) / 2, Math.PI / 2);
+    ctx.fill();
+
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 11px sans-serif';
-    ctx.fillText(`${event.type.toUpperCase()} PASS`, 24, 29);
+    ctx.font = '600 10px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(`${event.type.toUpperCase()} PASS`, 34, 29);
 
     // Event title & edition
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 18px sans-serif';
-    ctx.fillText(event.name, 16, 58);
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '12px sans-serif';
-    ctx.fillText(`${event.edition} • Hosted by ${event.host}`, 16, 78);
+    ctx.font = '700 18px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(event.name, 18, 58);
+    ctx.fillStyle = '#8e8e93';
+    ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(`${event.edition} • ${event.host}`, 18, 78);
 
-    // Participant Details Box
-    ctx.fillStyle = '#f8fafc';
+    // Participant Details Card
+    ctx.fillStyle = '#f2f2f7';
     ctx.fillRect(16, 120, w - 32, 130);
-    ctx.strokeStyle = '#cbd5e1';
+    ctx.strokeStyle = '#e5e5ea';
     ctx.lineWidth = 1;
     ctx.strokeRect(16, 120, w - 32, 130);
 
     // Participant Initials Avatar
-    ctx.fillStyle = '#0f172a';
+    ctx.fillStyle = '#1c1c1e';
     ctx.beginPath();
     ctx.arc(52, 165, 24, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 16px sans-serif';
+    ctx.font = '700 16px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.textAlign = 'center';
     const initials = participant.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'RK';
     ctx.fillText(initials, 52, 171);
     ctx.textAlign = 'left';
 
     // Name & College
-    ctx.fillStyle = '#0f172a';
-    ctx.font = 'bold 16px sans-serif';
+    ctx.fillStyle = '#1c1c1e';
+    ctx.font = '700 16px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText(participant.name, 90, 155);
-    ctx.fillStyle = '#475569';
-    ctx.font = '12px sans-serif';
+    ctx.fillStyle = '#636366';
+    ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText(participant.college, 90, 175);
-    ctx.fillStyle = '#1e293b';
-    ctx.font = 'bold 11px monospace';
+    ctx.fillStyle = '#8e8e93';
+    ctx.font = '11px monospace';
     ctx.fillText(`ID: ${participant.regId}`, 90, 195);
-    ctx.fillStyle = '#059669';
-    ctx.font = 'bold 11px sans-serif';
+    ctx.fillStyle = '#0071e3';
+    ctx.font = '600 11px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText(`Track: ${participant.track || event.tracks[0]}`, 90, 215);
 
     // Logistics & Venue Meta
-    ctx.fillStyle = '#334155';
-    ctx.font = 'bold 11px sans-serif';
+    ctx.fillStyle = '#8e8e93';
+    ctx.font = '600 10px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText('REPORTING TIME & DATE', 20, 275);
-    ctx.fillStyle = '#0f172a';
-    ctx.font = 'bold 13px sans-serif';
-    ctx.fillText(`${formatTime(event.report)} IST, ${event.start.slice(0, 10)}`, 20, 293);
+    ctx.fillStyle = '#1c1c1e';
+    ctx.font = '600 13px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(`${formatTime(event.report)} IST, ${formatDateNatural(event.start)}`, 20, 293);
 
-    ctx.fillStyle = '#334155';
-    ctx.font = 'bold 11px sans-serif';
+    ctx.fillStyle = '#8e8e93';
+    ctx.font = '600 10px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText('GATE NUMBER & VENUE', 20, 320);
-    ctx.fillStyle = '#0f172a';
-    ctx.font = '12px sans-serif';
-    // Word wrap venue
+    ctx.fillStyle = '#1c1c1e';
+    ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
     const venueWords = event.venue.split(', ');
     ctx.fillText(`Gate 1 (Main Entrance), ${venueWords[0]}`, 20, 338);
     if (venueWords.length > 1) {
@@ -465,12 +546,12 @@
     }
 
     // QR & Verification Box
-    ctx.fillStyle = '#f1f5f9';
+    ctx.fillStyle = '#f2f2f7';
     ctx.fillRect(16, 380, w - 32, 90);
-    ctx.strokeStyle = '#cbd5e1';
+    ctx.strokeStyle = '#e5e5ea';
     ctx.strokeRect(16, 380, w - 32, 90);
 
-    // Mock QR pattern
+    // QR pattern
     ctx.fillStyle = '#000000';
     ctx.fillRect(28, 390, 70, 70);
     ctx.fillStyle = '#ffffff';
@@ -484,35 +565,36 @@
       }
     }
 
-    ctx.fillStyle = '#0f172a';
-    ctx.font = 'bold 12px sans-serif';
+    ctx.fillStyle = '#1c1c1e';
+    ctx.font = '700 12px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText('OFFICIAL LIVE VERIFICATION', 110, 408);
-    ctx.fillStyle = '#475569';
-    ctx.font = '11px sans-serif';
+    ctx.fillStyle = '#636366';
+    ctx.font = '11px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText('Scan to inspect real-time schedule,', 110, 426);
     ctx.fillText('hostel permission brief and NOC record.', 110, 442);
-    ctx.fillStyle = '#2563eb';
-    ctx.font = 'bold 10px monospace';
+    ctx.fillStyle = '#0071e3';
+    ctx.font = '600 10px monospace';
     ctx.fillText(`campusproofdesk.in/#/e/${event.slug}`, 110, 458);
 
     // Non-transferable Notice
-    ctx.fillStyle = '#fef3c7';
+    ctx.fillStyle = '#f2f2f7';
     ctx.fillRect(16, 485, w - 32, 24);
-    ctx.fillStyle = '#92400e';
-    ctx.font = 'bold 10px sans-serif';
+    ctx.fillStyle = '#636366';
+    ctx.font = '600 9px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('NON-TRANSFERABLE • MUST CARRY ORIGINAL INSTITUTION PHOTO ID', w / 2, 501);
+    ctx.fillText('NON-TRANSFERABLE • MUST CARRY ORIGINAL INSTITUTION PHOTO ID', w / 2, 500);
     ctx.textAlign = 'left';
 
     // Signatory footer
-    ctx.fillStyle = '#64748b';
-    ctx.font = '10px sans-serif';
+    ctx.fillStyle = '#8e8e93';
+    ctx.font = '10px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText(`Authorized by: ${event.contactName} (${event.people[0] ? event.people[0].role : 'Convener'})`, 20, 532);
     ctx.fillText(`Emergency NOC Desk: ${event.contactPhone}`, 20, 546);
   }
 
   // =========================================================================
   // Canvas Generator: High-Res Poster (A3 1240x1754 and Story 1080x1920)
+  // Apple Editorial Design Aesthetic
   // =========================================================================
   function renderPosterCanvas(canvas, event, format) {
     if (!canvas) return;
@@ -524,143 +606,142 @@
     canvas.width = w;
     canvas.height = h;
 
-    const c1 = event.palette ? event.palette.c1 : '#1d4ed8';
-    const c2 = event.palette ? event.palette.c2 : '#059669';
-    const bg = event.palette ? event.palette.bg : '#0a1128';
-
-    // Base background
-    ctx.fillStyle = bg;
+    // Apple Obsidian Pure Black
+    ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, w, h);
 
-    // Top subtle gradient header
-    const grad = ctx.createLinearGradient(0, 0, 0, 450);
-    grad.addColorStop(0, c1);
-    grad.addColorStop(1, bg);
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, w, 450);
-
-    // Top endorsement frame
-    ctx.strokeStyle = c2;
-    ctx.lineWidth = 3;
+    // Subtle header surface
+    ctx.fillStyle = '#161617';
+    ctx.fillRect(50, 40, w - 100, 75);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+    ctx.lineWidth = 1;
     ctx.strokeRect(50, 40, w - 100, 75);
-    ctx.fillStyle = '#e2e8f0';
-    ctx.font = 'bold 22px sans-serif';
-    ctx.fillText(`${event.host.toUpperCase()}  •  SUPPORTED BY ${event.support.toUpperCase()}`, 75, 85);
+
+    ctx.fillStyle = '#a1a1a6';
+    ctx.font = '600 20px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(`${event.host.toUpperCase()}  •  SUPPORTED BY ${event.support.toUpperCase()}`, 75, 84);
 
     // Event type badge
-    ctx.fillStyle = c2;
-    ctx.fillRect(50, 145, 280, 55);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.fillRect(50, 145, 280, 50);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.strokeRect(50, 145, 280, 50);
+
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 24px sans-serif';
-    ctx.fillText(`${event.type.toUpperCase()}  |  ${event.edition.toUpperCase()}`, 70, 182);
+    ctx.font = '700 20px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(`${event.type.toUpperCase()}  |  ${event.edition.toUpperCase()}`, 70, 178);
 
     // Event Title
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 56px sans-serif';
+    ctx.font = '700 62px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText(event.name, 50, 265);
 
-    // Date & Venue Highlight Box
-    ctx.fillStyle = '#0f172a';
+    // Date & Venue Card
+    ctx.fillStyle = '#161617';
     ctx.fillRect(50, 320, w - 100, 170);
-    ctx.strokeStyle = c1;
-    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.lineWidth = 1;
     ctx.strokeRect(50, 320, w - 100, 170);
 
-    ctx.fillStyle = '#34d399';
-    ctx.font = 'bold 28px sans-serif';
+    ctx.fillStyle = '#30d158';
+    ctx.font = '700 28px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText(`DATES: ${formatDateRange(event.start, event.end).toUpperCase()}`, 80, 365);
     ctx.fillStyle = '#ffffff';
-    ctx.font = '24px sans-serif';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText(`REPORTING: ${formatTime(event.report)} IST  |  GATE CLOSES: ${formatTime(event.close)} IST`, 80, 410);
-    ctx.fillStyle = '#93c5fd';
-    ctx.font = '22px sans-serif';
+    ctx.fillStyle = '#a1a1a6';
+    ctx.font = '22px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText(`VENUE: ${event.venue}`, 80, 455);
 
     // Prize Banner
-    ctx.fillStyle = c1;
+    ctx.fillStyle = '#1d1d1f';
     ctx.fillRect(50, 520, w - 100, 100);
-    ctx.fillStyle = '#bfdbfe';
-    ctx.font = 'bold 20px sans-serif';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.strokeRect(50, 520, w - 100, 100);
+
+    ctx.fillStyle = '#86868b';
+    ctx.font = '600 18px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText('PRIZE POOL & MERIT RECOGNITION', 80, 555);
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 30px sans-serif';
+    ctx.font = '700 30px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText(event.prize, 80, 595);
 
     // Competency Tracks
-    ctx.fillStyle = c2;
-    ctx.font = 'bold 28px sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 28px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText('OFFICIAL COMPETENCY TRACKS', 50, 665);
 
     let yOffset = 705;
     event.tracks.forEach((track, i) => {
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#161617';
       ctx.fillRect(50, yOffset, w - 100, 52);
-      ctx.strokeStyle = '#334155';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
       ctx.lineWidth = 1;
       ctx.strokeRect(50, yOffset, w - 100, 52);
 
-      ctx.fillStyle = '#f8fafc';
-      ctx.font = 'bold 22px sans-serif';
-      ctx.fillText(`Track 0${i + 1}:  ${track}`, 75, yOffset + 35);
+      ctx.fillStyle = '#2997ff';
+      ctx.font = '700 20px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.fillText(`0${i + 1}`, 75, yOffset + 34);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '600 22px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.fillText(track, 125, yOffset + 35);
       yOffset += 68;
     });
 
     // Academic & Hostel NOC Card
-    ctx.fillStyle = '#0f172a';
+    ctx.fillStyle = '#161617';
     ctx.fillRect(50, yOffset + 20, w - 100, 160);
-    ctx.strokeStyle = c2;
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.lineWidth = 1;
     ctx.strokeRect(50, yOffset + 20, w - 100, 160);
 
-    ctx.fillStyle = '#34d399';
-    ctx.font = 'bold 22px sans-serif';
+    ctx.fillStyle = '#30d158';
+    ctx.font = '700 22px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText('ACADEMIC DUTY LEAVE & RESIDENTIAL HOSTEL COMPLIANCE', 75, yOffset + 60);
-    ctx.fillStyle = '#cbd5e1';
-    ctx.font = '19px sans-serif';
+    ctx.fillStyle = '#a1a1a6';
+    ctx.font = '19px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText(event.note, 75, yOffset + 98);
-    ctx.fillStyle = '#fde047';
-    ctx.font = 'bold 20px sans-serif';
-    ctx.fillText(`Registration Deadline: ${event.deadline.slice(0, 10)} 23:59 IST  •  Fee: ${event.fee}`, 75, yOffset + 140);
+    ctx.fillStyle = '#f5f5f7';
+    ctx.font = '600 20px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(`Registration Deadline: ${formatDateNatural(event.deadline)} 23:59 IST  •  Fee: ${event.fee}`, 75, yOffset + 140);
 
     // Committee & Contact
     const commY = yOffset + 220;
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 26px sans-serif';
+    ctx.font = '700 26px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText('ORGANISING COMMITTEE & CONTACT', 50, commY);
 
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '20px sans-serif';
+    ctx.fillStyle = '#86868b';
+    ctx.font = '20px -apple-system, BlinkMacSystemFont, sans-serif';
     const committeeStr = event.people.map(p => `${p.name} (${p.role})`).join('   |   ');
     ctx.fillText(committeeStr, 50, commY + 38);
 
-    ctx.fillStyle = '#f8fafc';
-    ctx.font = 'bold 22px sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '600 22px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText(`Convenor: ${event.contactName}  •  Phone: ${event.contactPhone}  •  Email: ${event.contactEmail}`, 50, commY + 76);
 
     // Bottom Footer & QR Block
     const footY = h - 180;
-    ctx.fillStyle = '#0f172a';
+    ctx.fillStyle = '#161617';
     ctx.fillRect(50, footY, w - 260, 130);
-    ctx.strokeStyle = c1;
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.lineWidth = 1;
     ctx.strokeRect(50, footY, w - 260, 130);
 
-    ctx.fillStyle = '#38bdf8';
-    ctx.font = 'bold 24px sans-serif';
+    ctx.fillStyle = '#2997ff';
+    ctx.font = '600 24px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText(`OFFICIAL PROOF DESK: ${event.site}`, 75, footY + 40);
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '20px sans-serif';
+    ctx.fillStyle = '#86868b';
+    ctx.font = '20px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.fillText('Scan QR code for direct live verification, duty pass, and leave brief.', 75, footY + 75);
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#636366';
     ctx.font = '16px monospace';
     ctx.fillText('CAMPUS PROOF DESK • HASH-ROUTER VERIFIED EVENT PRESENCE', 75, footY + 105);
 
     // QR Box
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(w - 180, footY, 130, 130);
-    ctx.strokeStyle = c2;
-    ctx.lineWidth = 3;
-    ctx.strokeRect(w - 180, footY, 130, 130);
 
     ctx.fillStyle = '#000000';
     for (let qx = w - 165; qx < w - 65; qx += 12) {
@@ -2000,8 +2081,9 @@
 
   // Application Entry Point
   async function init() {
-    await loadData();
     window.addEventListener('hashchange', handleRoute);
+    handleRoute();
+    await loadData();
     handleRoute();
   }
 
