@@ -15,17 +15,16 @@
     "close": "2026-11-28T18:00:00+05:30",
     "deadline": "2026-11-24T23:59:00+05:30",
     "contactName": "Arjun V. Nair",
-    "contactPhone": "+91 94471 28392",
-    "contactEmail": "convener.hackmalabar@gmail.com",
-    "site": "https://hackmalabar.in",
+    "contactEmail": "convener@hackmalabar.dev",
+    "site": "https://hackmalabar.dev",
     "prize": "₹1,00,000 Cash Pool (First: ₹50,000 | Second: ₹30,000 | Third: ₹20,000)",
-    "fee": "Free registration for shortlisted student teams",
+    "fee": "Free registration for shortlisted teams",
     "tracks": [
       "AI & Intelligent Automation",
-      "Cybersecurity & Campus Privacy",
-      "GovTech & Citizen Services",
-      "FinTech & Financial Inclusion",
-      "Open Innovation for Local Impact"
+      "Developer Tooling & Infrastructure",
+      "FinTech & Decentralized Systems",
+      "HealthTech & Assistive Technologies",
+      "Open Innovation for Real-World Impact"
     ],
     "people": [
       {
@@ -34,31 +33,31 @@
       },
       {
         "name": "Dr. Sreela N.",
-        "role": "Faculty Coordinator & HoD CSE"
+        "role": "Faculty Advisor & HoD CSE"
       },
       {
         "name": "Fahad Mansoor",
-        "role": "Logistics & Hostel NOC Lead"
+        "role": "Technical Operations & Track Lead"
       },
       {
         "name": "Ananya P.",
-        "role": "Participant Support & Helpdesk"
+        "role": "Hacker Experience & Mentorship Lead"
       }
     ],
-    "note": "Approved regional collegiate hackathon recognized by KSUM innovation council. Participant attendance certificates issued for academic duty leave and residential hostel attendance reconciliation.",
+    "note": "Premier 24-hour collegiate hackathon endorsed and supported by KSUM Innovation Council. 140+ finalist developer teams building next-generation products with ₹1,00,000 in cash prizes, API credits, and venture incubation grants.",
     "palette": {
       "c1": "#d97757",
-      "c2": "#faf7f2",
-      "bg": "#141312"
+      "c2": "#1f1e1b",
+      "bg": "#fbf9f5"
     },
     "poster": "posters/hackmalabar-2026.png",
     "status": "upcoming"
   },
   {
     "slug": "build-kernel-kochi",
-    "type": "workshop",
-    "name": "Hands-on Linux Kernel & Systems Workshop",
-    "edition": "Autumn 2026",
+    "type": "hackathon",
+    "name": "KernelHack Kochi 2026",
+    "edition": "Edition 2",
     "host": "FOSS Cell & Department of Computer Applications, CUSAT",
     "support": "Kerala FOSS Initiative & ICFOSS",
     "venue": "Seminar Complex, Cochin University of Science and Technology, South Kalamassery, Kochi, Kerala 682022",
@@ -70,20 +69,19 @@
     "close": "2026-11-01T17:00:00+05:30",
     "deadline": "2026-10-25T20:00:00+05:30",
     "contactName": "Nivin George",
-    "contactPhone": "+91 98460 31824",
-    "contactEmail": "fosscell.cusat@gmail.com",
-    "site": "https://fosscell.cusat.ac.in/kernel-workshop",
-    "prize": "Certificates of Commendation & Hardware Toolkits",
-    "fee": "₹250 subsidized kit fee",
+    "contactEmail": "hack@fosscell.cusat.ac.in",
+    "site": "https://fosscell.cusat.ac.in/kernelhack",
+    "prize": "₹75,000 Cash Grants & Hardware Developer Kits",
+    "fee": "Free for shortlisted open source contributors",
     "tracks": [
-      "Kernel Architecture & Device Driver Fundamentals",
-      "eBPF Tracing & Runtime Observability",
-      "Embedded Linux Board Bringup"
+      "Kernel Modules & Driver Development",
+      "eBPF Observability & Security",
+      "Embedded Linux & Edge Computing"
     ],
     "people": [
       {
         "name": "Nivin George",
-        "role": "Staff Advisor (CUSAT FOSS Cell)"
+        "role": "Lead Organizer (CUSAT FOSS Cell)"
       },
       {
         "name": "Prof. K. R. Suresh",
@@ -91,14 +89,14 @@
       },
       {
         "name": "Reshma Balan",
-        "role": "Student Coordinator"
+        "role": "Judging & Mentorship Coordinator"
       }
     ],
-    "note": "Intensive systems engineering workshop. Authorized for institutional academic duty leave and laboratory attendance waiver.",
+    "note": "Systems and low-level software engineering hackathon. Developers create open-source kernel extensions, high-performance network parsers, and hardware IoT firmwares.",
     "palette": {
-      "c1": "#d4a373",
-      "c2": "#faf7f2",
-      "bg": "#141312"
+      "c1": "#cc5500",
+      "c2": "#1f1e1b",
+      "bg": "#fbf9f5"
     },
     "poster": "posters/build-kernel-kochi.png",
     "status": "completed"
